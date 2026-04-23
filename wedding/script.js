@@ -437,9 +437,9 @@ function initSection3() {
     }
 
     if (card) {
-      // 이전에 보이던 카드를 이번 슬롯 진입과 함께 퇴장
+      // 이전에 보이던 카드를 이번 슬롯 진입과 함께 퇴장 (fromTo로 FROM 명시 — to()는 생성 시점 값을 캡처해 방향이 역전되는 버그 발생)
       if (lastCard) {
-        tl.to(lastCard, { y: -100, opacity: 0, duration: 1.5, ease: "power2.in" }, 0);
+        tl.fromTo(lastCard, { y: 0, opacity: 1 }, { y: -100, opacity: 0, duration: 1.5, ease: "power2.in" }, 0);
       }
       // 현재 카드 등장 (마지막 카드는 섹션4 진입 시 밀려남)
       tl.to(card, { y: 0, duration: 2.5, ease: "power2.out" }, 0);
@@ -462,16 +462,22 @@ document.addEventListener('DOMContentLoaded', () => {
 function initSection4() {
   // 섹션 4가 아래에서 올라올 때 섹션 3의 sticky 요소들을 동일 속도로 위로 밀어냄
   // 마지막 텍스트 카드도 포함하여 마지막 사진과 동일한 속도로 사라지도록 함
-  gsap.to(['.s3-sticky-title', '.s3-photo-stack', '.s3-card-stack'], {
-    y: '-100vh',
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '#section-4',
-      start: 'top bottom',
-      end: 'top top',
-      scrub: true,
+  // fromTo로 FROM 명시 — to()는 DOMContentLoaded 시점(y=window.innerHeight)을 FROM으로 캡처해
+  // 섹션4 진입 초반에 요소들이 화면 아래로 튀는 버그 발생
+  gsap.fromTo(
+    ['.s3-sticky-title', '.s3-photo-stack', '.s3-card-stack'],
+    { y: 0 },
+    {
+      y: '-100vh',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#section-4',
+        start: 'top bottom',
+        end: 'top top',
+        scrub: true,
+      }
     }
-  });
+  );
 
   const target = new Date(WEDDING_DATE);
   const countdownEl = document.getElementById('s4-countdown');
