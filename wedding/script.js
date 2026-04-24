@@ -218,214 +218,48 @@ function initCollage() {
     openCollageLightbox(wrapper.querySelector('.s1-main').getAttribute('src'), true);
   });
 
-  // ── 콜라주 호버: CSS 변수 기반 간격-보존 시스템 ──────────────
-  // scale 대신 실제 CSS 커스텀 프로퍼티(--s1-cw 등)를 조절하여
-  // 레이아웃 자체가 재계산되므로 gap이 수학적으로 완벽 보존됨
-  const root = document.documentElement;
-  const isDesktop = () => window.innerWidth >= 600;
-  let pendingReset = null;
-  let hoverTween = null;
+  // ── 콜라주 호버: 비호버 사진 어둡게 + 클릭 시 라이트박스 ──────────────
+  const allCollageEls = [wrapper, ...Array.from(photos)];
+  let pendingDimReset = null;
 
-  // 기본값 저장 (px 단위로 환산)
-  function getBaseVars() {
-    const cs = getComputedStyle(root);
-    return {
-      cw: parseFloat(cs.getPropertyValue('--s1-cw')),
-      ch: parseFloat(cs.getPropertyValue('--s1-ch')),
-      lw: parseFloat(cs.getPropertyValue('--s1-lw')),
-      rw: parseFloat(cs.getPropertyValue('--s1-rw')),
-      bh: parseFloat(cs.getPropertyValue('--s1-bh')),
-    };
-  }
-
-  // 호버 시 영역 식별: 'center' | 'left' | 'right' | 'bottom'
-  function getRegion(el) {
-    if (el === wrapper) return 'center';
-    if (el.classList.contains('photo-c1') || el.classList.contains('photo-c2') || el.classList.contains('photo-c3')) return 'left';
-    if (el.classList.contains('photo-c4') || el.classList.contains('photo-c5')) return 'right';
-    return 'bottom';
-  }
-
-  // 호버된 영역을 키우고 나머지를 줄이되 총 크기 보존 → gap 유지
-  // + 프레임 확장 효과 (object-fit:cover로 이미지 줌 없이 더 넓은 영역 노출)
-  function applyHover(hoveredEl) {
-    cancelReset();
-    if (hoverTween) hoverTween.kill();
-
-    const region = getRegion(hoveredEl);
-    const GROW = 1.18; // 사이드 호버 시 더 드라마틱한 크기 변화
-    const proxy = { t: 0 };
-
-    // 호버 사진 z-index
-    if (hoveredEl !== wrapper) gsap.set(hoveredEl, { zIndex: 10 });
-
-    // 밝기: overwrite로 이전 tween 즉시 제거 → 깜빡임 방지
-    const allEls = [wrapper, ...Array.from(photos)];
-    allEls.forEach(el => {
+  function applyDim(hoveredEl) {
+    if (pendingDimReset !== null) { clearTimeout(pendingDimReset); pendingDimReset = null; }
+    allCollageEls.forEach(el => {
       gsap.to(el, {
-        filter: el === hoveredEl ? 'brightness(1)' : 'brightness(0.65)',
-        duration: 0.4,
+        filter: el === hoveredEl ? 'brightness(1)' : 'brightness(0.55)',
+        duration: 0.35,
         ease: 'power2.out',
         overwrite: 'auto'
       });
     });
-
-    const vhPx = window.innerHeight / 100;
-    const vwPx = window.innerWidth / 100;
-
-    hoverTween = gsap.to(proxy, {
-      t: 1,
-      duration: 0.5,
-      ease: 'power2.out',
-      onUpdate: () => {
-        const p = proxy.t;
-        const grow = 1 + (GROW - 1) * p;
-        const unit = isDesktop() ? 'vh' : 'vw';
-        const unitPx = isDesktop() ? vhPx : vwPx;
-        const base = isDesktop()
-          ? { cw: 60 * 3 / 4, lw: 18, rw: 20, ch: 60, bh: 14 }
-          : { cw: 36, lw: 25, rw: 25, ch: 36 * 4 / 3, bh: 20 };
-
-        let cw, lw, rw, ch, bh;
-
-        if (region === 'center') {
-          cw = base.cw * grow;
-          const hShrink = (base.lw + base.rw - (cw - base.cw)) / (base.lw + base.rw);
-          lw = base.lw * hShrink; rw = base.rw * hShrink;
-          ch = base.ch * grow;
-          bh = base.bh + (base.ch - ch);
-        } else if (region === 'left') {
-          lw = base.lw * grow;
-          const hShrink = 1 - (lw - base.lw) / (base.cw + base.rw);
-          cw = base.cw * hShrink; rw = base.rw * hShrink;
-          ch = base.ch; bh = base.bh;
-        } else if (region === 'right') {
-          rw = base.rw * grow;
-          const hShrink = 1 - (rw - base.rw) / (base.cw + base.lw);
-          cw = base.cw * hShrink; lw = base.lw * hShrink;
-          ch = base.ch; bh = base.bh;
-        } else {
-          bh = base.bh * grow;
-          ch = base.ch - (bh - base.bh);
-          cw = base.cw; lw = base.lw; rw = base.rw;
-        }
-
-        if (isDesktop()) {
-          root.style.setProperty('--s1-cw', `calc(${ch}${unit} * 3 / 4)`);
-        } else {
-          root.style.setProperty('--s1-cw', `${cw}${unit}`);
-        }
-        root.style.setProperty('--s1-ch', `${ch}${unit}`);
-        root.style.setProperty('--s1-lw', `${lw}${unit}`);
-        root.style.setProperty('--s1-rw', `${rw}${unit}`);
-        root.style.setProperty('--s1-bh', `${bh}${unit}`);
-
-        // 래퍼 크기 동기화
-        const wW = isDesktop() ? (ch * 3 / 4) * unitPx : cw * unitPx;
-        const wH = isDesktop() ? ch * unitPx : (cw * 4 / 3) * unitPx;
-        wrapper.style.width = wW + 'px';
-        wrapper.style.height = wH + 'px';
-      }
-    });
   }
 
-  function getOriginalWrapperSize() {
-    if (isDesktop()) {
-      return { w: window.innerHeight * 0.6 * 0.75, h: window.innerHeight * 0.6 };
-    } else {
-      return { w: window.innerWidth * 0.36, h: window.innerWidth * 0.36 * 4 / 3 };
-    }
-  }
-
-  function resetHover() {
-    if (hoverTween) hoverTween.kill();
-    const unit = isDesktop() ? 'vh' : 'vw';
-    const curW = parseFloat(wrapper.style.width);
-    const curH = parseFloat(wrapper.style.height);
-    const origSize = getOriginalWrapperSize();
-    const proxy = { t: 0 };
-
-    hoverTween = gsap.to(proxy, {
-      t: 1,
-      duration: 0.9,
-      ease: 'power2.out',
-      onUpdate: () => {
-        const p = proxy.t;
-        const base = isDesktop()
-          ? { cw: 60 * 3 / 4, lw: 18, rw: 20, ch: 60, bh: 14 }
-          : { cw: 36, lw: 25, rw: 25, ch: 36 * 4 / 3, bh: 20 };
-
-        if (isDesktop()) {
-          root.style.setProperty('--s1-cw', `calc(${base.ch}${unit} * 3 / 4)`);
-        } else {
-          root.style.setProperty('--s1-cw', `${base.cw}${unit}`);
-        }
-        root.style.setProperty('--s1-ch', `${base.ch}${unit}`);
-        root.style.setProperty('--s1-lw', `${base.lw}${unit}`);
-        root.style.setProperty('--s1-rw', `${base.rw}${unit}`);
-        root.style.setProperty('--s1-bh', `${base.bh}${unit}`);
-
-        const w = curW + (origSize.w - curW) * p;
-        const h = curH + (origSize.h - curH) * p;
-        wrapper.style.width = w + 'px';
-        wrapper.style.height = h + 'px';
-      },
-      onComplete: () => {
-        if (isDesktop()) {
-          root.style.setProperty('--s1-ch', '60vh');
-          root.style.setProperty('--s1-cw', 'calc(60vh * 3 / 4)');
-          root.style.setProperty('--s1-lw', '18vh');
-          root.style.setProperty('--s1-rw', '20vh');
-          root.style.setProperty('--s1-bh', '14vh');
-          wrapper.style.width = origSize.w + 'px';
-          wrapper.style.height = origSize.h + 'px';
-        } else {
-          root.style.setProperty('--s1-cw', '36vw');
-          root.style.setProperty('--s1-ch', 'calc(36vw * 4 / 3)');
-          root.style.setProperty('--s1-lw', '25vw');
-          root.style.setProperty('--s1-rw', '25vw');
-          root.style.setProperty('--s1-bh', '20vw');
-          wrapper.style.width = origSize.w + 'px';
-          wrapper.style.height = origSize.h + 'px';
-        }
-      }
-    });
-
-    // 밝기 리셋: overwrite로 깜빡임 방지
-    [wrapper, ...Array.from(photos)].forEach(el => {
-      gsap.to(el, { filter: 'brightness(1)', duration: 0.9, ease: 'power2.out', overwrite: 'auto' });
-      if (el !== wrapper) gsap.set(el, { zIndex: 2 });
-    });
-  }
-
-  function scheduleReset() {
-    pendingReset = setTimeout(() => {
-      pendingReset = null;
-      resetHover();
+  function resetDim() {
+    pendingDimReset = setTimeout(() => {
+      pendingDimReset = null;
+      allCollageEls.forEach(el => {
+        gsap.to(el, { filter: 'brightness(1)', duration: 0.9, ease: 'power2.out', overwrite: 'auto' });
+      });
     }, 120);
-  }
-
-  function cancelReset() {
-    if (pendingReset !== null) { clearTimeout(pendingReset); pendingReset = null; }
   }
 
   wrapper.addEventListener('mouseenter', () => {
     if (!document.getElementById('section-1').classList.contains('is-ready')) return;
-    applyHover(wrapper);
+    applyDim(wrapper);
   });
   wrapper.addEventListener('mouseleave', () => {
     if (!document.getElementById('section-1').classList.contains('is-ready')) return;
-    scheduleReset();
+    resetDim();
   });
 
   photos.forEach(photo => {
     photo.addEventListener('mouseenter', () => {
       if (!document.getElementById('section-1').classList.contains('is-ready')) return;
-      applyHover(photo);
+      applyDim(photo);
     });
     photo.addEventListener('mouseleave', () => {
       if (!document.getElementById('section-1').classList.contains('is-ready')) return;
-      scheduleReset();
+      resetDim();
     });
     photo.addEventListener('click', () => {
       if (!document.getElementById('section-1').classList.contains('is-ready')) return;
