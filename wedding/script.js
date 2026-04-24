@@ -164,9 +164,6 @@ function initCollage() {
 
   const island = document.getElementById('dynamic-island');
 
-  // 스냅 방향 추적 (snapTo 함수에서 사용)
-  let s1Direction = 1;
-
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: '.s1-visual',
@@ -174,14 +171,7 @@ function initCollage() {
       end: '+=700vh',
       scrub: 0.3,
       pin: true,
-      snap: {
-        snapTo: (value) => (s1Direction > 0 && value > 0.01) ? 1 : 0,
-        duration: { min: 0.5, max: 1.5 },
-        delay: 0.05,
-        ease: 'power3.out'
-      },
       onUpdate: (self) => {
-        s1Direction = self.direction;
         const isReady = self.progress >= 0.7;
         const section1 = document.getElementById('section-1');
         section1.classList.toggle('is-ready', isReady);
@@ -347,18 +337,18 @@ function initSection3() {
   // 스냅 포인트 [0, 0.143, ...] 는 기존과 동일, 물리적 스크롤 거리가 동일해 속도만 느려짐
   const PHOTO_POS = [0, 1.5, 3.0, 4.5, 6.0, 7.5, 9.0];
 
-  // 1) 사진 등장 시퀀스 — duration 1.3
+  // 1) 사진 등장 시퀀스 — photo 0은 선형(천천히), 나머지는 power2.out
   photos.forEach((photo, i) => {
     mainTl.fromTo(photo,
       { y: initialPhotoY, x: photoOffsets[i].x, rotation: photoOffsets[i].r },
-      { y: photoOffsets[i].y, duration: 1.3, ease: "power2.out" },
+      { y: photoOffsets[i].y, duration: 1.3, ease: i === 0 ? "none" : "power2.out" },
       PHOTO_POS[i]
     );
   });
 
-  // 2) 타이틀 등장 — photo 0과 동일
+  // 2) 타이틀 등장 — photo 0과 동일 (선형 ease로 천천히 올라옴)
   if (titleEl) {
-    mainTl.fromTo(titleEl, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "power2.out" }, 0);
+    mainTl.fromTo(titleEl, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "none" }, 0);
   }
 
   // 3) 텍스트 카드 — 대응 사진과 함께 입장, 다음 카드 입장 시점에 퇴장
@@ -369,7 +359,7 @@ function initSection3() {
   const card6 = document.querySelector('.s3-text-card[data-slot="6"]');
 
   if (card0) {
-    mainTl.fromTo(card0, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "power2.out" }, 0);
+    mainTl.fromTo(card0, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "none" }, 0);
     mainTl.to(card0, { y: -400, opacity: 0, duration: 0.8 }, 1.5);
   }
 
