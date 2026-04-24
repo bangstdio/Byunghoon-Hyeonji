@@ -236,11 +236,13 @@ body {
   z-index: 1;
   container-type: inline-size;
   container-name: s1wrapper;
-  cursor: default; /* 초기 상태: 클릭 불가 */
+  cursor: default;
+  /* 초기 상태: 클릭 불가 */
 }
 
 .is-ready .s1-main-wrapper {
-  cursor: pointer; /* 콜라주 완성 시에만 포인터 */
+  cursor: pointer;
+  /* 콜라주 완성 시에만 포인터 */
 }
 
 /* 메인 사진: 풀스크린 표출 */
@@ -293,7 +295,7 @@ body {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.42s cubic-bezier(0.23, 1, 0.32, 1),
-              transform 0.42s cubic-bezier(0.23, 1, 0.32, 1);
+    transform 0.42s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .s1-lightbox.active {
@@ -472,7 +474,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0vh 0 0vh;
+  min-height: 0;
+  padding: 40vh 0 0vh;
 }
 
 .s2-inner {
@@ -932,8 +935,8 @@ body.scroll-locked {
   flex-shrink: 0;
   transform-origin: center center;
   transition: transform 0.55s cubic-bezier(0.23, 1, 0.32, 1),
-              filter 0.45s cubic-bezier(0.23, 1, 0.32, 1),
-              margin 0.55s cubic-bezier(0.23, 1, 0.32, 1);
+    filter 0.45s cubic-bezier(0.23, 1, 0.32, 1),
+    margin 0.55s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* 트랙 호버 시: 나머지 카드 축소 / 카드 hover-out은 관성으로 천천히 복귀 */
@@ -942,8 +945,8 @@ body.scroll-locked {
   filter: brightness(0.80);
   margin: -16.64px -12.48px;
   transition: transform 0.9s cubic-bezier(0.23, 1, 0.32, 1),
-              filter 0.75s cubic-bezier(0.23, 1, 0.32, 1),
-              margin 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+    filter 0.75s cubic-bezier(0.23, 1, 0.32, 1),
+    margin 0.9s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* 호버된 카드: 빠르게 확장 */
@@ -952,8 +955,8 @@ body.scroll-locked {
   filter: brightness(1);
   margin: 6.93px 5.2px;
   transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1),
-              filter 0.35s cubic-bezier(0.23, 1, 0.32, 1),
-              margin 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+    filter 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+    margin 0.45s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 @media (max-width: 599px) {
@@ -969,15 +972,15 @@ body.scroll-locked {
   .s5-track:hover .s5-card {
     margin: -12.8px -9.6px;
     transition: transform 0.9s cubic-bezier(0.23, 1, 0.32, 1),
-                filter 0.75s cubic-bezier(0.23, 1, 0.32, 1),
-                margin 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+      filter 0.75s cubic-bezier(0.23, 1, 0.32, 1),
+      margin 0.9s cubic-bezier(0.23, 1, 0.32, 1);
   }
 
   .s5-track:hover .s5-card:hover {
     margin: 5.33px 4px;
     transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1),
-                filter 0.35s cubic-bezier(0.23, 1, 0.32, 1),
-                margin 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+      filter 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+      margin 0.45s cubic-bezier(0.23, 1, 0.32, 1);
   }
 }
 

@@ -65,7 +65,7 @@ function closeCardModal() {
 }
 
 function openCollageLightbox(src, fullscreen = false) {
-  const lb  = document.getElementById('s1-lightbox');
+  const lb = document.getElementById('s1-lightbox');
   const dim = document.getElementById('s1-lb-dim');
   const island = document.getElementById('dynamic-island');
 
@@ -86,7 +86,7 @@ function openCollageLightbox(src, fullscreen = false) {
 }
 
 function closeCollageLightbox() {
-  const lb  = document.getElementById('s1-lightbox');
+  const lb = document.getElementById('s1-lightbox');
   const dim = document.getElementById('s1-lb-dim');
   lb.classList.remove('active', 's1-lb-fullscreen');
   dim.classList.remove('active', 's1-lb-fullscreen');
@@ -100,7 +100,7 @@ function closeCollageLightbox() {
   }
 }
 
-window.copyAccount = function(text) {
+window.copyAccount = function (text) {
   navigator.clipboard.writeText(text).then(() => alert('복사되었습니다.'));
 };
 
@@ -281,13 +281,13 @@ function initSection2() {
   let s3JumpDone = false;
   ScrollTrigger.create({
     trigger: '.s2-inner',
-    start: 'bottom 40%',
+    start: 'bottom 100%',
     onEnter: () => {
       if (s3JumpDone) return;
       s3JumpDone = true;
       const st = ScrollTrigger.getById('section3-main');
       const scrollPos = st
-        ? st.start + (st.end - st.start) * 0.143
+        ? st.start + (st.end - st.start) * 0.08
         : document.querySelector('#section-3').offsetTop;
       lenis.scrollTo(scrollPos, {
         duration: 2.0,
@@ -325,17 +325,18 @@ function initSection3() {
       end: "bottom 5%",
       scrub: 0.1, // Lenis가 이미 부드러우므로, scrub은 즉각 반응하게 조절 (겹침 방지 핵심)
       snap: {
-        snapTo: [0, 0.143, 0.286, 0.428, 0.571, 0.714, 0.857, 1],
-        duration: { min: 0.2, max: 0.4 },
+        // 각 사진 animation(1.3) 완료 시점 기준 — total duration 16.3
+        // photo i ends at: PHOTO_POS[i]+1.3 / 16.3
+        snapTo: [0, 0.08, 0.233, 0.387, 0.54, 0.693, 0.847, 1],
+        duration: { min: 0.2, max: 0.5 },
         delay: 0.05,
         ease: "power1.inOut"
       }
     }
   });
 
-  // 사진 시작 위치: 각 스냅 구간(1.5)마다 하나씩 — total duration 10.3
-  // 스냅 포인트 [0, 0.143, ...] 는 기존과 동일, 물리적 스크롤 거리가 동일해 속도만 느려짐
-  const PHOTO_POS = [0, 1.5, 3.0, 4.5, 6.0, 7.5, 9.0];
+  // 사진 간격 2.5 (animation 1.3 + dead scroll 1.2) — total duration 16.3
+  const PHOTO_POS = [0, 2.5, 5.0, 7.5, 10.0, 12.5, 15.0];
 
   // 1) 사진 등장 시퀀스 — photo 0은 선형(천천히), 나머지는 power2.out
   photos.forEach((photo, i) => {
@@ -360,32 +361,32 @@ function initSection3() {
 
   if (card0) {
     mainTl.fromTo(card0, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "none" }, 0);
-    mainTl.to(card0, { y: -400, opacity: 0, duration: 0.8 }, 1.5);
+    mainTl.to(card0, { y: -400, opacity: 0, duration: 0.8 }, 2.5);
   }
 
   if (card1) {
-    mainTl.fromTo(card1, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "power2.out" }, 1.5);
-    mainTl.to(card1, { y: -400, opacity: 0, duration: 0.8 }, 4.5);
+    mainTl.fromTo(card1, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "power2.out" }, 2.5);
+    mainTl.to(card1, { y: -400, opacity: 0, duration: 0.8 }, 7.5);
   }
 
   if (card3) {
-    mainTl.fromTo(card3, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "power2.out" }, 4.5);
-    mainTl.to(card3, { y: -400, opacity: 0, duration: 0.8 }, 6.0);
+    mainTl.fromTo(card3, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "power2.out" }, 7.5);
+    mainTl.to(card3, { y: -400, opacity: 0, duration: 0.8 }, 10.0);
   }
 
   if (card4) {
-    mainTl.fromTo(card4, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "power2.out" }, 6.0);
-    mainTl.to(card4, { y: -400, opacity: 0, duration: 0.8 }, 9.0);
+    mainTl.fromTo(card4, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "power2.out" }, 10.0);
+    mainTl.to(card4, { y: -400, opacity: 0, duration: 0.8 }, 15.0);
   }
 
   if (card6) {
-    mainTl.fromTo(card6, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "power2.out" }, 9.0);
+    mainTl.fromTo(card6, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "power2.out" }, 15.0);
   }
 }
 
 function initSection4() {
-  gsap.fromTo(['.s3-sticky-title', '.s3-photo-stack', '.s3-card-stack'], 
-    { y: 0 }, 
+  gsap.fromTo(['.s3-sticky-title', '.s3-photo-stack', '.s3-card-stack'],
+    { y: 0 },
     { y: '-100vh', scrollTrigger: { trigger: '#section-4', start: 'top bottom', end: 'top top', scrub: true } }
   );
 
@@ -402,7 +403,7 @@ function initSection4() {
     const h = Math.floor((diff % 86400000) / 3600000);
     const m = Math.floor((diff % 3600000) / 60000);
     const s = Math.floor((diff % 60000) / 1000);
-    
+
     document.getElementById('cd-days').textContent = String(d).padStart(2, '0');
     document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
     document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
