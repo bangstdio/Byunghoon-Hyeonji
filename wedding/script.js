@@ -174,6 +174,12 @@ function initCollage() {
       onUpdate: (self) => {
         const isReady = self.progress >= 0.7;
         const section1 = document.getElementById('section-1');
+
+        // 콜라주가 완성 상태를 벗어날 때(위로 스크롤) 모든 호버 효과 강제 초기화
+        if (!isReady && section1.classList.contains('is-ready')) {
+          resetDim();
+        }
+
         section1.classList.toggle('is-ready', isReady);
 
         // 다이내믹 아일랜드 표시/숨기기
@@ -213,6 +219,7 @@ function initCollage() {
   let pendingDimReset = null;
 
   function applyDim(hoveredEl) {
+    if (!document.getElementById('section-1').classList.contains('is-ready')) return;
     if (pendingDimReset !== null) { clearTimeout(pendingDimReset); pendingDimReset = null; }
     allCollageEls.forEach(el => {
       gsap.to(el, {
@@ -314,9 +321,8 @@ function initSection3() {
       end: "bottom 5%",
       scrub: 0.1,
       snap: {
-        // photo i ends at PHOTO_POS[i]+1.3 / 16.3 (total duration)
-        // photo0 입장은 인트로 트리거 담당이므로 0.08 제거
-        snapTo: [0, 0.233, 0.387, 0.54, 0.693, 0.847, 1],
+        // photo i ends at (PHOTO_POS[i]+2.0) / 21.2 — duration 2.0, total 21.2
+        snapTo: [0, 0.245, 0.396, 0.547, 0.698, 0.849, 1],
         duration: { min: 0.2, max: 0.5 },
         delay: 0.05,
         ease: "power1.inOut"
@@ -324,42 +330,40 @@ function initSection3() {
     }
   });
 
-  // 사진 간격 2.5 (animation 1.3 + dead scroll 1.2) — total duration 16.3
-  const PHOTO_POS = [0, 2.5, 5.0, 7.5, 10.0, 12.5, 15.0];
+  // 사진 간격 3.2 (animation 2.0 + dead scroll 1.2) — total duration 21.2
+  const PHOTO_POS = [0, 3.2, 6.4, 9.6, 12.8, 16.0, 19.2];
 
-  // 사진 등장 시퀀스 — photo0는 인트로 트리거 담당이므로 스킵
+  // 사진 등장 시퀀스 — photo0는 자연 스크롤로 등장하므로 스킵
   photos.forEach((photo, i) => {
     if (i === 0) return;
     mainTl.fromTo(photo,
       { y: initialPhotoY, x: photoOffsets[i].x, rotation: photoOffsets[i].r },
-      { y: photoOffsets[i].y, duration: 1.3, ease: "power2.out" },
+      { y: photoOffsets[i].y, duration: 2.0, ease: "power2.out" },
       PHOTO_POS[i]
     );
   });
 
-  // card0: 인트로 트리거가 y:0으로 세팅한 상태에서 퇴장만 처리
-  // fromTo 대신 to를 사용해 초기화 시점에 from 상태가 즉시 렌더링되는 버그 방지
   if (card0) {
-    mainTl.to(card0, { y: -400, opacity: 0, duration: 0.8 }, 2.5);
+    mainTl.to(card0, { y: -400, opacity: 0, duration: 0.8 }, 3.2);
   }
 
   if (card1) {
-    mainTl.fromTo(card1, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "power2.out" }, 2.5);
-    mainTl.to(card1, { y: -400, opacity: 0, duration: 0.8 }, 7.5);
+    mainTl.fromTo(card1, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 2.0, ease: "power2.out" }, 3.2);
+    mainTl.to(card1, { y: -400, opacity: 0, duration: 0.8 }, 9.6);
   }
 
   if (card3) {
-    mainTl.fromTo(card3, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "power2.out" }, 7.5);
-    mainTl.to(card3, { y: -400, opacity: 0, duration: 0.8 }, 10.0);
+    mainTl.fromTo(card3, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 2.0, ease: "power2.out" }, 9.6);
+    mainTl.to(card3, { y: -400, opacity: 0, duration: 0.8 }, 12.8);
   }
 
   if (card4) {
-    mainTl.fromTo(card4, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "power2.out" }, 10.0);
-    mainTl.to(card4, { y: -400, opacity: 0, duration: 0.8 }, 15.0);
+    mainTl.fromTo(card4, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 2.0, ease: "power2.out" }, 12.8);
+    mainTl.to(card4, { y: -400, opacity: 0, duration: 0.8 }, 19.2);
   }
 
   if (card6) {
-    mainTl.fromTo(card6, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "power2.out" }, 15.0);
+    mainTl.fromTo(card6, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 2.0, ease: "power2.out" }, 19.2);
   }
 }
 
