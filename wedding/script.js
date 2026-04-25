@@ -2,8 +2,6 @@
    Constants
    ============================================================ */
 const WEDDING_DATE = '2026-11-28T12:00:00+09:00';
-const WEDDING_VENUE = '현대차·기아 양재사옥';
-const SMOOTH_SCROLL_DURATION = 0.8;
 let lenis;
 let islandWasVisible = false;
 let islandShown = false;
@@ -53,6 +51,7 @@ function openCardModal(index) {
   dim.classList.add('active');
   modal.classList.add('active');
   document.body.classList.add('scroll-locked');
+  if (lenis) lenis.stop();
 }
 
 function closeCardModal() {
@@ -62,6 +61,7 @@ function closeCardModal() {
   dim.classList.remove('active');
   modal.classList.remove('active');
   document.body.classList.remove('scroll-locked');
+  if (lenis) lenis.start();
 }
 
 function openCollageLightbox(src, fullscreen = false) {
@@ -83,6 +83,7 @@ function openCollageLightbox(src, fullscreen = false) {
   dim.classList.add('active');
   lb.classList.add('active');
   document.body.classList.add('scroll-locked');
+  if (lenis) lenis.stop();
 }
 
 function closeCollageLightbox() {
@@ -91,6 +92,7 @@ function closeCollageLightbox() {
   lb.classList.remove('active', 's1-lb-fullscreen');
   dim.classList.remove('active', 's1-lb-fullscreen');
   document.body.classList.remove('scroll-locked');
+  if (lenis) lenis.start();
 
   // 다이내믹 아일랜드 관성으로 복귀 (back.out: 살짝 오버슈트 후 안착)
   if (islandWasVisible) {
@@ -137,7 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function initDynamicIsland() {
   const island = document.getElementById('dynamic-island');
   gsap.set(island, { xPercent: -50, yPercent: -200, opacity: 0, scale: 0.85 });
-
 
   document.getElementById('btn-story').addEventListener('click', () => {
     gsap.to(window, { scrollTo: '#section-3', duration: 1, ease: 'power2.inOut' });
@@ -217,9 +218,11 @@ function initCollage() {
   // ── 콜라주 호버: 비호버 사진 어둡게 + 클릭 시 라이트박스 ──────────────
   const allCollageEls = [wrapper, ...Array.from(photos)];
   let pendingDimReset = null;
+  let activeHoverEl = null;
 
   function applyDim(hoveredEl) {
     if (!document.getElementById('section-1').classList.contains('is-ready')) return;
+    activeHoverEl = hoveredEl;
     if (pendingDimReset !== null) { clearTimeout(pendingDimReset); pendingDimReset = null; }
     allCollageEls.forEach(el => {
       gsap.to(el, {
@@ -234,6 +237,7 @@ function initCollage() {
   function resetDim() {
     pendingDimReset = setTimeout(() => {
       pendingDimReset = null;
+      if (activeHoverEl !== null) return;
       allCollageEls.forEach(el => {
         gsap.to(el, { filter: 'brightness(1)', duration: 0.9, ease: 'power2.out', overwrite: 'auto' });
       });
@@ -246,6 +250,7 @@ function initCollage() {
   });
   wrapper.addEventListener('mouseleave', () => {
     if (!document.getElementById('section-1').classList.contains('is-ready')) return;
+    if (activeHoverEl === wrapper) activeHoverEl = null;
     resetDim();
   });
 
@@ -256,6 +261,7 @@ function initCollage() {
     });
     photo.addEventListener('mouseleave', () => {
       if (!document.getElementById('section-1').classList.contains('is-ready')) return;
+      if (activeHoverEl === photo) activeHoverEl = null;
       resetDim();
     });
     photo.addEventListener('click', () => {
@@ -283,14 +289,11 @@ function initSection2() {
       words.forEach((word, i) => word.classList.toggle('active', i < activeCount));
     }
   });
-  // 자동 스크롤 제거 — 섹션3 인트로 트리거가 섹션2→3 전환을 자연스럽게 처리
 }
 
 function initSection3() {
   const photos = document.querySelectorAll('.s3-photo');
   const slots = document.querySelectorAll('.s3-text-slot');
-  const titleEl = document.querySelector('.s3-sticky-title');
-  const cards = document.querySelectorAll('.s3-text-card');
   if (!photos.length || !slots.length) return;
 
   const photoOffsets = [
@@ -311,8 +314,6 @@ function initSection3() {
   gsap.set(Array.from(photos).slice(1), { y: initialPhotoY });
   gsap.set([card1, card3, card4, card6].filter(Boolean), { y: initialPhotoY, opacity: 0 });
 
-  // ── 마스터 타임라인 ────────────────────────────────────────────
-  // photo0 / titleEl / card0 입장은 인트로 트리거가 처리 → 메인에서는 제외
   const mainTl = gsap.timeline({
     scrollTrigger: {
       id: 'section3-main',
@@ -320,20 +321,11 @@ function initSection3() {
       start: "top 80px",
       end: "bottom 5%",
       scrub: 0.1,
-      snap: {
-        // duration 3.0, spacing 4.2, total 28.2
-        // 각 사진 도착(arrival) + 다음 사진 출발(start) 두 지점씩 snap (photo2 이후)
-        // [start, p1_arr, p2_start, p2_arr, p3_start, p3_arr, p4_start, p4_arr, p5_start, p5_arr, p6_start, p6_arr]
-        snapTo: [0, 0.255, 0.298, 0.404, 0.447, 0.553, 0.596, 0.702, 0.745, 0.851, 0.894, 1],
-        duration: { min: 0.2, max: 0.5 },
-        delay: 0.05,
-        ease: "power1.inOut"
-      }
     }
   });
 
-  // 사진 간격 4.2 (animation 3.0 + dead scroll 1.2) — total duration 28.2
-  const PHOTO_POS = [0, 4.2, 8.4, 12.6, 16.8, 21.0, 25.2];
+  // 사진 간격 4.4 (animation 3.0 + dead scroll 1.4) — total duration 28.2
+  const PHOTO_POS = [0, 3.2, 7.6, 12.0, 16.4, 20.8, 25.2];
 
   // 사진 등장 시퀀스 — photo0는 자연 스크롤로 등장하므로 스킵
   photos.forEach((photo, i) => {
@@ -346,26 +338,26 @@ function initSection3() {
   });
 
   if (card0) {
-    mainTl.to(card0, { y: -400, opacity: 0, duration: 0.8 }, 4.2);
+    mainTl.to(card0, { y: -initialPhotoY, opacity: 0, duration: 3.5, ease: "power2.in" }, PHOTO_POS[1]);
   }
 
   if (card1) {
-    mainTl.fromTo(card1, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 3.0, ease: "power2.out" }, 4.2);
-    mainTl.to(card1, { y: -400, opacity: 0, duration: 0.8 }, 12.6);
+    mainTl.fromTo(card1, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 3.0, ease: "power2.out" }, PHOTO_POS[1]);
+    mainTl.to(card1, { y: -initialPhotoY, opacity: 0, duration: 3.5, ease: "power2.in" }, PHOTO_POS[3]);
   }
 
   if (card3) {
-    mainTl.fromTo(card3, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 3.0, ease: "power2.out" }, 12.6);
-    mainTl.to(card3, { y: -400, opacity: 0, duration: 0.8 }, 16.8);
+    mainTl.fromTo(card3, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 3.0, ease: "power2.out" }, PHOTO_POS[3]);
+    mainTl.to(card3, { y: -initialPhotoY, opacity: 0, duration: 3.5, ease: "power2.in" }, PHOTO_POS[4]);
   }
 
   if (card4) {
-    mainTl.fromTo(card4, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 3.0, ease: "power2.out" }, 16.8);
-    mainTl.to(card4, { y: -400, opacity: 0, duration: 0.8 }, 25.2);
+    mainTl.fromTo(card4, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 3.0, ease: "power2.out" }, PHOTO_POS[4]);
+    mainTl.to(card4, { y: -initialPhotoY, opacity: 0, duration: 3.5, ease: "power2.in" }, PHOTO_POS[6]);
   }
 
   if (card6) {
-    mainTl.fromTo(card6, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 3.0, ease: "power2.out" }, 25.2);
+    mainTl.fromTo(card6, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 3.0, ease: "power2.out" }, PHOTO_POS[6]);
   }
 }
 

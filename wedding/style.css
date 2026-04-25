@@ -448,7 +448,6 @@ body {
 #section-5 {
   min-height: 100vh;
   background: var(--color-bg);
-  scroll-snap-align: start;
 }
 
 /* ============================================================
@@ -459,11 +458,6 @@ body {
 /* ============================================================
    Desktop: 1080px+
    ============================================================ */
-@media (min-width: 1080px) {
-  #dynamic-island {
-    width: 800px;
-  }
-}
 
 /* ============================================================
    SECTION 2 — 단어별 텍스트 컬러 전환
@@ -658,30 +652,10 @@ body {
   height: 100vh;
 }
 
-/* 텍스트 있는 슬롯 — 좌측 배치 */
-.s3-text-slot.s3-left {
-  justify-content: flex-start;
-  padding-left: 6%;
-}
-
-/* 텍스트 있는 슬롯 — 우측 배치 */
-.s3-text-slot.s3-right {
-  justify-content: flex-end;
-  padding-right: 6%;
-}
-
 @media (max-width: 599px) {
   .s3-text-slot {
     min-height: 25vh;
     padding-top: 32px;
-  }
-
-  .s3-text-slot.s3-left {
-    padding-left: 5%;
-  }
-
-  .s3-text-slot.s3-right {
-    padding-right: 5%;
   }
 }
 
