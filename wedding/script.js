@@ -276,28 +276,7 @@ function initSection2() {
       words.forEach((word, i) => word.classList.toggle('active', i < activeCount));
     }
   });
-
-  // 섹션2 텍스트 하단이 화면 40% 지점에 닿으면 섹션3 첫 스냅포인트로 이동
-  let s3JumpDone = false;
-  ScrollTrigger.create({
-    trigger: '.s2-inner',
-    start: 'bottom 100%',
-    onEnter: () => {
-      if (s3JumpDone) return;
-      s3JumpDone = true;
-      const st = ScrollTrigger.getById('section3-main');
-      const scrollPos = st
-        ? st.start + (st.end - st.start) * 0.08
-        : document.querySelector('#section-3').offsetTop;
-      lenis.scrollTo(scrollPos, {
-        duration: 2.0,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
-      });
-    },
-    onLeaveBack: () => {
-      s3JumpDone = false;
-    }
-  });
+  // 자동 스크롤 제거 — 섹션3 인트로 트리거가 섹션2→3 전환을 자연스럽게 처리
 }
 
 function initSection3() {
@@ -316,18 +295,53 @@ function initSection3() {
   gsap.set(photos, { y: initialPhotoY });
   gsap.set([titleEl, cards], { y: initialPhotoY, opacity: 0 });
 
-  // 마스터 타임라인
+  const card0 = document.querySelector('.s3-text-card[data-slot="0"]');
+  const card1 = document.querySelector('.s3-text-card[data-slot="1"]');
+  const card3 = document.querySelector('.s3-text-card[data-slot="3"]');
+  const card4 = document.querySelector('.s3-text-card[data-slot="4"]');
+  const card6 = document.querySelector('.s3-text-card[data-slot="6"]');
+
+  // ── 인트로 트리거: titleEl / photo0 / card0 를 섹션2 스크롤 속도에 종속 ──
+  // 섹션2 텍스트 완료(top 10%) 시점부터 메인 트리거 시작(s3-text-scroll top 80px)까지 연결
+  ScrollTrigger.create({
+    trigger: '.s2-inner',
+    start: 'top 10%',
+    endTrigger: '.s3-text-scroll',
+    end: 'top 80px',
+    scrub: 0.1,
+    onUpdate: (self) => {
+      const p = self.progress;
+      gsap.set(titleEl, { y: initialPhotoY * (1 - p), opacity: p });
+      gsap.set(photos[0], { y: initialPhotoY * (1 - p), x: photoOffsets[0].x, rotation: photoOffsets[0].r });
+      if (card0) gsap.set(card0, { y: initialPhotoY * (1 - p), opacity: p });
+    },
+    onLeave: () => {
+      // 메인 트리거 시작 시 완전히 정착
+      gsap.set(titleEl, { y: 0, opacity: 1 });
+      gsap.set(photos[0], { y: photoOffsets[0].y, x: photoOffsets[0].x, rotation: photoOffsets[0].r });
+      if (card0) gsap.set(card0, { y: 0, opacity: 1 });
+    },
+    onLeaveBack: () => {
+      // 섹션2로 되돌아갈 때 초기 상태로 복귀
+      gsap.set(titleEl, { y: initialPhotoY, opacity: 0 });
+      gsap.set(photos[0], { y: initialPhotoY, x: photoOffsets[0].x, rotation: photoOffsets[0].r });
+      if (card0) gsap.set(card0, { y: initialPhotoY, opacity: 0 });
+    }
+  });
+
+  // ── 마스터 타임라인 ────────────────────────────────────────────
+  // photo0 / titleEl / card0 입장은 인트로 트리거가 처리 → 메인에서는 제외
   const mainTl = gsap.timeline({
     scrollTrigger: {
       id: 'section3-main',
       trigger: '.s3-text-scroll',
       start: "top 80px",
       end: "bottom 5%",
-      scrub: 0.1, // Lenis가 이미 부드러우므로, scrub은 즉각 반응하게 조절 (겹침 방지 핵심)
+      scrub: 0.1,
       snap: {
-        // 각 사진 animation(1.3) 완료 시점 기준 — total duration 16.3
-        // photo i ends at: PHOTO_POS[i]+1.3 / 16.3
-        snapTo: [0, 0.08, 0.233, 0.387, 0.54, 0.693, 0.847, 1],
+        // photo i ends at PHOTO_POS[i]+1.3 / 16.3 (total duration)
+        // photo0 입장은 인트로 트리거 담당이므로 0.08 제거
+        snapTo: [0, 0.233, 0.387, 0.54, 0.693, 0.847, 1],
         duration: { min: 0.2, max: 0.5 },
         delay: 0.05,
         ease: "power1.inOut"
@@ -338,30 +352,19 @@ function initSection3() {
   // 사진 간격 2.5 (animation 1.3 + dead scroll 1.2) — total duration 16.3
   const PHOTO_POS = [0, 2.5, 5.0, 7.5, 10.0, 12.5, 15.0];
 
-  // 1) 사진 등장 시퀀스 — photo 0은 선형(천천히), 나머지는 power2.out
+  // 사진 등장 시퀀스 — photo0는 인트로 트리거 담당이므로 스킵
   photos.forEach((photo, i) => {
+    if (i === 0) return;
     mainTl.fromTo(photo,
       { y: initialPhotoY, x: photoOffsets[i].x, rotation: photoOffsets[i].r },
-      { y: photoOffsets[i].y, duration: 1.3, ease: i === 0 ? "none" : "power2.out" },
+      { y: photoOffsets[i].y, duration: 1.3, ease: "power2.out" },
       PHOTO_POS[i]
     );
   });
 
-  // 2) 타이틀 등장 — photo 0과 동일 (선형 ease로 천천히 올라옴)
-  if (titleEl) {
-    mainTl.fromTo(titleEl, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "none" }, 0);
-  }
-
-  // 3) 텍스트 카드 — 대응 사진과 함께 입장, 다음 카드 입장 시점에 퇴장
-  const card0 = document.querySelector('.s3-text-card[data-slot="0"]');
-  const card1 = document.querySelector('.s3-text-card[data-slot="1"]');
-  const card3 = document.querySelector('.s3-text-card[data-slot="3"]');
-  const card4 = document.querySelector('.s3-text-card[data-slot="4"]');
-  const card6 = document.querySelector('.s3-text-card[data-slot="6"]');
-
+  // card0: 인트로 트리거에서 y:0, opacity:1로 도착 → 퇴장만 처리
   if (card0) {
-    mainTl.fromTo(card0, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 1.3, ease: "none" }, 0);
-    mainTl.to(card0, { y: -400, opacity: 0, duration: 0.8 }, 2.5);
+    mainTl.fromTo(card0, { y: 0, opacity: 1 }, { y: -400, opacity: 0, duration: 0.8 }, 2.5);
   }
 
   if (card1) {
