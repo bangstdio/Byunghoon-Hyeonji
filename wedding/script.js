@@ -292,10 +292,6 @@ function initSection3() {
   ];
 
   const initialPhotoY = window.innerHeight;
-  gsap.set(photos, { y: initialPhotoY });
-  // titleEl / card0: opacity는 CSS 기본값(1) 유지, y만 화면 밖으로
-  gsap.set(titleEl, { y: initialPhotoY });
-  gsap.set(cards, { y: initialPhotoY, opacity: 0 });
 
   const card0 = document.querySelector('.s3-text-card[data-slot="0"]');
   const card1 = document.querySelector('.s3-text-card[data-slot="1"]');
@@ -303,34 +299,10 @@ function initSection3() {
   const card4 = document.querySelector('.s3-text-card[data-slot="4"]');
   const card6 = document.querySelector('.s3-text-card[data-slot="6"]');
 
-  // card0는 섹션2와 동기화할 것이므로 opacity 1로 복원
-  if (card0) gsap.set(card0, { y: initialPhotoY, opacity: 1 });
-
-  // ── 인트로 트리거: titleEl / photo0 / card0 를 섹션2 텍스트와 완전히 동기화 ──
-  // 섹션2 텍스트 애니메이션(top 90% → top 10%)과 동일 범위 + 동일 scrub → 1:1 속도 일치
-  // opacity 없이 y 위치만 추적 (페이드인 제거)
-  ScrollTrigger.create({
-    trigger: '.s2-inner',
-    start: 'top 90%',
-    end: 'top 10%',
-    scrub: 0.2,
-    onUpdate: (self) => {
-      const p = self.progress;
-      gsap.set(titleEl, { y: initialPhotoY * (1 - p) });
-      gsap.set(photos[0], { y: initialPhotoY * (1 - p), x: photoOffsets[0].x, rotation: photoOffsets[0].r });
-      if (card0) gsap.set(card0, { y: initialPhotoY * (1 - p) });
-    },
-    onLeave: () => {
-      gsap.set(titleEl, { y: 0 });
-      gsap.set(photos[0], { y: photoOffsets[0].y, x: photoOffsets[0].x, rotation: photoOffsets[0].r });
-      if (card0) gsap.set(card0, { y: 0 });
-    },
-    onLeaveBack: () => {
-      gsap.set(titleEl, { y: initialPhotoY });
-      gsap.set(photos[0], { y: initialPhotoY, x: photoOffsets[0].x, rotation: photoOffsets[0].r });
-      if (card0) gsap.set(card0, { y: initialPhotoY });
-    }
-  });
+  // photo0 / titleEl / card0: y 오프셋 없이 DOM 자연 위치(y=0)에 둠
+  // → 섹션2 스크롤 시 바로 아래에 붙어서 자연스럽게 올라오는 효과
+  gsap.set(Array.from(photos).slice(1), { y: initialPhotoY });
+  gsap.set([card1, card3, card4, card6].filter(Boolean), { y: initialPhotoY, opacity: 0 });
 
   // ── 마스터 타임라인 ────────────────────────────────────────────
   // photo0 / titleEl / card0 입장은 인트로 트리거가 처리 → 메인에서는 제외
