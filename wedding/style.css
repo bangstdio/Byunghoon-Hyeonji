@@ -475,7 +475,7 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 0;
-  padding: 40vh 0 0vh;
+  padding: 40vh 0 40vh;
 }
 
 .s2-inner {
@@ -655,7 +655,7 @@ body {
 }
 
 .s3-bottom-spacer {
-  height: 20vh;
+  height: 100vh;
 }
 
 /* 텍스트 있는 슬롯 — 좌측 배치 */
