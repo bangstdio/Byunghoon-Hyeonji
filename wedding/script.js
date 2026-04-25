@@ -293,7 +293,9 @@ function initSection3() {
 
   const initialPhotoY = window.innerHeight;
   gsap.set(photos, { y: initialPhotoY });
-  gsap.set([titleEl, cards], { y: initialPhotoY, opacity: 0 });
+  // titleEl / card0: opacity는 CSS 기본값(1) 유지, y만 화면 밖으로
+  gsap.set(titleEl, { y: initialPhotoY });
+  gsap.set(cards, { y: initialPhotoY, opacity: 0 });
 
   const card0 = document.querySelector('.s3-text-card[data-slot="0"]');
   const card1 = document.querySelector('.s3-text-card[data-slot="1"]');
@@ -301,31 +303,32 @@ function initSection3() {
   const card4 = document.querySelector('.s3-text-card[data-slot="4"]');
   const card6 = document.querySelector('.s3-text-card[data-slot="6"]');
 
-  // ── 인트로 트리거: titleEl / photo0 / card0 를 섹션2 스크롤 속도에 종속 ──
-  // 섹션2 텍스트 완료(top 10%) 시점부터 메인 트리거 시작(s3-text-scroll top 80px)까지 연결
+  // card0는 섹션2와 동기화할 것이므로 opacity 1로 복원
+  if (card0) gsap.set(card0, { y: initialPhotoY, opacity: 1 });
+
+  // ── 인트로 트리거: titleEl / photo0 / card0 를 섹션2 텍스트와 완전히 동기화 ──
+  // 섹션2 텍스트 애니메이션(top 90% → top 10%)과 동일 범위 + 동일 scrub → 1:1 속도 일치
+  // opacity 없이 y 위치만 추적 (페이드인 제거)
   ScrollTrigger.create({
     trigger: '.s2-inner',
-    start: 'top 10%',
-    endTrigger: '.s3-text-scroll',
-    end: 'top 80px',
-    scrub: 0.1,
+    start: 'top 90%',
+    end: 'top 10%',
+    scrub: 0.2,
     onUpdate: (self) => {
       const p = self.progress;
-      gsap.set(titleEl, { y: initialPhotoY * (1 - p), opacity: p });
+      gsap.set(titleEl, { y: initialPhotoY * (1 - p) });
       gsap.set(photos[0], { y: initialPhotoY * (1 - p), x: photoOffsets[0].x, rotation: photoOffsets[0].r });
-      if (card0) gsap.set(card0, { y: initialPhotoY * (1 - p), opacity: p });
+      if (card0) gsap.set(card0, { y: initialPhotoY * (1 - p) });
     },
     onLeave: () => {
-      // 메인 트리거 시작 시 완전히 정착
-      gsap.set(titleEl, { y: 0, opacity: 1 });
+      gsap.set(titleEl, { y: 0 });
       gsap.set(photos[0], { y: photoOffsets[0].y, x: photoOffsets[0].x, rotation: photoOffsets[0].r });
-      if (card0) gsap.set(card0, { y: 0, opacity: 1 });
+      if (card0) gsap.set(card0, { y: 0 });
     },
     onLeaveBack: () => {
-      // 섹션2로 되돌아갈 때 초기 상태로 복귀
-      gsap.set(titleEl, { y: initialPhotoY, opacity: 0 });
+      gsap.set(titleEl, { y: initialPhotoY });
       gsap.set(photos[0], { y: initialPhotoY, x: photoOffsets[0].x, rotation: photoOffsets[0].r });
-      if (card0) gsap.set(card0, { y: initialPhotoY, opacity: 0 });
+      if (card0) gsap.set(card0, { y: initialPhotoY });
     }
   });
 
@@ -362,9 +365,10 @@ function initSection3() {
     );
   });
 
-  // card0: 인트로 트리거에서 y:0, opacity:1로 도착 → 퇴장만 처리
+  // card0: 인트로 트리거가 y:0으로 세팅한 상태에서 퇴장만 처리
+  // fromTo 대신 to를 사용해 초기화 시점에 from 상태가 즉시 렌더링되는 버그 방지
   if (card0) {
-    mainTl.fromTo(card0, { y: 0, opacity: 1 }, { y: -400, opacity: 0, duration: 0.8 }, 2.5);
+    mainTl.to(card0, { y: -400, opacity: 0, duration: 0.8 }, 2.5);
   }
 
   if (card1) {

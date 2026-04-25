@@ -655,7 +655,7 @@ body {
 }
 
 .s3-bottom-spacer {
-  height: 100vh;
+  height: 20vh;
 }
 
 /* 텍스트 있는 슬롯 — 좌측 배치 */
@@ -756,7 +756,8 @@ body.scroll-locked {
   position: relative;
   z-index: 50;
   background: var(--color-bg);
-  padding: 100px 5vw 120px;
+  min-height: 0;
+  padding: 60px 5vw 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -849,7 +850,7 @@ body.scroll-locked {
 
 @media (max-width: 599px) {
   #section-4 {
-    padding: 80px 6vw 100px;
+    padding: 50px 6vw 50px;
   }
 
   .s4-date {
@@ -880,7 +881,8 @@ body.scroll-locked {
 
 #section-5 {
   background: var(--color-bg);
-  padding: 0;
+  min-height: 0;
+  padding: 40px 0;
   overflow: hidden;
   position: relative;
   z-index: 35;
@@ -961,7 +963,7 @@ body.scroll-locked {
 
 @media (max-width: 599px) {
   #section-5 {
-    padding: 0;
+    padding: 30px 0;
   }
 
   .s5-card {
