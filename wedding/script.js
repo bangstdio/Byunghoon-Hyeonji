@@ -321,8 +321,10 @@ function initSection3() {
       end: "bottom 5%",
       scrub: 0.1,
       snap: {
-        // photo i ends at (PHOTO_POS[i]+2.0) / 21.2 — duration 2.0, total 21.2
-        snapTo: [0, 0.245, 0.396, 0.547, 0.698, 0.849, 1],
+        // duration 3.0, spacing 4.2, total 28.2
+        // 각 사진 도착(arrival) + 다음 사진 출발(start) 두 지점씩 snap (photo2 이후)
+        // [start, p1_arr, p2_start, p2_arr, p3_start, p3_arr, p4_start, p4_arr, p5_start, p5_arr, p6_start, p6_arr]
+        snapTo: [0, 0.255, 0.298, 0.404, 0.447, 0.553, 0.596, 0.702, 0.745, 0.851, 0.894, 1],
         duration: { min: 0.2, max: 0.5 },
         delay: 0.05,
         ease: "power1.inOut"
@@ -330,40 +332,40 @@ function initSection3() {
     }
   });
 
-  // 사진 간격 3.2 (animation 2.0 + dead scroll 1.2) — total duration 21.2
-  const PHOTO_POS = [0, 3.2, 6.4, 9.6, 12.8, 16.0, 19.2];
+  // 사진 간격 4.2 (animation 3.0 + dead scroll 1.2) — total duration 28.2
+  const PHOTO_POS = [0, 4.2, 8.4, 12.6, 16.8, 21.0, 25.2];
 
   // 사진 등장 시퀀스 — photo0는 자연 스크롤로 등장하므로 스킵
   photos.forEach((photo, i) => {
     if (i === 0) return;
     mainTl.fromTo(photo,
       { y: initialPhotoY, x: photoOffsets[i].x, rotation: photoOffsets[i].r },
-      { y: photoOffsets[i].y, duration: 2.0, ease: "power2.out" },
+      { y: photoOffsets[i].y, duration: 3.0, ease: "power2.out" },
       PHOTO_POS[i]
     );
   });
 
   if (card0) {
-    mainTl.to(card0, { y: -400, opacity: 0, duration: 0.8 }, 3.2);
+    mainTl.to(card0, { y: -400, opacity: 0, duration: 0.8 }, 4.2);
   }
 
   if (card1) {
-    mainTl.fromTo(card1, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 2.0, ease: "power2.out" }, 3.2);
-    mainTl.to(card1, { y: -400, opacity: 0, duration: 0.8 }, 9.6);
+    mainTl.fromTo(card1, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 3.0, ease: "power2.out" }, 4.2);
+    mainTl.to(card1, { y: -400, opacity: 0, duration: 0.8 }, 12.6);
   }
 
   if (card3) {
-    mainTl.fromTo(card3, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 2.0, ease: "power2.out" }, 9.6);
-    mainTl.to(card3, { y: -400, opacity: 0, duration: 0.8 }, 12.8);
+    mainTl.fromTo(card3, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 3.0, ease: "power2.out" }, 12.6);
+    mainTl.to(card3, { y: -400, opacity: 0, duration: 0.8 }, 16.8);
   }
 
   if (card4) {
-    mainTl.fromTo(card4, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 2.0, ease: "power2.out" }, 12.8);
-    mainTl.to(card4, { y: -400, opacity: 0, duration: 0.8 }, 19.2);
+    mainTl.fromTo(card4, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 3.0, ease: "power2.out" }, 16.8);
+    mainTl.to(card4, { y: -400, opacity: 0, duration: 0.8 }, 25.2);
   }
 
   if (card6) {
-    mainTl.fromTo(card6, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 2.0, ease: "power2.out" }, 19.2);
+    mainTl.fromTo(card6, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 3.0, ease: "power2.out" }, 25.2);
   }
 }
 
