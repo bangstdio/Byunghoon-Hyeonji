@@ -34,8 +34,17 @@
       <button class="di-btn" id="btn-account">마음 전하실 곳</button>
       <button class="di-btn" id="btn-calendar">일정 등록</button>
       <button class="di-btn-theme" id="btn-theme" aria-label="다크 모드로 전환">🌙</button>
+      <button class="di-btn-hamburger" id="btn-menu" aria-label="메뉴 열기" aria-expanded="false">☰</button>
     </div>
   </nav>
+
+  <!-- 햄버거 드롭다운 (모바일 전용) -->
+  <div id="di-menu-panel" hidden role="menu">
+    <button class="di-menu-btn" id="mb-story">우리의 이야기</button>
+    <button class="di-menu-btn" id="mb-location">오시는 길</button>
+    <button class="di-menu-btn" id="mb-account">마음 전하실 곳</button>
+    <button class="di-menu-btn" id="mb-calendar">일정 등록</button>
+  </div>
 
   <!-- SECTION 1: Title Collage -->
   <section id="section-1">
@@ -43,7 +52,10 @@
 
       <!-- 메인 사진 래퍼: 풀스크린에서 시작, GSAP가 width/height로 그리드 셀로 줄임 -->
       <div class="s1-main-wrapper">
-        <img class="s1-main" src="../photos/Section 1/large/01.jpg" alt="메인 사진">
+        <picture>
+          <source media="(max-width: 599px)" srcset="../photos/Section 1/mobile/01.jpg">
+          <img class="s1-main" src="../photos/Section 1/large/01.jpg" alt="메인 사진">
+        </picture>
         <h1 class="s1-title">Byunghoon<br>&amp; Hyeonji</h1>
       </div>
 

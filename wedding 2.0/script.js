@@ -213,16 +213,55 @@ function initDynamicIsland() {
   const island = document.getElementById('dynamic-island');
   gsap.set(island, { xPercent: -50, yPercent: -200, opacity: 0, scale: 0.85 });
 
-
+  // 데스크탑 버튼
   document.getElementById('btn-story').addEventListener('click', () => {
     gsap.to(window, { scrollTo: '#section-3', duration: 1, ease: 'power2.inOut' });
   });
   document.getElementById('btn-location').addEventListener('click', () => openCardModal(0));
   document.getElementById('btn-account').addEventListener('click', () => openCardModal(1));
   document.getElementById('btn-calendar').addEventListener('click', downloadICS);
+
+  // 햄버거 메뉴 (모바일)
+  const menuBtn   = document.getElementById('btn-menu');
+  const menuPanel = document.getElementById('di-menu-panel');
+  if (menuBtn && menuPanel) {
+    function closeMenu() {
+      menuPanel.hidden = true;
+      menuBtn.textContent = '☰';
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const opening = menuPanel.hidden;
+      menuPanel.hidden = !opening;
+      menuBtn.textContent = opening ? '✕' : '☰';
+      menuBtn.setAttribute('aria-expanded', String(opening));
+    });
+    document.addEventListener('click', (e) => {
+      if (!menuPanel.hidden && !menuPanel.contains(e.target)) closeMenu();
+    });
+
+    document.getElementById('mb-story').addEventListener('click', () => {
+      closeMenu();
+      gsap.to(window, { scrollTo: '#section-3', duration: 1, ease: 'power2.inOut' });
+    });
+    document.getElementById('mb-location').addEventListener('click', () => { closeMenu(); openCardModal(0); });
+    document.getElementById('mb-account').addEventListener('click',  () => { closeMenu(); openCardModal(1); });
+    document.getElementById('mb-calendar').addEventListener('click', () => { closeMenu(); downloadICS(); });
+  }
 }
 
 function initCollage() {
+  // 모바일: 풀스크린 메인만 표출, 핀/타임라인 없음
+  if (window.matchMedia('(max-width: 599px)').matches) {
+    const island = document.getElementById('dynamic-island');
+    setTimeout(() => {
+      islandShown = true;
+      gsap.to(island, { yPercent: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' });
+    }, 900);
+    return;
+  }
+
   const wrapper = document.querySelector('.s1-main-wrapper');
   const titleEl = document.querySelector('.s1-title');
   const photos = document.querySelectorAll('.collage-photo');
