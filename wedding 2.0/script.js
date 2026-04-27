@@ -310,28 +310,37 @@ function initCollage() {
 
   const isMobile = window.matchMedia('(max-width: 599px)').matches;
 
-  // 모바일: 7장 (l1·l2·l7 / r1·r2·r7 / b3) 만 등장, 좌우·아래에서 날아옴
-  const mobilePositions = startPositions.map((p, i) => p);
-  mobilePositions[0]  = { x: '-130vw', y: '0' };
-  mobilePositions[1]  = { x: '-130vw', y: '8vh' };
-  mobilePositions[6]  = { x: '-130vw', y: '-8vh' };
-  mobilePositions[7]  = { x: '130vw',  y: '0' };
-  mobilePositions[8]  = { x: '130vw',  y: '8vh' };
-  mobilePositions[13] = { x: '130vw',  y: '-8vh' };
-  mobilePositions[20] = { x: '0',      y: '150vh' };
+  // 모바일 11장: T1(l1)·T2(l6)·T3(l2) / L1(r1)·L2(l7)·L3(r2) / R1(l3)·R2(t1)·R3(t4) / B1(b1)·B2(b3)
+  // 인덱스 → photo class 매핑: 0=l1,1=l2,2=l3,5=l6,6=l7,7=r1,8=r2,14=t1,17=t4,18=b1,20=b3
+  const mobilePositions = startPositions.map(p => p);
+  mobilePositions[0]  = { x: '-20vw',  y: '-150vh' }; // T1(l1)  — 위 좌
+  mobilePositions[1]  = { x: '-20vw',  y: '-150vh' }; // T3(l2)  — 위 좌 2
+  mobilePositions[2]  = { x: '130vw',  y: '-20vh' };  // R1(l3)  — 우상
+  mobilePositions[5]  = { x: '130vw',  y: '-130vh' }; // T2(l6)  — 위 우
+  mobilePositions[6]  = { x: '-130vw', y: '10vh' };   // L2(l7)  — 좌 중
+  mobilePositions[7]  = { x: '-130vw', y: '-40vh' };  // L1(r1)  — 좌 상
+  mobilePositions[8]  = { x: '-130vw', y: '40vh' };   // L3(r2)  — 좌 하
+  mobilePositions[14] = { x: '130vw',  y: '20vh' };   // R2(t1)  — 우 중
+  mobilePositions[17] = { x: '130vw',  y: '60vh' };   // R3(t4)  — 우 하
+  mobilePositions[18] = { x: '-30vw',  y: '150vh' };  // B1(b1)  — 아래 좌
+  mobilePositions[20] = { x: '20vw',   y: '150vh' };  // B2(b3)  — 아래 우
 
   const mobileDelays = Array.from({ length: 22 }, () => 0);
-  mobileDelays[0]  = 0.20;
-  mobileDelays[1]  = 0.10;
-  mobileDelays[6]  = 0.30;
-  mobileDelays[7]  = 0.20;
-  mobileDelays[8]  = 0.10;
-  mobileDelays[13] = 0.30;
-  mobileDelays[20] = 0.50;
+  mobileDelays[0]  = 0.35; // T1
+  mobileDelays[1]  = 0.25; // T3
+  mobileDelays[2]  = 0.15; // R1
+  mobileDelays[5]  = 0.45; // T2
+  mobileDelays[6]  = 0.20; // L2
+  mobileDelays[7]  = 0.08; // L1 (메인 옆, 먼저)
+  mobileDelays[8]  = 0.32; // L3
+  mobileDelays[14] = 0.18; // R2
+  mobileDelays[17] = 0.38; // R3
+  mobileDelays[18] = 0.42; // B1
+  mobileDelays[20] = 0.55; // B2 (마지막)
 
   const activePositions = isMobile ? mobilePositions : startPositions;
   const activeDelays    = isMobile ? mobileDelays    : arrivalDelays;
-  const pinEnd          = isMobile ? '+=450vh'       : '+=775vh';
+  const pinEnd          = isMobile ? '+=300vh'       : '+=775vh';
 
   photos.forEach((photo, i) => {
     const pos = activePositions[i] || { x: '0', y: '150vh' };
@@ -346,8 +355,9 @@ function initCollage() {
       trigger: '.s1-visual',
       start: 'top top',
       end: pinEnd,
-      scrub: 0.3,
+      scrub: isMobile ? 0.05 : 0.3,
       pin: true,
+      anticipatePin: 1,
       invalidateOnRefresh: true,
       onRefreshInit: () => {
         // 인라인 스타일 직접 제거 → CSS 자연값(width:100%, height:100dvh)이 시작점이 됨
@@ -399,7 +409,7 @@ function initCollage() {
     const pos = activePositions[i] || { x: '0', y: '150vh' };
     tl.fromTo(photo,
       { x: pos.x, y: pos.y },
-      { x: 0, y: 0, duration: 5, ease: 'power2.inOut' },
+      { x: 0, y: 0, duration: isMobile ? 3 : 5, ease: 'power2.inOut' },
       0.5 + delay
     );
   });

@@ -611,39 +611,53 @@ body {
 }
 
 /* ============================================================
-   Section 1 — Mobile (≤599px): 3열 7장 콜라주
+   Section 1 — Mobile (≤599px): 3열 10행 풀스크린 콜라주
+   ─ col1(18vw): 좌 사이드 스트립
+   ─ col2(1fr):  메인 이미지 (세로 긴 portrait)
+   ─ col3(18vw): 우 사이드 스트립
+   ─ 상단 2행 / 메인 6행 / 하단 2행 → 100dvh 가득 채움
    ============================================================ */
 
 @media (max-width: 599px) {
   .s1-gallery-container {
-    grid-template-columns: 19vw 1fr 19vw;
-    /* row_h = (main_w - 2*row_gap) / 3 로 정방형 보장
-       main_w = 100vw - 2*19vw - 2*1.5vw(col-gap) = 59vw
-       row_h  = (59vw - 2*1.5vw) / 3             = 56vw/3  */
-    grid-template-rows: repeat(3, calc(56vw / 3)) 19vw;
-    gap: 1.5vw;
+    grid-template-columns: 18vw 1fr 18vw;
+    /* fr 단위로 100dvh - island(56px) - gap(9×3px) 를 10행에 분배 */
+    grid-template-rows:
+      1.4fr 1fr          /* 상단 2행 */
+      1.6fr 1.1fr 1.6fr 1.1fr 1.4fr 1.1fr  /* 메인 6행 */
+      1fr 1.4fr;         /* 하단 2행 */
+    gap: 3px;
     padding: 56px 0 0;
+    height: calc(100dvh);
+    box-sizing: border-box;
   }
 
   .s1-main-placeholder {
     grid-column: 2;
-    grid-row: 1 / span 3;
+    grid-row: 3 / span 6;   /* 메인: 행 3-8, 세로 긴 portrait */
   }
 
-  /* 22장 → 7장 */
+  /* 22장 → 11장 */
   .collage-photo { display: none; }
-  .photo-l1, .photo-l2, .photo-l7,
-  .photo-r1, .photo-r2, .photo-r7,
-  .photo-b3 { display: block; }
 
-  /* 모바일 그리드 위치 재정의 */
-  .photo-l1 { grid-column: 1; grid-row: 1; }
-  .photo-l2 { grid-column: 1; grid-row: 2; }
-  .photo-l7 { grid-column: 1; grid-row: 3; }
-  .photo-r1 { grid-column: 3; grid-row: 1; }
-  .photo-r2 { grid-column: 3; grid-row: 2; }
-  .photo-r7 { grid-column: 3; grid-row: 3; }
-  .photo-b3 { grid-column: 1 / -1; grid-row: 4; }
+  /* ── 상단 3장 ─────────────────────────── */
+  .photo-l1 { display: block; grid-column: 1 / span 2; grid-row: 1; }       /* T1: 좌+메인폭, 1행 */
+  .photo-l6 { display: block; grid-column: 3; grid-row: 1 / span 2; }       /* T2: 우측, 2행 tall */
+  .photo-l2 { display: block; grid-column: 1 / span 2; grid-row: 2; }       /* T3: 좌+메인폭, 2행 */
+
+  /* ── 좌 3장 ──────────────────────────── */
+  .photo-r1 { display: block; grid-column: 1; grid-row: 3 / span 3; }       /* L1: 3-5행 tall */
+  .photo-l7 { display: block; grid-column: 1; grid-row: 6; }                /* L2: 6행 short */
+  .photo-r2 { display: block; grid-column: 1; grid-row: 7 / span 2; }       /* L3: 7-8행 medium */
+
+  /* ── 우 3장 ──────────────────────────── */
+  .photo-l3 { display: block; grid-column: 3; grid-row: 3 / span 2; }       /* R1: 3-4행 short */
+  .photo-t1 { display: block; grid-column: 3; grid-row: 5 / span 3; }       /* R2: 5-7행 tall */
+  .photo-t4 { display: block; grid-column: 3; grid-row: 8; }                /* R3: 8행 short */
+
+  /* ── 하단 2장 ────────────────────────── */
+  .photo-b1 { display: block; grid-column: 1; grid-row: 9 / span 2; }            /* B1: 좌, 2행 */
+  .photo-b3 { display: block; grid-column: 2 / span 2; grid-row: 9 / span 2; }   /* B2: 메인+우, 2행 */
 }
 
 /* ============================================================
