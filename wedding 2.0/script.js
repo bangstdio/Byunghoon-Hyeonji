@@ -1,4 +1,35 @@
 /* ============================================================
+   Utilities
+   ============================================================ */
+function debounce(fn, ms) {
+  let timer;
+  return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), ms); };
+}
+
+/* ============================================================
+   Dark Mode Toggle
+   ============================================================ */
+(function () {
+  const html = document.documentElement;
+  const btn = document.getElementById('btn-theme');
+  if (!btn) return;
+
+  function syncIcon() {
+    const dark = html.classList.contains('dark');
+    btn.textContent = dark ? '☀︎' : '🌙';
+    btn.setAttribute('aria-label', dark ? '라이트 모드로 전환' : '다크 모드로 전환');
+  }
+
+  btn.addEventListener('click', () => {
+    const isDark = html.classList.toggle('dark');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    syncIcon();
+  });
+
+  syncIcon();
+})();
+
+/* ============================================================
    Constants
    ============================================================ */
 const WEDDING_DATE = '2026-11-28T12:00:00+09:00';
@@ -112,6 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smoothWheel: true,
+    smoothTouch: false,
   });
 
   lenis.on('scroll', ScrollTrigger.update);
@@ -129,6 +161,49 @@ document.addEventListener('DOMContentLoaded', () => {
   initSection4();
   initSection5();
 });
+
+/* ============================================================
+   Confetti Fireworks
+   ============================================================ */
+function launchFireworks() {
+  const duration = 3 * 1000;
+  const animationEnd = Date.now() + duration;
+  const defaults = { startVelocity: 55, spread: 70, ticks: 120, zIndex: 9999, gravity: 1.0 };
+
+  function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  const interval = setInterval(function () {
+    const timeLeft = animationEnd - Date.now();
+
+    if (timeLeft <= 0) {
+      return clearInterval(interval);
+    }
+
+    const particleCount = 36 * (timeLeft / duration); // 기존 대비 60%로 양 조절
+
+    // 선명한 원색 및 주얼톤 색상 조합 (가독성 향상)
+    const vividColors = ['#E63946', '#F4A261', '#FFD700', '#2A9D8F', '#264653', '#6A0572', '#0F52BA'];
+
+    // 좌측 하단에서 중앙 상단으로 쏘아 올림
+    confetti({
+      ...defaults,
+      particleCount,
+      origin: { x: 0, y: 0.9 },
+      angle: randomInRange(55, 65),
+      colors: vividColors
+    });
+    // 우측 하단에서 중앙 상단으로 쏘아 올림
+    confetti({
+      ...defaults,
+      particleCount,
+      origin: { x: 1, y: 0.9 },
+      angle: randomInRange(115, 125),
+      colors: vividColors
+    });
+  }, 250);
+}
 
 /* ============================================================
    Section Logics
@@ -233,26 +308,59 @@ function initCollage() {
     0.80, // b4  (c9.5 r6)   — 우하단 코너
   ];
 
+  const isMobile = window.matchMedia('(max-width: 599px)').matches;
+
+  // 모바일: 7장 (l1·l2·l7 / r1·r2·r7 / b3) 만 등장, 좌우·아래에서 날아옴
+  const mobilePositions = startPositions.map((p, i) => p);
+  mobilePositions[0]  = { x: '-130vw', y: '0' };
+  mobilePositions[1]  = { x: '-130vw', y: '8vh' };
+  mobilePositions[6]  = { x: '-130vw', y: '-8vh' };
+  mobilePositions[7]  = { x: '130vw',  y: '0' };
+  mobilePositions[8]  = { x: '130vw',  y: '8vh' };
+  mobilePositions[13] = { x: '130vw',  y: '-8vh' };
+  mobilePositions[20] = { x: '0',      y: '150vh' };
+
+  const mobileDelays = Array.from({ length: 22 }, () => 0);
+  mobileDelays[0]  = 0.20;
+  mobileDelays[1]  = 0.10;
+  mobileDelays[6]  = 0.30;
+  mobileDelays[7]  = 0.20;
+  mobileDelays[8]  = 0.10;
+  mobileDelays[13] = 0.30;
+  mobileDelays[20] = 0.50;
+
+  const activePositions = isMobile ? mobilePositions : startPositions;
+  const activeDelays    = isMobile ? mobileDelays    : arrivalDelays;
+  const pinEnd          = isMobile ? '+=450vh'       : '+=775vh';
+
   photos.forEach((photo, i) => {
-    const pos = startPositions[i] || { x: '0', y: '150vh' };
+    const pos = activePositions[i] || { x: '0', y: '150vh' };
     gsap.set(photo, { x: pos.x, y: pos.y });
   });
 
-  // 플레이스홀더로 그리드 셀 위치/크기 측정 (래퍼는 이미 풀스크린 CSS 상태)
   const placeholder = document.querySelector('.s1-main-placeholder');
-  const rect = placeholder.getBoundingClientRect();
-
   const island = document.getElementById('dynamic-island');
 
   const tl = window.__s1Timeline = gsap.timeline({
     scrollTrigger: {
       trigger: '.s1-visual',
       start: 'top top',
-      end: '+=700vh',
+      end: pinEnd,
       scrub: 0.3,
       pin: true,
+      invalidateOnRefresh: true,
+      onRefreshInit: () => {
+        // 인라인 스타일 직접 제거 → CSS 자연값(width:100%, height:100dvh)이 시작점이 됨
+        wrapper.style.width = '';
+        wrapper.style.height = '';
+        wrapper.style.borderRadius = '';
+        // GSAP transform 캐시도 0,0으로 명시 리셋
+        gsap.set(wrapper, { x: 0, y: 0 });
+        // title opacity 리셋 (to() 재계산 시 시작값이 0으로 굳지 않도록)
+        gsap.set(titleEl, { clearProps: 'opacity' });
+      },
       onUpdate: (self) => {
-        const isReady = self.progress >= 0.7;
+        const isReady = self.progress >= 0.8;
         const section1 = document.getElementById('section-1');
 
         // 콜라주가 완성 상태를 벗어날 때(위로 스크롤) 모든 호버 효과 강제 초기화
@@ -274,23 +382,28 @@ function initCollage() {
     }
   });
 
-  // 풀스크린(100vw×100dvh) → 그리드 셀 크기로 width/height 축소 (다운스케일 = 블러 없음)
   tl.to(wrapper, {
-    width: rect.width,
-    height: rect.height,
-    x: rect.left,
-    y: rect.top,
+    width: () => placeholder.getBoundingClientRect().width,
+    height: () => placeholder.getBoundingClientRect().height,
+    x: () => placeholder.getBoundingClientRect().left,
+    y: () => placeholder.getBoundingClientRect().top,
     borderRadius: '16px',
     duration: 5,
-    ease: 'power2.inOut'
+    ease: 'power2.inOut',
   }, 0.5);
   // 타이틀: cqw 단위라 width 축소와 함께 자동으로 작아짐, 완성 전에 페이드 아웃
   tl.to(titleEl, { opacity: 0, duration: 1.5 }, 3.5);
 
   photos.forEach((photo, i) => {
-    const delay = arrivalDelays[i] ?? 0;
-    tl.to(photo, { x: 0, y: 0, duration: 5, ease: 'power2.inOut' }, 0.5 + delay);
+    const delay = activeDelays[i] ?? 0;
+    const pos = activePositions[i] || { x: '0', y: '150vh' };
+    tl.fromTo(photo,
+      { x: pos.x, y: pos.y },
+      { x: 0, y: 0, duration: 5, ease: 'power2.inOut' },
+      0.5 + delay
+    );
   });
+  tl.to({}, { duration: 0.675 }, '>');  // 75vh 정지 구간
 
   // lift 제거 — padding-top: 64px로 다이내믹 아일랜드와의 간격 확보
 
@@ -355,6 +468,44 @@ function initCollage() {
   document.getElementById('s1-lb-dim').addEventListener('click', closeCollageLightbox);
   document.getElementById('s1-lb-close').addEventListener('click', closeCollageLightbox);
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCollageLightbox(); });
+
+  // ── 창 크기 변경 시 FLIP 애니메이션 ──────────────────────
+  // 변경 전 위치 저장 → 레이아웃 갱신 → 역방향 offset 적용 → 0으로 스르륵
+  window.addEventListener('resize', debounce(() => {
+    const isReady = document.getElementById('section-1').classList.contains('is-ready');
+
+    if (!isReady) { ScrollTrigger.refresh(); return; }
+
+    // 1. 갱신 전 사진 위치 캡처
+    const prevPhotoRects = Array.from(photos).map(p => p.getBoundingClientRect());
+
+    // 2. 레이아웃 갱신 (wrapper는 scrub + onRefreshInit이 자동 처리)
+    ScrollTrigger.refresh();
+
+    // 3. FLIP 동안 스크롤 차단 — overwrite:true가 scrub 트윈을 죽이기 때문에
+    //    lenis를 멈춰 scrub 업데이트 충돌을 막고, 완료 후 refresh로 scrub 재등록
+    lenis.stop();
+
+    let anyFlip = false;
+    Array.from(photos).forEach((photo, i) => {
+      const dx = prevPhotoRects[i].left - photo.getBoundingClientRect().left;
+      const dy = prevPhotoRects[i].top - photo.getBoundingClientRect().top;
+      if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) return;
+
+      anyFlip = true;
+      const delay = (activeDelays[i] ?? 0) * 0.08;
+      gsap.fromTo(photo,
+        { x: dx, y: dy },
+        { x: 0, y: 0, duration: 0.8, delay, ease: 'power3.out', overwrite: true }
+      );
+    });
+
+    // 4. FLIP 최대 소요 시간(0.8s + 최대 stagger ~0.064s) 후 scrub 재등록 + 스크롤 재개
+    setTimeout(() => {
+      ScrollTrigger.refresh(); // onRefreshInit → 리셋 → invalidate → scrub 재등록
+      lenis.start();
+    }, anyFlip ? 950 : 0);
+  }, 150));
 }
 
 function initSection2() {
@@ -405,61 +556,86 @@ function initSection3() {
       trigger: '.s3-text-scroll',
       start: "top 80px",
       end: "bottom 5%",
-      scrub: 0.1,
+      scrub: window.matchMedia('(max-width: 599px)').matches ? 0.1 : 0.05,
       snap: {
-        // duration 3.0, spacing 4.2, total 28.2
-        // 각 사진 도착(arrival) + 다음 사진 출발(start) 두 지점씩 snap (photo2 이후)
-        // [start, p1_arr, p2_start, p2_arr, p3_start, p3_arr, p4_start, p4_arr, p5_start, p5_arr, p6_start, p6_arr]
-        snapTo: [0, 0.255, 0.298, 0.404, 0.447, 0.553, 0.596, 0.702, 0.745, 0.851, 0.894, 1],
-        duration: { min: 0.2, max: 0.5 },
-        delay: 0.05,
+        snapTo: (value, self) => {
+          if (self.direction === -1) return value; // 올라갈 때는 스냅 없이 자유 스크롤
+          const points = [0, 0.255, 0.404, 0.553, 0.702, 0.851, 1];
+          return points.reduce((p, c) => Math.abs(c - value) < Math.abs(p - value) ? c : p);
+        },
+        duration: { min: 0.15, max: 0.4 }, // 스냅 애니메이션 속도 상향 (더 빠르게 착 달라붙음)
+        delay: 0, // 스크롤 정지 즉시 스냅 시작
         ease: "power1.inOut"
       }
     }
   });
 
-  // 사진 간격 4.2 (animation 3.0 + dead scroll 1.2) — total duration 28.2
-  const PHOTO_POS = [0, 4.2, 8.4, 12.6, 16.8, 21.0, 25.2];
+  // 사진 간격 5.25 (animation 3.75 + dead scroll 1.5) — total duration 35.25
+  const PHOTO_POS = [0, 5.25, 10.5, 15.75, 21.0, 26.25, 31.5];
+  const ANIM_DUR = 3.75;
 
   // 사진 등장 시퀀스 — photo0는 자연 스크롤로 등장하므로 스킵
   photos.forEach((photo, i) => {
     if (i === 0) return;
     mainTl.fromTo(photo,
       { y: initialPhotoY, x: photoOffsets[i].x, rotation: photoOffsets[i].r },
-      { y: photoOffsets[i].y, duration: 3.0, ease: "power2.out" },
+      { y: photoOffsets[i].y, duration: ANIM_DUR, ease: "power2.out" },
       PHOTO_POS[i]
     );
   });
 
   if (card0) {
-    mainTl.to(card0, { y: -400, opacity: 0, duration: 0.8 }, 4.2);
+    mainTl.to(card0, { y: -400, opacity: 0, duration: 0.8 }, PHOTO_POS[1]);
   }
 
   if (card1) {
-    mainTl.fromTo(card1, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 3.0, ease: "power2.out" }, 4.2);
-    mainTl.to(card1, { y: -400, opacity: 0, duration: 0.8 }, 12.6);
+    mainTl.fromTo(card1, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: ANIM_DUR, ease: "power2.out" }, PHOTO_POS[1]);
+    mainTl.to(card1, { y: -400, opacity: 0, duration: 0.8 }, PHOTO_POS[3]);
   }
 
   if (card3) {
-    mainTl.fromTo(card3, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 3.0, ease: "power2.out" }, 12.6);
-    mainTl.to(card3, { y: -400, opacity: 0, duration: 0.8 }, 16.8);
+    mainTl.fromTo(card3, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: ANIM_DUR, ease: "power2.out" }, PHOTO_POS[3]);
+    mainTl.to(card3, { y: -400, opacity: 0, duration: 0.8 }, PHOTO_POS[4]);
   }
 
   if (card4) {
-    mainTl.fromTo(card4, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 3.0, ease: "power2.out" }, 16.8);
-    mainTl.to(card4, { y: -400, opacity: 0, duration: 0.8 }, 25.2);
+    mainTl.fromTo(card4, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: ANIM_DUR, ease: "power2.out" }, PHOTO_POS[4]);
+    mainTl.to(card4, { y: -400, opacity: 0, duration: 0.8 }, PHOTO_POS[6]);
   }
 
   if (card6) {
-    mainTl.fromTo(card6, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: 3.0, ease: "power2.out" }, 25.2);
+    mainTl.fromTo(card6, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: ANIM_DUR, ease: "power2.out" }, PHOTO_POS[6]);
   }
 }
 
 function initSection4() {
+  // 섹션 3 퇴장 + 섹션 4 입장 애니메이션
   gsap.fromTo(['.s3-sticky-title', '.s3-photo-stack', '.s3-card-stack'],
     { y: 0 },
     { y: '-100vh', scrollTrigger: { trigger: '#section-4', start: 'top bottom', end: 'top top', scrub: true } }
   );
+
+  // 페이지 최하단 스냅포인트 추가: 섹션 3을 다 보고 내려오면 페이지 끝(섹션 4, 5 영역)으로 스냅
+  ScrollTrigger.create({
+    trigger: '#section-4',
+    start: 'top bottom',
+    end: () => ScrollTrigger.maxScroll(window),
+    snap: {
+      snapTo: (value, self) => {
+        if (self.direction === -1) return value; // 올라갈 때는 최하단 스냅 방지
+        return 1;
+      },
+      duration: 0.8,
+      delay: 0.1,
+      ease: "power2.inOut",
+      onComplete: (self) => {
+        // 스냅이 완료되었을 때 (내려가는 방향인 경우에만) 폭죽 실행
+        if (self.direction === 1) {
+          launchFireworks();
+        }
+      }
+    }
+  });
 
   const countdownEl = document.getElementById('s4-countdown');
   const target = new Date(WEDDING_DATE);
@@ -587,7 +763,7 @@ function persistTweak(key, val) {
   applyTweaks();
   try {
     window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: val } }, '*');
-  } catch (e) {}
+  } catch (e) { }
 }
 
 function initTweaks() {
@@ -613,11 +789,11 @@ function initTweaks() {
   });
 
   // Announce availability
-  try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch (e) {}
+  try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch (e) { }
 
   closeBtn.addEventListener('click', () => {
     panel.hidden = true;
-    try { window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*'); } catch (e) {}
+    try { window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*'); } catch (e) { }
   });
 
   // Wire controls

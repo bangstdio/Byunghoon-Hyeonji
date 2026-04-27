@@ -61,6 +61,13 @@ html {
   scroll-behavior: auto;
 }
 
+/* 다크모드 전환 페이드 — color/background를 쓰는 모든 요소에 일괄 적용 */
+*,
+*::before,
+*::after {
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
 html.lenis,
 html.lenis body {
   height: auto;
@@ -96,7 +103,7 @@ body {
 
 #dynamic-island {
   position: fixed;
-  top: 16px;
+  top: 8px;
   left: 50%;
   z-index: 1000;
 
@@ -214,7 +221,7 @@ body {
 
 .s1-visual {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
@@ -228,7 +235,7 @@ body {
   top: 0;
   left: 0;
   transform: none;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   height: 100dvh;
   border-radius: 0;
@@ -410,64 +417,233 @@ body {
    ────────────────────────────────────────────────────── */
 
 /* Row 1 — 상단 스트립 (cols 1-10) */
-.photo-l1 { grid-column: 1 / span 2; grid-row: 1; }            /* 2x1 */
-.photo-l2 { grid-column: 3; grid-row: 1 / span 2; }            /* 1x2 (세로) */
-.photo-l3 { grid-column: 4 / span 2; grid-row: 1; }            /* 2x1 메인 위 좌 */
-.photo-l4 { grid-column: 6 / span 2; grid-row: 1; }            /* 2x1 메인 위 우 */
-.photo-l5 { grid-column: 8; grid-row: 1 / span 2; }            /* 1x2 (세로) */
-.photo-l6 { grid-column: 9 / span 2; grid-row: 1; }            /* 2x1 */
+.photo-l1 {
+  grid-column: 1 / span 2;
+  grid-row: 1;
+}
+
+/* 2x1 */
+.photo-l2 {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+}
+
+/* 1x2 (세로) */
+.photo-l3 {
+  grid-column: 4 / span 2;
+  grid-row: 1;
+}
+
+/* 2x1 메인 위 좌 */
+.photo-l4 {
+  grid-column: 6 / span 2;
+  grid-row: 1;
+}
+
+/* 2x1 메인 위 우 */
+.photo-l5 {
+  grid-column: 8;
+  grid-row: 1 / span 2;
+}
+
+/* 1x2 (세로) */
+.photo-l6 {
+  grid-column: 9 / span 2;
+  grid-row: 1;
+}
+
+/* 2x1 */
 
 /* Row 2 — 메인 양옆 첫 행 */
-.photo-l7 { grid-column: 1 / span 2; grid-row: 2; }            /* 2x1 좌 */
-.photo-r1 { grid-column: 9 / span 2; grid-row: 2 / span 2; }  /* 2x2 세로 긴 카드 (우측 불규칙성) */
+.photo-l7 {
+  grid-column: 1 / span 2;
+  grid-row: 2;
+}
+
+/* 2x1 좌 */
+.photo-r1 {
+  grid-column: 9 / span 2;
+  grid-row: 2 / span 2;
+}
+
+/* 2x2 세로 긴 카드 (우측 불규칙성) */
 
 /* Row 3 — 메인 양옆 */
-.photo-r2 { grid-column: 1; grid-row: 3 / span 2; }            /* 1x2 (세로) */
-.photo-r3 { grid-column: 2 / span 2; grid-row: 3; }            /* 2x1 */
-.photo-r4 { grid-column: 8; grid-row: 3 / span 2; }            /* 1x2 (세로) */
+.photo-r2 {
+  grid-column: 1;
+  grid-row: 3 / span 2;
+}
+
+/* 1x2 (세로) */
+.photo-r3 {
+  grid-column: 2 / span 2;
+  grid-row: 3;
+}
+
+/* 2x1 */
+.photo-r4 {
+  grid-column: 8;
+  grid-row: 3 / span 2;
+}
+
+/* 1x2 (세로) */
 
 /* Row 4 — 메인 양옆 */
-.photo-r6 { grid-column: 2 / span 2; grid-row: 4; }            /* 2x1 (col 1은 r2가 점유) */
-.photo-r5 { grid-column: 9; grid-row: 4; }                     /* 1x1 정방형 (r1 아래 좌) */
-.photo-r7 { grid-column: 10; grid-row: 4; }                    /* 1x1 정방형 (r1 아래 우) */
+.photo-r6 {
+  grid-column: 2 / span 2;
+  grid-row: 4;
+}
+
+/* 2x1 (col 1은 r2가 점유) */
+.photo-r5 {
+  grid-column: 9;
+  grid-row: 4;
+}
+
+/* 1x1 정방형 (r1 아래 좌) */
+.photo-r7 {
+  grid-column: 10;
+  grid-row: 4;
+}
+
+/* 1x1 정방형 (r1 아래 우) */
 
 /* Row 5 — 메인 양옆 마지막 행 */
-.photo-t1 { grid-column: 1 / span 2; grid-row: 5; }            /* 2x1 좌 */
-.photo-t2 { grid-column: 3; grid-row: 5; }                     /* 1x1 */
-.photo-t3 { grid-column: 8; grid-row: 5; }                     /* 1x1 */
-.photo-t4 { grid-column: 9 / span 2; grid-row: 5; }            /* 2x1 우 */
+.photo-t1 {
+  grid-column: 1 / span 2;
+  grid-row: 5;
+  object-position: center 20%;
+}
+
+/* 2x1 좌 */
+.photo-t2 {
+  grid-column: 3;
+  grid-row: 5;
+}
+
+/* 1x1 */
+.photo-t3 {
+  grid-column: 8;
+  grid-row: 5;
+}
+
+/* 1x1 */
+.photo-t4 {
+  grid-column: 9 / span 2;
+  grid-row: 5;
+}
+
+/* 2x1 우 */
 
 /* Row 6 — 하단 스트립 (cols 1-10) */
-.photo-b1 { grid-column: 1 / span 2; grid-row: 6; }            /* 2x1 */
-.photo-b2 { grid-column: 3 / span 2; grid-row: 6; }            /* 2x1 */
-.photo-b3 { grid-column: 5 / span 3; grid-row: 6; }            /* 3x1 (메인 아래) */
-.photo-b4 { grid-column: 8 / span 3; grid-row: 6; }            /* 3x1 */
+.photo-b1 {
+  grid-column: 1 / span 2;
+  grid-row: 6;
+}
+
+/* 2x1 */
+.photo-b2 {
+  grid-column: 3 / span 2;
+  grid-row: 6;
+}
+
+/* 2x1 */
+.photo-b3 {
+  grid-column: 5 / span 3;
+  grid-row: 6;
+}
+
+/* 3x1 (메인 아래) */
+.photo-b4 {
+  grid-column: 8 / span 3;
+  grid-row: 6;
+}
+
+/* 3x1 */
 
 /* row 6 col 9-10 채우기 위해 추가 카드는 자동 흐름 */
-.photo-l1, .photo-l2, .photo-l3, .photo-l4, .photo-l5, .photo-l6, .photo-l7,
-.photo-r1, .photo-r2, .photo-r3, .photo-r4, .photo-r5, .photo-r6, .photo-r7,
-.photo-t1, .photo-t2, .photo-t3, .photo-t4,
-.photo-b1, .photo-b2, .photo-b3, .photo-b4 { display: block; }
+.photo-l1,
+.photo-l2,
+.photo-l3,
+.photo-l4,
+.photo-l5,
+.photo-l6,
+.photo-l7,
+.photo-r1,
+.photo-r2,
+.photo-r3,
+.photo-r4,
+.photo-r5,
+.photo-r6,
+.photo-r7,
+.photo-t1,
+.photo-t2,
+.photo-t3,
+.photo-t4,
+.photo-b1,
+.photo-b2,
+.photo-b3,
+.photo-b4 {
+  display: block;
+}
 
 /* ── 타이틀 오버레이 ─────────────────────────────── */
 
 .s1-title {
   position: absolute;
-  bottom: 8cqw;
-  /* 양측 여백 동일하게 설정 */
-  left: 8cqw;
+  bottom: 0;
+  left: 0;
+  /* 오프셋을 transform으로 처리 — bottom/left를 cqw로 쓰면 width 애니메이션마다
+     레이아웃 재계산 + 서브픽셀 반올림 충돌로 1px 수직 지터 발생 */
+  transform: translate(8cqw, -8cqw);
+  transform-origin: bottom left;
+  will-change: transform;
   z-index: 5;
   color: #ffffff;
   font-family: var(--font-serif);
   font-size: 10cqw;
-  /* 컨테이너 너비에 맞춰 단일 레이어처럼 자동 축소 */
   font-weight: 500;
   line-height: 1.1;
   text-align: left;
   white-space: nowrap;
   pointer-events: none;
   text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-  transform-origin: bottom left;
+}
+
+/* ============================================================
+   Section 1 — Mobile (≤599px): 3열 7장 콜라주
+   ============================================================ */
+
+@media (max-width: 599px) {
+  .s1-gallery-container {
+    grid-template-columns: 19vw 1fr 19vw;
+    /* row_h = (main_w - 2*row_gap) / 3 로 정방형 보장
+       main_w = 100vw - 2*19vw - 2*1.5vw(col-gap) = 59vw
+       row_h  = (59vw - 2*1.5vw) / 3             = 56vw/3  */
+    grid-template-rows: repeat(3, calc(56vw / 3)) 19vw;
+    gap: 1.5vw;
+    padding: 56px 0 0;
+  }
+
+  .s1-main-placeholder {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+  }
+
+  /* 22장 → 7장 */
+  .collage-photo { display: none; }
+  .photo-l1, .photo-l2, .photo-l7,
+  .photo-r1, .photo-r2, .photo-r7,
+  .photo-b3 { display: block; }
+
+  /* 모바일 그리드 위치 재정의 */
+  .photo-l1 { grid-column: 1; grid-row: 1; }
+  .photo-l2 { grid-column: 1; grid-row: 2; }
+  .photo-l7 { grid-column: 1; grid-row: 3; }
+  .photo-r1 { grid-column: 3; grid-row: 1; }
+  .photo-r2 { grid-column: 3; grid-row: 2; }
+  .photo-r7 { grid-column: 3; grid-row: 3; }
+  .photo-b3 { grid-column: 1 / -1; grid-row: 4; }
 }
 
 /* ============================================================
@@ -676,7 +852,7 @@ body {
 
 /* 각 텍스트 슬롯: 해당 시퀀스의 스크롤 높이를 차지 */
 .s3-text-slot {
-  min-height: 25vh;
+  min-height: 31.25vh;
   display: flex;
   align-items: flex-start;
   padding-top: 48px;
@@ -704,7 +880,7 @@ body {
 
 @media (max-width: 599px) {
   .s3-text-slot {
-    min-height: 25vh;
+    min-height: 31.25vh;
     padding-top: 32px;
   }
 
@@ -1025,14 +1201,7 @@ body.scroll-locked {
   display: block;
 }
 
-/* 중앙 텍스트를 위한 비네트 오버레이 */
-.s5-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.52) 50%, rgba(0, 0, 0, 0.1) 100%);
-  pointer-events: none;
-}
+/* 중앙 텍스트를 위한 비네트 오버레이 제거 (텍스트 그림자로 대체) */
 
 .s5-card-title {
   position: absolute;
@@ -1048,7 +1217,7 @@ body.scroll-locked {
   letter-spacing: 0.196px;
   color: #ffffff;
   z-index: 2;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 1);
   pointer-events: none;
   white-space: nowrap;
 }
@@ -1272,24 +1441,30 @@ body.scroll-locked {
   color: var(--color-text-primary);
   overflow: hidden;
 }
-#tweaks-panel[hidden] { display: none; }
+
+#tweaks-panel[hidden] {
+  display: none;
+}
+
 #tweaks-panel .tw-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 12px 14px;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-  background: rgba(255,255,255,0.5);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.5);
 }
+
 #tweaks-panel .tw-title {
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.3px;
   color: #141413;
 }
+
 #tweaks-panel .tw-close {
   border: none;
-  background: rgba(0,0,0,0.06);
+  background: rgba(0, 0, 0, 0.06);
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -1301,14 +1476,24 @@ body.scroll-locked {
   justify-content: center;
   color: #141413;
 }
-#tweaks-panel .tw-close:hover { background: rgba(0,0,0,0.12); }
+
+#tweaks-panel .tw-close:hover {
+  background: rgba(0, 0, 0, 0.12);
+}
+
 #tweaks-panel .tw-body {
   padding: 14px 14px 16px;
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
-#tweaks-panel .tw-row { display: flex; flex-direction: column; gap: 6px; }
+
+#tweaks-panel .tw-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 #tweaks-panel .tw-label {
   display: flex;
   justify-content: space-between;
@@ -1318,15 +1503,181 @@ body.scroll-locked {
   color: #3d3d3a;
   letter-spacing: 0.1px;
 }
+
 #tweaks-panel .tw-val {
   font-size: 11px;
   font-weight: 500;
   color: var(--color-brand);
   font-variant-numeric: tabular-nums;
 }
+
 #tweaks-panel input[type="range"] {
   width: 100%;
   accent-color: var(--color-brand);
   height: 4px;
   cursor: pointer;
+}
+
+/* ============================================================
+   Dark Mode Toggle Button
+   ============================================================ */
+
+.di-btn-theme {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-left: 4px;
+  transition: background 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+
+.di-btn-theme:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+html.dark .di-btn-theme:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+/* ============================================================
+   DARK MODE — html.dark
+   ============================================================ */
+
+html.dark {
+  --color-bg: #1a1916;
+  --color-text-primary: #f0ede4;
+  --color-text-secondary: #a39e98;
+  --color-text-muted: #c4c0b8;
+  --color-brand: #d4724f;
+  --color-border: #2e2c28;
+  --shadow-warm: 0px 0px 0px 1px #3a3832;
+  --shadow-whisper: rgba(0, 0, 0, 0.30) 0px 4px 24px;
+}
+
+/* Dynamic Island */
+html.dark #dynamic-island {
+  background: rgba(30, 28, 24, 0.60);
+  border-color: rgba(255, 255, 255, 0.10);
+}
+
+html.dark .di-btn {
+  color: var(--color-text-primary);
+}
+
+html.dark .di-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+html.dark .di-btn:active {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Section 2 */
+html.dark .s2-word {
+  color: #55524e;
+}
+
+html.dark .s2-word.active {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Section 3 */
+html.dark .s3-photo {
+  background: #2a2824;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+html.dark .s3-card-title {
+  color: var(--color-text-primary);
+}
+
+html.dark .s3-card-desc {
+  color: var(--color-text-secondary);
+}
+
+/* Section 4 */
+html.dark .s4-date,
+html.dark .s4-num,
+html.dark .s4-dday {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+html.dark .s4-label,
+html.dark .s4-venue,
+html.dark .s4-unit-label,
+html.dark .s4-suffix {
+  color: var(--color-text-secondary);
+}
+
+html.dark .s4-divider {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Section 5 modal */
+html.dark .s5-modal {
+  background: #252320;
+}
+
+html.dark .s5-modal-close {
+  background: rgba(255, 255, 255, 0.10);
+  color: var(--color-text-primary);
+}
+
+html.dark .s5-modal-close:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+html.dark .s5-modal-body h3,
+html.dark .s5-modal-body strong {
+  color: var(--color-text-primary);
+}
+
+html.dark .s5-modal-body p {
+  color: var(--color-text-secondary);
+}
+
+html.dark .account-item {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+html.dark .btn-copy {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-text-primary);
+}
+
+/* Tweaks Panel */
+html.dark #tweaks-panel {
+  background: rgba(28, 26, 22, 0.92);
+  border-color: rgba(255, 255, 255, 0.10);
+}
+
+html.dark #tweaks-panel .tw-header {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+html.dark #tweaks-panel .tw-title,
+html.dark #tweaks-panel .tw-close {
+  color: var(--color-text-primary);
+}
+
+html.dark #tweaks-panel .tw-close {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+html.dark #tweaks-panel .tw-close:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+html.dark #tweaks-panel .tw-label {
+  color: var(--color-text-secondary);
 }

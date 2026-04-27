@@ -16,8 +16,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
   <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <link rel="stylesheet" href="style.css">
+  <!-- 다크모드 플래시 방지: DOM 렌더 전 클래스 복원 -->
+  <script>if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');</script>
 </head>
 
 <body>
@@ -30,6 +33,7 @@
       <button class="di-btn" id="btn-location">오시는 길</button>
       <button class="di-btn" id="btn-account">마음 전하실 곳</button>
       <button class="di-btn" id="btn-calendar">일정 등록</button>
+      <button class="di-btn-theme" id="btn-theme" aria-label="다크 모드로 전환">🌙</button>
     </div>
   </nav>
 
@@ -39,7 +43,7 @@
 
       <!-- 메인 사진 래퍼: 풀스크린에서 시작, GSAP가 width/height로 그리드 셀로 줄임 -->
       <div class="s1-main-wrapper">
-        <img class="s1-main" src="../photos/Section 1/01.jpg" alt="메인 사진">
+        <img class="s1-main" src="../photos/Section 1/large/01.jpg" alt="메인 사진">
         <h1 class="s1-title">Byunghoon<br>&amp; Hyeonji</h1>
       </div>
 
@@ -51,26 +55,26 @@
         <!-- 보조 콜라주 사진 22장 — 좌측 7 / 우측 7 / 상단 4 / 하단 4 -->
         <img class="collage-photo photo-l1" src="../photos/Section 1/02.jpg" alt="">
         <img class="collage-photo photo-l2" src="../photos/Section 1/03.jpg" alt="">
-        <img class="collage-photo photo-l3" src="../photos/Section 1/04.jpg" alt="">
+        <img class="collage-photo photo-l3" src="../photos/Section 1/15.jpg" alt="">
         <img class="collage-photo photo-l4" src="../photos/Section 1/05.jpg" alt="">
         <img class="collage-photo photo-l5" src="../photos/Section 1/06.jpg" alt="">
         <img class="collage-photo photo-l6" src="../photos/Section 1/07.jpg" alt="">
         <img class="collage-photo photo-l7" src="../photos/Section 1/08.jpg" alt="">
-        <img class="collage-photo photo-r1" src="../photos/Section 1/02.jpg" alt="">
-        <img class="collage-photo photo-r2" src="../photos/Section 1/03.jpg" alt="">
-        <img class="collage-photo photo-r3" src="../photos/Section 1/04.jpg" alt="">
-        <img class="collage-photo photo-r4" src="../photos/Section 1/05.jpg" alt="">
-        <img class="collage-photo photo-r5" src="../photos/Section 1/06.jpg" alt="">
-        <img class="collage-photo photo-r6" src="../photos/Section 1/07.jpg" alt="">
-        <img class="collage-photo photo-r7" src="../photos/Section 1/08.jpg" alt="">
-        <img class="collage-photo photo-t1" src="../photos/Section 1/02.jpg" alt="">
-        <img class="collage-photo photo-t2" src="../photos/Section 1/03.jpg" alt="">
-        <img class="collage-photo photo-t3" src="../photos/Section 1/04.jpg" alt="">
-        <img class="collage-photo photo-t4" src="../photos/Section 1/05.jpg" alt="">
-        <img class="collage-photo photo-b1" src="../photos/Section 1/06.jpg" alt="">
-        <img class="collage-photo photo-b2" src="../photos/Section 1/07.jpg" alt="">
-        <img class="collage-photo photo-b3" src="../photos/Section 1/08.jpg" alt="">
-        <img class="collage-photo photo-b4" src="../photos/Section 1/02.jpg" alt="">
+        <img class="collage-photo photo-r1" src="../photos/Section 1/09.jpg" alt="">
+        <img class="collage-photo photo-r2" src="../photos/Section 1/10.jpg" alt="">
+        <img class="collage-photo photo-r3" src="../photos/Section 1/11.jpg" alt="">
+        <img class="collage-photo photo-r4" src="../photos/Section 1/23.jpg" alt="">
+        <img class="collage-photo photo-r5" src="../photos/Section 1/13.jpg" alt="">
+        <img class="collage-photo photo-r6" src="../photos/Section 1/14.jpg" alt="">
+        <img class="collage-photo photo-r7" src="../photos/Section 1/04.jpg" alt="">
+        <img class="collage-photo photo-t1" src="../photos/Section 1/16.jpg" alt="">
+        <img class="collage-photo photo-t2" src="../photos/Section 1/17.jpg" alt="">
+        <img class="collage-photo photo-t3" src="../photos/Section 1/18.jpg" alt="">
+        <img class="collage-photo photo-t4" src="../photos/Section 1/19.jpg" alt="">
+        <img class="collage-photo photo-b1" src="../photos/Section 1/20.jpg" alt="">
+        <img class="collage-photo photo-b2" src="../photos/Section 1/21.jpg" alt="">
+        <img class="collage-photo photo-b3" src="../photos/Section 1/22.jpg" alt="">
+        <img class="collage-photo photo-b4" src="../photos/Section 1/12.jpg" alt="">
       </div>
 
     </div>

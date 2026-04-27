@@ -12,7 +12,6 @@ Key characteristics of Liquid Glass:
 
 ## Basic Implementation
 
-### Creating a Simple Glass Effect
 
 To create a basic Liquid Glass effect, use `UIVisualEffectView` with a `UIGlassEffect`:
 
