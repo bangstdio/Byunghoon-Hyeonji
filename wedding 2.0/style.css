@@ -706,7 +706,8 @@ html.dark .di-btn-hamburger:hover {
 
   .di-btn-hamburger {
     display: flex;
-    transform: translateY(-1px); /* 위쪽으로 살짝 보정 */
+    transform: translateY(-1px);
+    /* 위쪽으로 살짝 보정 */
   }
 }
 
