@@ -124,7 +124,12 @@ body {
   /* 사용자 요청으로 그림자 및 이너 베벨 효과 제거 */
 }
 
-.di-logo {
+.di-logo-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.di-logo-desktop {
   color: #87867f;
   font-family: var(--font-sans);
   font-size: 13px;
@@ -136,17 +141,18 @@ body {
   user-select: none;
 }
 
-/* 날짜·장소 보조 텍스트 — 중간 사이즈 이상에서만 표시 */
+.di-logo-mobile {
+  display: none;
+  /* 기본 숨김 */
+}
+
+/* 날짜·장소 보조 텍스트 */
 .di-event {
   font-weight: 400;
   letter-spacing: 0.1px;
 }
 
-@media (max-width: 699px) {
-  .di-event {
-    display: none;
-  }
-}
+/* .di-event { display: none; } — 모바일에서도 정보 표시를 위해 제거 */
 
 .di-nav {
   display: flex;
@@ -201,12 +207,24 @@ body {
     padding: 8px 10px 8px 14px;
   }
 
+  .di-logo-desktop {
+    display: none;
+  }
+
+  .di-logo-mobile {
+    display: block;
+    color: #3d3d3a;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+  }
+
   .di-nav {
     gap: 1px;
   }
 
   .di-btn {
-    font-size: 12px;
+    font-size: 13px;
     padding: 6px 10px;
   }
 }
@@ -223,7 +241,6 @@ body {
   position: relative;
   width: 100%;
   height: 100vh;
-  height: 100dvh;
   overflow: hidden;
   background: var(--color-bg);
   /* 통일된 웜톤 배경 적용 */
@@ -624,7 +641,12 @@ body {
     overflow: hidden;
     margin: 10px;
     width: calc(100% - 20px);
-    height: calc(100dvh - 20px);
+    height: calc(100vh - 20px);
+  }
+
+  .s1-main {
+    transition: none !important;
+    transform: none !important;
   }
 
   .s1-title {
@@ -692,9 +714,9 @@ html.dark .di-btn-hamburger:hover {
   /* island(top8 + height~48) + gap8 */
   right: 5vw;
   z-index: 999;
-  background: rgba(248, 246, 240, 0.88);
-  backdrop-filter: blur(24px) saturate(1.5);
-  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(24px) saturate(1.5) brightness(1.1);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5) brightness(1.1);
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.5);
   overflow: hidden;
@@ -762,13 +784,13 @@ html.dark .di-menu-btn:active {
    Placeholder sections (SECTION 2~5)
    ============================================================ */
 
+#section-1,
 #section-2,
 #section-3,
 #section-4,
 #section-5 {
   min-height: 100vh;
   background: var(--color-bg);
-  scroll-snap-align: start;
 }
 
 /* ============================================================
@@ -965,7 +987,8 @@ html.dark .di-menu-btn:active {
 
 /* 각 텍스트 슬롯: 해당 시퀀스의 스크롤 높이를 차지 */
 .s3-text-slot {
-  min-height: 81.25vh; /* 기존 31.25vh + 요청하신 50vh */
+  min-height: 81.25vh;
+  /* 기존 31.25vh + 요청하신 50vh */
   display: flex;
   align-items: flex-start;
   padding-top: 48px;
@@ -993,7 +1016,8 @@ html.dark .di-menu-btn:active {
 
 @media (max-width: 599px) {
   .s3-text-slot {
-    min-height: 81.25vh; /* 모바일 동일 적용 */
+    min-height: 81.25vh;
+    /* 모바일 동일 적용 */
     padding-top: 32px;
   }
 
@@ -1313,7 +1337,6 @@ body.scroll-locked {
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
     padding: 0 20px;
     scrollbar-width: none;
     /* Firefox */
@@ -1336,7 +1359,6 @@ body.scroll-locked {
     width: 150px;
     /* 사용자 요청 크기 */
     height: calc(150px * 4 / 3);
-    scroll-snap-align: center;
   }
 
   .s5-track:hover .s5-card,
@@ -1677,166 +1699,168 @@ body.scroll-locked {
   cursor: pointer;
 }
 
-/* ============================================================
-   Dark Mode Toggle Button
-   ============================================================ */
-
-.di-btn-theme {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 15px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  margin-left: 4px;
-  transition: background 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-  flex-shrink: 0;
-}
-
-.di-btn-theme:hover {
-  background: rgba(0, 0, 0, 0.06);
-}
-
-html.dark .di-btn-theme:hover {
-  background: rgba(255, 255, 255, 0.10);
-}
+/* 다크모드 수동 토글 버튼 제거 */
 
 /* ============================================================
-   DARK MODE — html.dark
+   DARK MODE — System Preference
    ============================================================ */
 
-html.dark {
-  --color-bg: #1a1916;
-  --color-text-primary: #f0ede4;
-  --color-text-secondary: #a39e98;
-  --color-text-muted: #c4c0b8;
-  --color-brand: #d4724f;
-  --color-border: #2e2c28;
-  --shadow-warm: 0px 0px 0px 1px #3a3832;
-  --shadow-whisper: rgba(0, 0, 0, 0.30) 0px 4px 24px;
-}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1a1916;
+    --color-text-primary: #f0ede4;
+    --color-text-secondary: #a39e98;
+    --color-text-muted: #c4c0b8;
+    --color-brand: #d4724f;
+    --color-border: #2e2c28;
+    --shadow-warm: 0px 0px 0px 1px #3a3832;
+    --shadow-whisper: rgba(0, 0, 0, 0.30) 0px 4px 24px;
+  }
 
-/* Dynamic Island */
-html.dark #dynamic-island {
-  background: rgba(30, 28, 24, 0.60);
-  border-color: rgba(255, 255, 255, 0.10);
-}
+  /* Dynamic Island */
+  #dynamic-island {
+    background: rgba(30, 28, 24, 0.60);
+    border-color: rgba(255, 255, 255, 0.10);
+  }
 
-html.dark .di-btn {
-  color: var(--color-text-primary);
-}
+  .di-logo-desktop,
+  .di-logo-mobile,
+  .di-btn {
+    color: var(--color-text-primary);
+  }
 
-html.dark .di-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
+  .di-event {
+    color: var(--color-text-secondary);
+  }
 
-html.dark .di-btn:active {
-  background: rgba(255, 255, 255, 0.12);
-}
+  .di-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
 
-/* Section 2 */
-html.dark .s2-word {
-  color: #55524e;
-}
+  .di-btn:active {
+    background: rgba(255, 255, 255, 0.12);
+  }
 
-html.dark .s2-word.active {
-  color: rgba(255, 255, 255, 0.95);
-}
+  .di-btn-hamburger {
+    color: var(--color-text-primary);
+  }
 
-/* Section 3 */
-html.dark .s3-photo {
-  background: #2a2824;
-  border-color: rgba(255, 255, 255, 0.08);
-}
+  .di-btn-hamburger:hover {
+    background: rgba(255, 255, 255, 0.10);
+  }
 
-html.dark .s3-card-title {
-  color: var(--color-text-primary);
-}
+  #di-menu-panel {
+    background: rgba(28, 26, 22, 0.90);
+    border-color: rgba(255, 255, 255, 0.10);
+  }
 
-html.dark .s3-card-desc {
-  color: var(--color-text-secondary);
-}
+  .di-menu-btn {
+    color: var(--color-text-primary);
+    border-color: rgba(255, 255, 255, 0.07);
+  }
 
-/* Section 4 */
-html.dark .s4-date,
-html.dark .s4-num,
-html.dark .s4-dday {
-  color: rgba(255, 255, 255, 0.95);
-}
+  .di-menu-btn:active {
+    background: rgba(255, 255, 255, 0.08);
+  }
 
-html.dark .s4-label,
-html.dark .s4-venue,
-html.dark .s4-unit-label,
-html.dark .s4-suffix {
-  color: var(--color-text-secondary);
-}
+  /* Section 2 */
+  .s2-word {
+    color: #55524e;
+  }
 
-html.dark .s4-divider {
-  background: rgba(255, 255, 255, 0.12);
-}
+  .s2-word.active {
+    color: rgba(255, 255, 255, 0.95);
+  }
 
-/* Section 5 modal */
-html.dark .s5-modal {
-  background: #252320;
-}
+  /* Section 3 */
+  .s3-photo {
+    background: #2a2824;
+    border-color: rgba(255, 255, 255, 0.08);
+  }
 
-html.dark .s5-modal-close {
-  background: rgba(255, 255, 255, 0.10);
-  color: var(--color-text-primary);
-}
+  .s3-card-title {
+    color: var(--color-text-primary);
+  }
 
-html.dark .s5-modal-close:hover {
-  background: rgba(255, 255, 255, 0.16);
-}
+  .s3-card-desc {
+    color: var(--color-text-secondary);
+  }
 
-html.dark .s5-modal-body h3,
-html.dark .s5-modal-body strong {
-  color: var(--color-text-primary);
-}
+  /* Section 4 */
+  .s4-date,
+  .s4-num,
+  .s4-dday {
+    color: rgba(255, 255, 255, 0.95);
+  }
 
-html.dark .s5-modal-body p {
-  color: var(--color-text-secondary);
-}
+  .s4-label,
+  .s4-venue,
+  .s4-unit-label,
+  .s4-suffix {
+    color: var(--color-text-secondary);
+  }
 
-html.dark .account-item {
-  border-color: rgba(255, 255, 255, 0.08);
-}
+  .s4-divider {
+    background: rgba(255, 255, 255, 0.12);
+  }
 
-html.dark .btn-copy {
-  background: rgba(255, 255, 255, 0.12);
-  color: var(--color-text-primary);
-}
+  /* Section 5 modal */
+  .s5-modal {
+    background: #252320;
+  }
 
-/* Tweaks Panel */
-html.dark #tweaks-panel {
-  background: rgba(28, 26, 22, 0.92);
-  border-color: rgba(255, 255, 255, 0.10);
-}
+  .s5-modal-close {
+    background: rgba(255, 255, 255, 0.10);
+    color: var(--color-text-primary);
+  }
 
-html.dark #tweaks-panel .tw-header {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.08);
-}
+  .s5-modal-close:hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
 
-html.dark #tweaks-panel .tw-title,
-html.dark #tweaks-panel .tw-close {
-  color: var(--color-text-primary);
-}
+  .s5-modal-body h3,
+  .s5-modal-body strong {
+    color: var(--color-text-primary);
+  }
 
-html.dark #tweaks-panel .tw-close {
-  background: rgba(255, 255, 255, 0.10);
-}
+  .s5-modal-body p {
+    color: var(--color-text-secondary);
+  }
 
-html.dark #tweaks-panel .tw-close:hover {
-  background: rgba(255, 255, 255, 0.16);
-}
+  .account-item {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
 
-html.dark #tweaks-panel .tw-label {
-  color: var(--color-text-secondary);
+  .btn-copy {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--color-text-primary);
+  }
+
+  /* Tweaks Panel */
+  #tweaks-panel {
+    background: rgba(28, 26, 22, 0.92);
+    border-color: rgba(255, 255, 255, 0.10);
+  }
+
+  #tweaks-panel .tw-header {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  #tweaks-panel .tw-title,
+  #tweaks-panel .tw-close {
+    color: var(--color-text-primary);
+  }
+
+  #tweaks-panel .tw-close {
+    background: rgba(255, 255, 255, 0.10);
+  }
+
+  #tweaks-panel .tw-close:hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  #tweaks-panel .tw-label {
+    color: var(--color-text-secondary);
+  }
 }

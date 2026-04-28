@@ -19,21 +19,22 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
   <link rel="stylesheet" href="style.css">
-  <!-- 다크모드 플래시 방지: DOM 렌더 전 클래스 복원 -->
-  <script>if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');</script>
 </head>
 
 <body>
 
   <!-- SECTION 0: Dynamic Island Navigation -->
   <nav id="dynamic-island" aria-label="페이지 네비게이션">
-    <span class="di-logo">BH &hearts; HJ<span class="di-event">&ensp;|&ensp;2026. 11. 28. 현대차·기아 양재사옥</span></span>
+    <div class="di-logo-wrap">
+      <span class="di-logo-desktop">BH &hearts; HJ<span class="di-event">&ensp;|&ensp;2026. 11. 28. 현대차·기아
+          양재사옥</span></span>
+      <span class="di-logo-mobile">♥ 26. 11. 28. (토) 12:00 | 현대차·기아 양재사옥</span>
+    </div>
     <div class="di-nav">
       <button class="di-btn" id="btn-story">우리의 이야기</button>
       <button class="di-btn" id="btn-location">오시는 길</button>
       <button class="di-btn" id="btn-account">마음 전하실 곳</button>
       <button class="di-btn" id="btn-calendar">일정 등록</button>
-      <button class="di-btn-theme" id="btn-theme" aria-label="다크 모드로 전환">🌙</button>
       <button class="di-btn-hamburger" id="btn-menu" aria-label="메뉴 열기" aria-expanded="false">☰</button>
     </div>
   </nav>

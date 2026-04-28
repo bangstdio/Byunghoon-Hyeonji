@@ -7,29 +7,6 @@ function debounce(fn, ms) {
 }
 
 /* ============================================================
-   Dark Mode Toggle
-   ============================================================ */
-(function () {
-  const html = document.documentElement;
-  const btn = document.getElementById('btn-theme');
-  if (!btn) return;
-
-  function syncIcon() {
-    const dark = html.classList.contains('dark');
-    btn.textContent = dark ? '☀︎' : '🌙';
-    btn.setAttribute('aria-label', dark ? '라이트 모드로 전환' : '다크 모드로 전환');
-  }
-
-  btn.addEventListener('click', () => {
-    const isDark = html.classList.toggle('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    syncIcon();
-  });
-
-  syncIcon();
-})();
-
-/* ============================================================
    Constants
    ============================================================ */
 const WEDDING_DATE = '2026-11-28T12:00:00+09:00';
@@ -212,7 +189,13 @@ function launchFireworks() {
 
 function initDynamicIsland() {
   const island = document.getElementById('dynamic-island');
-  gsap.set(island, { xPercent: -50, yPercent: -200, opacity: 0, scale: 0.85 });
+  const isMobile = window.matchMedia('(max-width: 599px)').matches;
+  if (isMobile) {
+    gsap.set(island, { xPercent: -50, yPercent: 0, opacity: 1, scale: 1 });
+    islandShown = true;
+  } else {
+    gsap.set(island, { xPercent: -50, yPercent: -200, opacity: 0, scale: 0.85 });
+  }
 
   // 데스크탑 버튼
   document.getElementById('btn-story').addEventListener('click', () => {
@@ -255,11 +238,6 @@ function initDynamicIsland() {
 function initCollage() {
   // 모바일: 풀스크린 메인만 표출, 핀/타임라인 없음
   if (window.matchMedia('(max-width: 599px)').matches) {
-    const island = document.getElementById('dynamic-island');
-    setTimeout(() => {
-      islandShown = true;
-      gsap.to(island, { yPercent: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' });
-    }, 900);
     return;
   }
 
@@ -609,18 +587,7 @@ function initSection3() {
       trigger: '#section-3', // 섹션 전체를 트리거로 사용
       start: "top top",      // 섹션이 상단에 닿자마자 시작
       end: "bottom bottom",  // 섹션 끝까지 균등 배분
-      scrub: window.matchMedia('(max-width: 599px)').matches ? 0.1 : 0.05,
-      snap: {
-        snapTo: (value, self) => {
-          if (self.direction === -1) return value;
-          // 모든 사진 구간을 1/6(0.167) 단위로 균등 배분
-          const points = [0, 0.167, 0.333, 0.5, 0.667, 0.833, 1];
-          return points.reduce((p, c) => Math.abs(c - value) < Math.abs(p - value) ? c : p);
-        },
-        duration: { min: 0.15, max: 0.4 }, 
-        delay: 0, 
-        ease: "power1.inOut"
-      }
+      scrub: window.matchMedia('(max-width: 599px)').matches ? 0.1 : 0.05
     }
   });
 
@@ -666,12 +633,6 @@ function initSection3() {
 }
 
 function initSection4() {
-  // 섹션 3 퇴장 + 섹션 4 입장 애니메이션
-  gsap.fromTo('.s3-master-sticky',
-    { y: 0 },
-    { y: '-100vh', scrollTrigger: { trigger: '#section-4', start: 'top bottom', end: 'top top', scrub: true } }
-  );
-
   // 폭죽 중복 실행 방지 플래그
   let fireworksFired = false;
   const triggerFireworks = () => {
@@ -684,16 +645,7 @@ function initSection4() {
   ScrollTrigger.create({
     trigger: '#section-4',
     start: 'top bottom',
-    end: () => ScrollTrigger.maxScroll(window),
-    snap: {
-      snapTo: (value, self) => {
-        if (self.direction === -1) return value; // 올라갈 때는 최하단 스냅 방지
-        return 1;
-      },
-      duration: 0.8,
-      delay: 0.1,
-      ease: "power2.inOut"
-    }
+    end: () => ScrollTrigger.maxScroll(window)
   });
 
   // 2. 날짜 부분이 화면의 60%(중앙보다 살짝 아래)를 지날 때 폭죽 트리거
