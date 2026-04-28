@@ -103,7 +103,7 @@ body {
 
 #dynamic-island {
   position: fixed;
-  top: 8px;
+  top: max(5px, env(safe-area-inset-top));
   left: 50%;
   z-index: 1000;
 
@@ -607,7 +607,7 @@ body {
   text-align: left;
   white-space: nowrap;
   pointer-events: none;
-  text-shadow: 0 1px 5px rgba(0, 0, 0, 1);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 /* ============================================================
@@ -615,7 +615,9 @@ body {
    ============================================================ */
 
 @media (max-width: 599px) {
-  .s1-gallery-container { display: none; }
+  .s1-gallery-container {
+    display: none;
+  }
 
   .s1-main-wrapper {
     border-radius: 44px;
@@ -624,6 +626,11 @@ body {
     width: calc(100% - 20px);
     height: calc(100dvh - 20px);
   }
+
+  .s1-title {
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 1);
+    /* 모바일 섀도우 */
+  }
 }
 
 /* ============================================================
@@ -631,7 +638,8 @@ body {
    ============================================================ */
 
 .di-btn-hamburger {
-  display: none;               /* 데스크탑에서는 숨김 */
+  display: none;
+  /* 데스크탑에서는 숨김 */
   background: transparent;
   border: none;
   cursor: pointer;
@@ -649,40 +657,67 @@ body {
   flex-shrink: 0;
 }
 
-.di-btn-hamburger:hover { background: rgba(0,0,0,0.06); }
-html.dark .di-btn-hamburger { color: var(--color-text-primary); }
-html.dark .di-btn-hamburger:hover { background: rgba(255,255,255,0.10); }
+.di-btn-hamburger:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+html.dark .di-btn-hamburger {
+  color: var(--color-text-primary);
+}
+
+html.dark .di-btn-hamburger:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
 
 @media (max-width: 599px) {
+
   /* 개별 버튼 숨기고 햄버거 표출 */
-  #btn-story, #btn-location, #btn-account, #btn-calendar { display: none; }
-  .di-btn-hamburger { display: flex; }
+  #btn-story,
+  #btn-location,
+  #btn-account,
+  #btn-calendar {
+    display: none;
+  }
+
+  .di-btn-hamburger {
+    display: flex;
+  }
 }
 
 /* ── 햄버거 드롭다운 패널 ─────────────────────────────── */
 
 #di-menu-panel {
   position: fixed;
-  top: 64px;               /* island(top8 + height~48) + gap8 */
+  top: 64px;
+  /* island(top8 + height~48) + gap8 */
   right: 5vw;
   z-index: 999;
   background: rgba(248, 246, 240, 0.88);
   backdrop-filter: blur(24px) saturate(1.5);
   -webkit-backdrop-filter: blur(24px) saturate(1.5);
   border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.5);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   overflow: hidden;
   min-width: 152px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   transform-origin: top right;
-  animation: menuIn 0.2s cubic-bezier(0.23,1,0.32,1);
+  animation: menuIn 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-#di-menu-panel[hidden] { display: none; }
+#di-menu-panel[hidden] {
+  display: none;
+}
 
 @keyframes menuIn {
-  from { opacity: 0; transform: scale(0.92) translateY(-6px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .di-menu-btn {
@@ -697,24 +732,31 @@ html.dark .di-btn-hamburger:hover { background: rgba(255,255,255,0.10); }
   font-weight: 500;
   color: #3d3d3a;
   cursor: pointer;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   -webkit-tap-highlight-color: transparent;
 }
 
-.di-menu-btn:last-child { border-bottom: none; }
-.di-menu-btn:active { background: rgba(0,0,0,0.06); }
+.di-menu-btn:last-child {
+  border-bottom: none;
+}
+
+.di-menu-btn:active {
+  background: rgba(0, 0, 0, 0.06);
+}
 
 html.dark #di-menu-panel {
   background: rgba(28, 26, 22, 0.90);
-  border-color: rgba(255,255,255,0.10);
+  border-color: rgba(255, 255, 255, 0.10);
 }
 
 html.dark .di-menu-btn {
   color: var(--color-text-primary);
-  border-color: rgba(255,255,255,0.07);
+  border-color: rgba(255, 255, 255, 0.07);
 }
 
-html.dark .di-menu-btn:active { background: rgba(255,255,255,0.08); }
+html.dark .di-menu-btn:active {
+  background: rgba(255, 255, 255, 0.08);
+}
 
 /* ============================================================
    Placeholder sections (SECTION 2~5)
