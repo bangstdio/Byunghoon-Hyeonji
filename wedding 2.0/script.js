@@ -166,7 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
    Confetti Fireworks
    ============================================================ */
 function launchFireworks() {
-  const duration = 3 * 1000;
+  const isMobile = window.matchMedia('(max-width: 599px)').matches;
+  const duration = isMobile ? 1.1 * 1000 : 3 * 1000; // 모바일은 약 8발(4회 반복)로 상향
   const animationEnd = Date.now() + duration;
   const defaults = { startVelocity: 55, spread: 70, ticks: 120, zIndex: 9999, gravity: 1.0 };
 
@@ -379,7 +380,7 @@ function initCollage() {
 
   const activePositions = isMobile ? mobilePositions : startPositions;
   const activeDelays    = isMobile ? mobileDelays    : arrivalDelays;
-  const pinEnd          = isMobile ? '+=300vh'       : '+=775vh';
+  const pinEnd          = isMobile ? '+=400vh'       : '+=1000vh';
 
   photos.forEach((photo, i) => {
     const pos = activePositions[i] || { x: '0', y: '150vh' };
@@ -409,7 +410,8 @@ function initCollage() {
         gsap.set(titleEl, { clearProps: 'opacity' });
       },
       onUpdate: (self) => {
-        const isReady = self.progress >= 0.8;
+        // 콜라주 완성과 동시에(혹은 아주 살짝 직전 0.68) 아일랜드가 등장하도록 설정
+        const isReady = self.progress >= 0.68;
         const section1 = document.getElementById('section-1');
 
         // 콜라주가 완성 상태를 벗어날 때(위로 스크롤) 모든 호버 효과 강제 초기화
@@ -452,7 +454,7 @@ function initCollage() {
       0.5 + delay
     );
   });
-  tl.to({}, { duration: 0.675 }, '>');  // 75vh 정지 구간
+  tl.to({}, { duration: 2.7 }, '>');  // 약 300vh 정지 구간 (Hold)
 
   // lift 제거 — padding-top: 64px로 다이내믹 아일랜드와의 간격 확보
 
@@ -585,6 +587,7 @@ function initSection3() {
   ];
 
   const initialPhotoY = window.innerHeight;
+  const isMobile = window.matchMedia('(max-width: 599px)').matches;
 
   const card0 = document.querySelector('.s3-text-card[data-slot="0"]');
   const card1 = document.querySelector('.s3-text-card[data-slot="1"]');
@@ -595,76 +598,89 @@ function initSection3() {
   // photo0 / titleEl / card0: y 오프셋 없이 DOM 자연 위치(y=0)에 둠
   // → 섹션2 스크롤 시 바로 아래에 붙어서 자연스럽게 올라오는 효과
   gsap.set(Array.from(photos).slice(1), { y: initialPhotoY });
-  gsap.set([card1, card3, card4, card6].filter(Boolean), { y: initialPhotoY, opacity: 0 });
+  gsap.set([card1, card3, card4, card6].filter(Boolean),
+    isMobile ? { opacity: 0, y: 30 } : { y: initialPhotoY, opacity: 0 });
 
   // ── 마스터 타임라인 ────────────────────────────────────────────
   // photo0 / titleEl / card0 입장은 인트로 트리거가 처리 → 메인에서는 제외
   const mainTl = gsap.timeline({
     scrollTrigger: {
       id: 'section3-main',
-      trigger: '.s3-text-scroll',
-      start: "top 80px",
-      end: "bottom 5%",
+      trigger: '#section-3', // 섹션 전체를 트리거로 사용
+      start: "top top",      // 섹션이 상단에 닿자마자 시작
+      end: "bottom bottom",  // 섹션 끝까지 균등 배분
       scrub: window.matchMedia('(max-width: 599px)').matches ? 0.1 : 0.05,
       snap: {
         snapTo: (value, self) => {
-          if (self.direction === -1) return value; // 올라갈 때는 스냅 없이 자유 스크롤
-          const points = [0, 0.255, 0.404, 0.553, 0.702, 0.851, 1];
+          if (self.direction === -1) return value;
+          // 모든 사진 구간을 1/6(0.167) 단위로 균등 배분
+          const points = [0, 0.167, 0.333, 0.5, 0.667, 0.833, 1];
           return points.reduce((p, c) => Math.abs(c - value) < Math.abs(p - value) ? c : p);
         },
-        duration: { min: 0.15, max: 0.4 }, // 스냅 애니메이션 속도 상향 (더 빠르게 착 달라붙음)
-        delay: 0, // 스크롤 정지 즉시 스냅 시작
+        duration: { min: 0.15, max: 0.4 }, 
+        delay: 0, 
         ease: "power1.inOut"
       }
     }
   });
 
-  // 사진 간격 5.25 (animation 3.75 + dead scroll 1.5) — total duration 35.25
-  const PHOTO_POS = [0, 5.25, 10.5, 15.75, 21.0, 26.25, 31.5];
-  const ANIM_DUR = 3.75;
+  // 사진 간격 조정: 첫 번째 사진(Photo 1)을 포함하여 모든 구간이 동일한 Hold(6단위)를 갖도록 설정
+  // 총 길이(total duration): 60 (마지막 56 + 애니메이션 4)
+  const PHOTO_POS = [0, 6, 16, 26, 36, 46, 56];
+  const ANIM_DUR = 4.0;
+  // 모바일: 퇴장(MOB_EXIT) 직후 입장 시작, 합계 ANIM_DUR 유지 → 겹침 없음
+  // PC: 퇴장·입장 동시 시작(좌우 교차 배치라 겹침 없음), 속도 동일
+  const MOB_EXIT = 0.6;
+  const enterDur = isMobile ? ANIM_DUR - MOB_EXIT : ANIM_DUR;
+  const enterOffset = isMobile ? MOB_EXIT : 0;
+  const cardFromState = isMobile ? { opacity: 0, y: 30 } : { y: initialPhotoY, opacity: 0 };
+  const cardExitY = isMobile ? -30 : -400;
 
   // 사진 등장 시퀀스 — photo0는 자연 스크롤로 등장하므로 스킵
   photos.forEach((photo, i) => {
     if (i === 0) return;
     mainTl.fromTo(photo,
       { y: initialPhotoY, x: photoOffsets[i].x, rotation: photoOffsets[i].r },
-      { y: photoOffsets[i].y, duration: ANIM_DUR, ease: "power2.out" },
-      PHOTO_POS[i]
+      { y: photoOffsets[i].y, duration: enterDur, ease: "power2.out" },
+      PHOTO_POS[i] + enterOffset
     );
   });
 
-  if (card0) {
-    mainTl.to(card0, { y: -400, opacity: 0, duration: 0.8 }, PHOTO_POS[1]);
-  }
+  const exitCard = (card, pos) => mainTl.to(card,
+    isMobile
+      ? { y: cardExitY, opacity: 0, duration: MOB_EXIT }
+      : { y: cardExitY, opacity: 0, duration: ANIM_DUR, ease: "power2.out" },
+    pos
+  );
+  const enterCard = (card, pos) => mainTl.fromTo(card,
+    cardFromState,
+    { y: 0, opacity: 1, duration: enterDur, ease: "power2.out" },
+    pos + enterOffset
+  );
 
-  if (card1) {
-    mainTl.fromTo(card1, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: ANIM_DUR, ease: "power2.out" }, PHOTO_POS[1]);
-    mainTl.to(card1, { y: -400, opacity: 0, duration: 0.8 }, PHOTO_POS[3]);
-  }
-
-  if (card3) {
-    mainTl.fromTo(card3, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: ANIM_DUR, ease: "power2.out" }, PHOTO_POS[3]);
-    mainTl.to(card3, { y: -400, opacity: 0, duration: 0.8 }, PHOTO_POS[4]);
-  }
-
-  if (card4) {
-    mainTl.fromTo(card4, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: ANIM_DUR, ease: "power2.out" }, PHOTO_POS[4]);
-    mainTl.to(card4, { y: -400, opacity: 0, duration: 0.8 }, PHOTO_POS[6]);
-  }
-
-  if (card6) {
-    mainTl.fromTo(card6, { y: initialPhotoY, opacity: 0 }, { y: 0, opacity: 1, duration: ANIM_DUR, ease: "power2.out" }, PHOTO_POS[6]);
-  }
+  if (card0) exitCard(card0, PHOTO_POS[1]);
+  if (card1) { enterCard(card1, PHOTO_POS[1]); exitCard(card1, PHOTO_POS[3]); }
+  if (card3) { enterCard(card3, PHOTO_POS[3]); exitCard(card3, PHOTO_POS[4]); }
+  if (card4) { enterCard(card4, PHOTO_POS[4]); exitCard(card4, PHOTO_POS[6]); }
+  if (card6) { enterCard(card6, PHOTO_POS[6]); }
 }
 
 function initSection4() {
   // 섹션 3 퇴장 + 섹션 4 입장 애니메이션
-  gsap.fromTo(['.s3-sticky-title', '.s3-photo-stack', '.s3-card-stack'],
+  gsap.fromTo('.s3-master-sticky',
     { y: 0 },
     { y: '-100vh', scrollTrigger: { trigger: '#section-4', start: 'top bottom', end: 'top top', scrub: true } }
   );
 
-  // 페이지 최하단 스냅포인트 추가: 섹션 3을 다 보고 내려오면 페이지 끝(섹션 4, 5 영역)으로 스냅
+  // 폭죽 중복 실행 방지 플래그
+  let fireworksFired = false;
+  const triggerFireworks = () => {
+    if (fireworksFired) return;
+    fireworksFired = true;
+    launchFireworks();
+  };
+
+  // 1. 페이지 최하단 스냅포인트: 섹션 3을 다 보고 내려오면 페이지 끝(섹션 4, 5 영역)으로 스냅
   ScrollTrigger.create({
     trigger: '#section-4',
     start: 'top bottom',
@@ -676,13 +692,17 @@ function initSection4() {
       },
       duration: 0.8,
       delay: 0.1,
-      ease: "power2.inOut",
-      onComplete: (self) => {
-        // 스냅이 완료되었을 때 (내려가는 방향인 경우에만) 폭죽 실행
-        if (self.direction === 1) {
-          launchFireworks();
-        }
-      }
+      ease: "power2.inOut"
+    }
+  });
+
+  // 2. 날짜 부분이 화면의 60%(중앙보다 살짝 아래)를 지날 때 폭죽 트리거
+  ScrollTrigger.create({
+    trigger: '.s4-date',
+    start: 'top 60%',
+    onEnter: () => triggerFireworks(),
+    onLeaveBack: () => {
+      fireworksFired = false; // 위로 다시 올라가면 리셋
     }
   });
 
@@ -711,10 +731,13 @@ function initSection4() {
 }
 
 function initSection5() {
+  const isMobile = window.matchMedia('(max-width: 599px)').matches;
   const cards = document.querySelectorAll('.s5-card');
   cards.forEach(card => card.addEventListener('click', () => openCardModal(Number(card.dataset.card))));
   document.getElementById('s5-dim').addEventListener('click', closeCardModal);
   document.getElementById('s5-modal-close').addEventListener('click', closeCardModal);
+
+  if (isMobile) return; // 모바일에서는 Edge Nudge 비활성화 (네이티브 스크롤 사용)
 
   // ── Edge Nudge ─────────────────────────────────────────────
   // 마우스가 갤러리 끝 22% 구역에 들어오면 트랙을 해당 방향으로 최대 90px 이동

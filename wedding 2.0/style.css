@@ -845,9 +845,28 @@ html.dark .di-menu-btn:active {
   position: relative;
 }
 
-/* 스티키 타이틀: 중앙 정렬 */
-.s3-sticky-title {
+/* 마스터 스티키 컨테이너: 모든 내부 요소가 일정한 간격을 유지하며 함께 움직이도록 함 */
+.s3-master-sticky {
   position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 25;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* 개별 요소들을 마스터 컨테이너 내부에서 절대 좌표로 배치 */
+.s3-sticky-title,
+.s3-photo-stack,
+.s3-card-stack {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  pointer-events: none;
+}
+
+.s3-sticky-title {
   top: 72px;
   z-index: 30;
   padding: 28px 5vw 16px;
@@ -857,38 +876,22 @@ html.dark .di-menu-btn:active {
   letter-spacing: -1.75px;
   color: var(--color-text-primary);
   text-align: center;
-  pointer-events: none;
 }
 
-@media (max-width: 599px) {
-  .s3-sticky-title {
-    font-size: 28px;
-    letter-spacing: -0.75px;
-    padding: 16px 6vw 12px;
-    top: 56px;
-  }
-}
-
-/* ── 사진 스택 ───────────────────────────────── */
-
-/* 사진 스택 컨테이너: 타이틀 아래 sticky */
 .s3-photo-stack {
-  position: sticky;
-  /* 72px(다이내믹 아일랜드) + 약 118px(타이틀 높이) */
   top: 190px;
   z-index: 20;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 0 5vw;
-  pointer-events: none;
 }
 
-@media (max-width: 599px) {
-  .s3-photo-stack {
-    top: 150px;
-    padding: 0 4vw;
-  }
+.s3-card-stack {
+  top: 358px;
+  height: 0;
+  overflow: visible;
+  z-index: 25;
 }
 
 /* 폴라로이드 가로형 사진 공통 */
@@ -940,10 +943,10 @@ html.dark .di-menu-btn:active {
 
 @media (max-width: 599px) {
   .s3-photo {
-    width: 60vw;
-    height: calc(60vw * 0.75);
+    width: 72vw;
+    /* 데스크탑 대비 20% 확대 */
+    height: calc(72vw * 0.75);
     border: 1px solid rgba(0, 0, 0, 0.08);
-    /* 폴라로이드 효과 삭제 */
   }
 }
 
@@ -951,20 +954,18 @@ html.dark .di-menu-btn:active {
 
 /* 텍스트 스크롤 영역: 사진 스택 아래 공간을 차지하며 각 slot이 스크롤 구간 확보 */
 .s3-text-scroll {
-  /* 사진 높이(306px)만큼 padding-top으로 밀어내어 스크롤 구간 확보 */
-  padding-top: calc(306px + 60px);
   max-width: 100%;
 }
 
 @media (max-width: 599px) {
   .s3-text-scroll {
-    padding-top: calc(60vw * 0.75 + 40px);
+    padding-top: 0;
   }
 }
 
 /* 각 텍스트 슬롯: 해당 시퀀스의 스크롤 높이를 차지 */
 .s3-text-slot {
-  min-height: 31.25vh;
+  min-height: 81.25vh; /* 기존 31.25vh + 요청하신 50vh */
   display: flex;
   align-items: flex-start;
   padding-top: 48px;
@@ -992,7 +993,7 @@ html.dark .di-menu-btn:active {
 
 @media (max-width: 599px) {
   .s3-text-slot {
-    min-height: 31.25vh;
+    min-height: 81.25vh; /* 모바일 동일 적용 */
     padding-top: 32px;
   }
 
@@ -1005,14 +1006,12 @@ html.dark .di-menu-btn:active {
   }
 }
 
-/* 카드 스택: 섹션 레벨 sticky — 카드가 슬롯 경계에 묶이지 않고 여러 사진에 걸쳐 유지됨 */
+/* 카드 스택 */
 .s3-card-stack {
-  position: sticky;
   top: 358px;
   height: 0;
   overflow: visible;
   z-index: 25;
-  pointer-events: none;
 }
 
 .s3-text-card {
@@ -1032,14 +1031,38 @@ html.dark .di-menu-btn:active {
   text-align: right;
 }
 
+/* 모바일 설정: 파일 뒤쪽에 위치시켜 데스크탑 설정을 덮어씌움 */
 @media (max-width: 599px) {
+  .s3-sticky-title {
+    font-size: 28px;
+    letter-spacing: -0.75px;
+    padding: 16px 6vw 12px;
+    top: 60px;
+    /* 타이틀 위치 */
+  }
+
   .s3-card-stack {
-    top: calc(150px + 25vw);
+    top: 155px;
+    /* 텍스트 위치 (여기서 조정하세요) */
+    z-index: 26;
+  }
+
+  .s3-photo-stack {
+    top: 270px;
+    /* 사진 위치 */
+    padding: 0 4vw;
   }
 
   .s3-text-card {
-    width: 44vw;
+    width: 88vw;
     max-width: none;
+  }
+
+  .s3-text-card.s3-left,
+  .s3-text-card.s3-right {
+    left: 6%;
+    right: auto;
+    text-align: left;
   }
 }
 
@@ -1283,26 +1306,50 @@ body.scroll-locked {
 
 @media (max-width: 599px) {
   #section-5 {
-    padding: 30px 0;
+    padding: 40px 0;
+  }
+
+  .s5-gallery-wrap {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding: 0 20px;
+    scrollbar-width: none;
+    /* Firefox */
+    touch-action: pan-x;
+    /* 좌우 스크롤 시 상하 스크롤 방지 */
+  }
+
+  .s5-gallery-wrap::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari */
+  }
+
+  .s5-track {
+    animation: none !important;
+    padding: 10px 0;
+    gap: 12px;
   }
 
   .s5-card {
-    width: 160px;
-    height: calc(160px * 4 / 3);
+    width: 150px;
+    /* 사용자 요청 크기 */
+    height: calc(150px * 4 / 3);
+    scroll-snap-align: center;
   }
 
-  .s5-track:hover .s5-card {
-    margin: -12.8px -9.6px;
-    transition: transform 0.9s cubic-bezier(0.23, 1, 0.32, 1),
-      filter 0.75s cubic-bezier(0.23, 1, 0.32, 1),
-      margin 0.9s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
+  .s5-track:hover .s5-card,
   .s5-track:hover .s5-card:hover {
-    margin: 5.33px 4px;
-    transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1),
-      filter 0.35s cubic-bezier(0.23, 1, 0.32, 1),
-      margin 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+    margin: 0;
+    /* 모바일 터치 시 크기/여백 변화 제거 */
+    transform: none;
+    filter: none;
+  }
+
+  .s5-clone {
+    display: none;
+    /* 모바일은 1바퀴만 표시 */
   }
 }
 

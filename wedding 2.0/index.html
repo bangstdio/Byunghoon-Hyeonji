@@ -114,41 +114,44 @@
 
   <!-- SECTION 3: 우리의 이야기 스크롤 시퀀스 -->
   <section id="section-3">
-    <!-- 스티키 타이틀 (중앙 배치) -->
-    <div class="s3-sticky-title">우리의 사랑 이야기</div>
+    <!-- 마스터 스티키 컨테이너: 모든 요소가 동일한 속도로 움직이도록 묶음 -->
+    <div class="s3-master-sticky">
+      <!-- 스티키 타이틀 (중앙 배치) -->
+      <div class="s3-sticky-title">우리의 사랑 이야기</div>
 
-    <!-- 사진 스택 (sticky, 타이틀 아래 중앙 고정) -->
-    <div class="s3-photo-stack">
-      <video class="s3-photo" data-index="0" src="../photos/Section 3/01.mp4" autoplay loop muted playsinline></video>
-      <img class="s3-photo" data-index="1" src="../photos/Section 3/02.jpg" alt="우리의 이야기 2">
-      <img class="s3-photo" data-index="2" src="../photos/Section 3/03.jpg" alt="우리의 이야기 3">
-      <img class="s3-photo" data-index="3" src="../photos/Section 3/04.jpg" alt="우리의 이야기 4">
-      <img class="s3-photo" data-index="4" src="../photos/Section 3/05.jpg" alt="우리의 이야기 5">
-      <img class="s3-photo" data-index="5" src="../photos/Section 3/06.jpg" alt="우리의 이야기 6">
-      <img class="s3-photo" data-index="6" src="../photos/Section 3/07.jpg" alt="우리의 이야기 7">
-    </div>
+      <!-- 텍스트 카드 스택 -->
+      <div class="s3-card-stack">
+        <div class="s3-text-card s3-left" data-slot="0">
+          <h3 class="s3-card-title">처음 만난 날</h3>
+          <p class="s3-card-desc">우연한 만남이 운명이 되었습니다. 그날의 설렘을 아직도 기억합니다.</p>
+        </div>
+        <div class="s3-text-card s3-right" data-slot="1">
+          <h3 class="s3-card-title">함께한 시간들</h3>
+          <p class="s3-card-desc">함께 걷고 웃으며 우리만의 이야기를 차곡차곡 쌓아왔습니다.</p>
+        </div>
+        <div class="s3-text-card s3-left" data-slot="3">
+          <h3 class="s3-card-title">일상의 행복</h3>
+          <p class="s3-card-desc">특별한 날이 아니어도 함께라면 매일이 소중한 선물이었습니다.</p>
+        </div>
+        <div class="s3-text-card s3-right" data-slot="4">
+          <h3 class="s3-card-title">서로의 곁에서</h3>
+          <p class="s3-card-desc">기쁠 때도 힘들 때도 언제나 서로의 손을 꼭 잡았습니다.</p>
+        </div>
+        <div class="s3-text-card s3-left" data-slot="6">
+          <h3 class="s3-card-title">새로운 시작</h3>
+          <p class="s3-card-desc">이제 여러분과 함께 우리의 새로운 이야기를 시작하려 합니다.</p>
+        </div>
+      </div>
 
-    <!-- 텍스트 카드 스택: 섹션 레벨 sticky — 슬롯에 종속되지 않아 여러 사진에 걸쳐 유지됨 -->
-    <div class="s3-card-stack">
-      <div class="s3-text-card s3-left" data-slot="0">
-        <h3 class="s3-card-title">처음 만난 날</h3>
-        <p class="s3-card-desc">우연한 만남이 운명이 되었습니다. 그날의 설렘을 아직도 기억합니다.</p>
-      </div>
-      <div class="s3-text-card s3-right" data-slot="1">
-        <h3 class="s3-card-title">함께한 시간들</h3>
-        <p class="s3-card-desc">함께 걷고 웃으며 우리만의 이야기를 차곡차곡 쌓아왔습니다.</p>
-      </div>
-      <div class="s3-text-card s3-left" data-slot="3">
-        <h3 class="s3-card-title">일상의 행복</h3>
-        <p class="s3-card-desc">특별한 날이 아니어도 함께라면 매일이 소중한 선물이었습니다.</p>
-      </div>
-      <div class="s3-text-card s3-right" data-slot="4">
-        <h3 class="s3-card-title">서로의 곁에서</h3>
-        <p class="s3-card-desc">기쁠 때도 힘들 때도 언제나 서로의 손을 꼭 잡았습니다.</p>
-      </div>
-      <div class="s3-text-card s3-left" data-slot="6">
-        <h3 class="s3-card-title">새로운 시작</h3>
-        <p class="s3-card-desc">이제 여러분과 함께 우리의 새로운 이야기를 시작하려 합니다.</p>
+      <!-- 사진 스택 -->
+      <div class="s3-photo-stack">
+        <video class="s3-photo" data-index="0" src="../photos/Section 3/01.mp4" autoplay loop muted playsinline></video>
+        <img class="s3-photo" data-index="1" src="../photos/Section 3/02.jpg" alt="우리의 이야기 2">
+        <img class="s3-photo" data-index="2" src="../photos/Section 3/03.jpg" alt="우리의 이야기 3">
+        <img class="s3-photo" data-index="3" src="../photos/Section 3/04.jpg" alt="우리의 이야기 4">
+        <img class="s3-photo" data-index="4" src="../photos/Section 3/05.jpg" alt="우리의 이야기 5">
+        <img class="s3-photo" data-index="5" src="../photos/Section 3/06.jpg" alt="우리의 이야기 6">
+        <img class="s3-photo" data-index="6" src="../photos/Section 3/07.jpg" alt="우리의 이야기 7">
       </div>
     </div>
 
@@ -226,27 +229,27 @@
           <span class="s5-card-title">결혼식 컨셉</span>
         </div>
         <!-- 무한루프용 복제 6장 (aria-hidden) -->
-        <div class="s5-card" data-card="0" aria-hidden="true">
+        <div class="s5-card s5-clone" data-card="0" aria-hidden="true">
           <img src="../photos/Section 5/오시는 길.jpg" alt="">
           <span class="s5-card-title">오시는 길</span>
         </div>
-        <div class="s5-card" data-card="1" aria-hidden="true">
+        <div class="s5-card s5-clone" data-card="1" aria-hidden="true">
           <img src="../photos/Section 5/마음 전하실 곳.jpg" alt="">
           <span class="s5-card-title">마음 전하실 곳</span>
         </div>
-        <div class="s5-card" data-card="2" aria-hidden="true">
+        <div class="s5-card s5-clone" data-card="2" aria-hidden="true">
           <img src="../photos/Section 5/식사 안내.jpg" alt="">
           <span class="s5-card-title">식사 안내</span>
         </div>
-        <div class="s5-card" data-card="3" aria-hidden="true">
+        <div class="s5-card s5-clone" data-card="3" aria-hidden="true">
           <img src="../photos/Section 5/주차 안내.jpg" alt="">
           <span class="s5-card-title">주차 안내</span>
         </div>
-        <div class="s5-card" data-card="4" aria-hidden="true">
+        <div class="s5-card s5-clone" data-card="4" aria-hidden="true">
           <img src="../photos/Section 5/방명록.jpg" alt="">
           <span class="s5-card-title">방명록</span>
         </div>
-        <div class="s5-card" data-card="5" aria-hidden="true">
+        <div class="s5-card s5-clone" data-card="5" aria-hidden="true">
           <img src="../photos/Section 5/결혼식 컨셉.jpg" alt="">
           <span class="s5-card-title">결혼식 컨셉</span>
         </div>
