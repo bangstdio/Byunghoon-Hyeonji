@@ -217,6 +217,7 @@ body {
     font-size: 15px;
     font-weight: 700;
     letter-spacing: -0.2px;
+    line-height: 1;
   }
 
   .di-nav {
@@ -678,6 +679,7 @@ body {
   transition: background 0.2s ease;
   -webkit-tap-highlight-color: transparent;
   flex-shrink: 0;
+  line-height: 1;
 }
 
 .di-btn-hamburger:hover {
