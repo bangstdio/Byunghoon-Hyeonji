@@ -204,11 +204,11 @@ body {
 
 @media (max-width: 599px) {
   #dynamic-island {
-    padding: 8px 10px 8px 14px;
+    padding: 11px 12px 11px 18px;
   }
 
   .di-logo-desktop {
-    display: none;
+    display: none !important;
   }
 
   .di-logo-mobile {
@@ -637,11 +637,12 @@ body {
   }
 
   .s1-main-wrapper {
-    border-radius: 44px;
+    border-radius: 28px;
     overflow: hidden;
-    margin: 10px;
-    width: calc(100% - 20px);
-    height: calc(100vh - 20px);
+    margin: 0 8px 8px 8px;
+    width: calc(100% - 16px);
+    height: calc(100vh - 8px);
+    top: 0;
   }
 
   .s1-main {
@@ -703,6 +704,7 @@ html.dark .di-btn-hamburger:hover {
 
   .di-btn-hamburger {
     display: flex;
+    transform: translateY(-1px); /* 위쪽으로 살짝 보정 */
   }
 }
 
