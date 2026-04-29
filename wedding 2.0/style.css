@@ -10,6 +10,22 @@
 }
 
 @font-face {
+  font-family: 'GowunBatang';
+  src: url('fonts/GowunBatang-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'KCCBangJeonghwan';
+  src: url('fonts/KCCBangJeonghwanTTF.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'Paperlogy';
   src: url('fonts/Paperlogy-3Light.ttf') format('truetype');
   font-weight: 300;
@@ -715,8 +731,7 @@ body {
   will-change: transform;
   z-index: 5;
   color: #ffffff;
-  font-family: 'Instrument Serif', 'Georgia', serif;
-  font-style: italic;
+  font-family: 'KCCBangJeonghwan', sans-serif;
   font-size: 10cqw;
   font-weight: 400;
   line-height: 1.1;
@@ -1211,7 +1226,7 @@ html.dark .di-menu-btn:active {
 }
 
 .s3-card-title {
-  font-family: 'Paperlogy', sans-serif;
+  font-family: 'GowunBatang', serif;
   font-size: 30px;
   font-weight: 700;
   color: #141413;
