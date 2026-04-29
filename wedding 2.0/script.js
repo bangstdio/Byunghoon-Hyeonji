@@ -398,33 +398,10 @@ function initDynamicIsland() {
     document.getElementById('mb-account').addEventListener('click', () => { closeMenu(); openCardModal(1); });
     document.getElementById('mb-calendar').addEventListener('click', () => { closeMenu(); downloadICS(); });
 
-    // 스크롤 시 메뉴 닫기 및 하단 바운스 효과
-    let isBouncing = false;
-    lenis.on('scroll', ({ scroll, limit, velocity }) => {
-      // 1. 메뉴 닫기
+    // 스크롤 시 메뉴 닫기
+    lenis.on('scroll', ({ velocity }) => {
       if (!menuPanel.hidden && Math.abs(velocity) > 0.5) {
         closeMenu();
-      }
-
-      // 2. 하단 바운스 (튕김) 효과
-      if (scroll >= limit - 2 && velocity > 1 && !isBouncing) {
-        isBouncing = true;
-        const mainContent = document.getElementById('main-content');
-        const bounceAmt = Math.min(velocity * 0.8, 40); // 튕김 강도 상향
-
-        gsap.to(mainContent, {
-          y: -bounceAmt,
-          duration: 0.15,
-          ease: "power2.out",
-          onComplete: () => {
-            gsap.to(mainContent, {
-              y: 0,
-              duration: 0.8,
-              ease: "elastic.out(1.2, 0.4)",
-              onComplete: () => { isBouncing = false; }
-            });
-          }
-        });
       }
     });
   }

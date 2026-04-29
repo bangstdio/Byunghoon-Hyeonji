@@ -124,6 +124,7 @@
 
 html {
   scroll-behavior: auto;
+  overscroll-behavior: none;
 }
 
 /* 다크모드 전환 페이드 — color/background를 쓰는 모든 요소에 일괄 적용 */
@@ -159,6 +160,7 @@ body {
   background: var(--color-bg);
   color: var(--color-text-primary);
   overflow-x: hidden;
+  overscroll-behavior: none;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -739,10 +741,9 @@ body {
     margin: 0 13px 0 13px;
     /* +5px 좌우 여백 */
     width: calc(100% - 26px);
-    top: env(safe-area-inset-top);
-    /* 하드웨어 DI 하단~웹 메뉴바 상단 gap 중앙 */
-    height: calc(100dvh - env(safe-area-inset-top) - 28px);
-    /* -20px 높이 감소 + 8px 하단 여백 */
+    top: 0;
+    height: calc(100dvh - 28px);
+    /* 8px 하단 여백 */
   }
 
   .s1-main {
@@ -1567,9 +1568,9 @@ body.scroll-locked {
   z-index: 3001;
   width: 100%;
   max-width: 550px; /* PC에서도 너무 넓지 않게 조절 */
-  max-height: 85vh;
+  max-height: 85dvh;
   overflow-y: auto;
-  padding: 20px 28px 48px;
+  padding: 20px 28px max(48px, calc(24px + env(safe-area-inset-bottom)));
   opacity: 1; /* translate로 제어하므로 opacity는 1 유지 */
   pointer-events: none;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
