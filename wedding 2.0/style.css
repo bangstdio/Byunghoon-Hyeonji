@@ -1955,7 +1955,14 @@ body.scroll-locked {
 
   .di-event {
     color: #c5c1bb;
-    /* 기존 대비 약 20% 밝게 조정 */
+  }
+
+  .di-event-mobile {
+    color: #c5c1bb;
+  }
+
+  .di-event-mobile::before {
+    color: #c5c1bb;
   }
 
   .di-btn:hover {
