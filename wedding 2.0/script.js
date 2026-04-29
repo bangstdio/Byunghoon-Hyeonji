@@ -24,27 +24,152 @@ const S5_CARD_DATA = [
     title: '오시는 길',
     html: `
       <a href="https://naver.me/5z5iEAfa" target="_blank" style="display:block; width:100%; height:250px; background-color:#eaeaea; border-radius:8px; margin-bottom:16px; overflow:hidden; position:relative; text-decoration:none;">
-        <img src="../photos/map.jpg" alt="현대차 양재사옥 지도" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.src='https://picsum.photos/seed/map/600/400'; this.style.opacity='0.5';">
-        <div style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; flex-direction:column; color:#333;">
-          <span style="padding:8px 16px; background:rgba(255,255,255,0.9); border-radius:4px; font-weight:bold; font-size:14px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">클릭하여 네이버 지도로 보기</span>
-        </div>
+        <img src="../photos/venue_main.jpg" alt="현대차 양재사옥 전경" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.src='https://picsum.photos/seed/map/600/400'; this.style.opacity='0.5';">
       </a>
-      <p style="font-weight:600; margin-bottom:8px;">현대차·기아 양재사옥</p>
-      <p style="font-size:14px; margin-bottom:16px;">서울시 서초구 헌릉로 12</p>
+      <p style="font-weight:700; font-size:20px; margin-bottom:4px;">현대차·기아 양재사옥</p>
+      <p style="font-weight:500; font-size:18px; margin-bottom:4px;">서울시 서초구 헌릉로 12</p>
+      <p style="font-weight:400; color:#8e8d89; margin-bottom:24px; font-size:18px;">"경부고속도로에서 보이는 그 쌍둥이 빌딩, 맞습니다."</p>
       <div style="display:flex; gap:8px; margin-bottom:16px;">
-        <a href="https://naver.me/5z5iEAfa" target="_blank" style="flex:1; padding:10px; text-align:center; background:#03C75A; color:#fff; border-radius:8px; text-decoration:none; font-weight:bold; font-size:14px;">네이버 지도</a>
-        <a href="https://kko.to/H5QhQ121G" target="_blank" style="flex:1; padding:10px; text-align:center; background:#FEE500; color:#000; border-radius:8px; text-decoration:none; font-weight:bold; font-size:14px;">카카오맵</a>
+        <a href="https://naver.me/5z5iEAfa" target="_blank" style="flex:1; padding:10px 4px; text-align:center; background:#03C75A; color:#fff; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">네이버 지도</a>
+        <a href="https://tmap.life/ae83f03a" target="_blank" style="flex:1; padding:10px 4px; text-align:center; background:#2B86FF; color:#fff; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">TMAP</a>
+        <a href="https://kko.to/K7ON9DcgDA" target="_blank" style="flex:1; padding:10px 4px; text-align:center; background:#FEE500; color:#000; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">카카오맵</a>
       </div>
     `
   },
   {
     title: '마음 전하실 곳',
-    html: `<p>신랑 & 신부에게 따뜻한 마음을 전해주세요.</p>`
+    html: `
+      <div class="account-container">
+        <!-- 신랑 측 -->
+        <div class="account-group">
+          <div class="account-group-title">신랑 측</div>
+          <div class="account-list">
+            <div class="account-item">
+              <div class="account-info">
+                <span class="account-relation">아버지</span> <span class="account-name">김현수</span>
+                <div class="account-number">국민 000000-00-000000</div>
+              </div>
+              <div class="account-actions">
+                <button class="btn-copy" onclick="copyAccount('00000000000000')">복사</button>
+                <a href="supertoss://transfer?bank=국민&accountNo=00000000000000" class="btn-toss">토스</a>
+              </div>
+            </div>
+            <div class="account-item">
+              <div class="account-info">
+                <span class="account-relation">어머니</span> <span class="account-name">정영애</span>
+                <div class="account-number">농협 000000-00-000000</div>
+              </div>
+              <div class="account-actions">
+                <button class="btn-copy" onclick="copyAccount('00000000000000')">복사</button>
+                <a href="supertoss://transfer?bank=농협&accountNo=00000000000000" class="btn-toss">토스</a>
+              </div>
+            </div>
+            <div class="account-item">
+              <div class="account-info">
+                <span class="account-relation">신랑</span> <span class="account-name">김병훈</span>
+                <div class="account-number">국민 422002-04-108548</div>
+              </div>
+              <div class="account-actions">
+                <button class="btn-copy" onclick="copyAccount('42200204108548')">복사</button>
+                <a href="supertoss://transfer?bank=국민&accountNo=42200204108548" class="btn-toss">토스</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 신부 측 -->
+        <div class="account-group">
+          <div class="account-group-title">신부 측</div>
+          <div class="account-list">
+            <div class="account-item">
+              <div class="account-info">
+                <span class="account-relation">아버지</span> <span class="account-name">백문기</span>
+                <div class="account-number">국민 000000-00-000000</div>
+              </div>
+              <div class="account-actions">
+                <button class="btn-copy" onclick="copyAccount('00000000000000')">복사</button>
+                <a href="supertoss://transfer?bank=국민&accountNo=00000000000000" class="btn-toss">토스</a>
+              </div>
+            </div>
+            <div class="account-item">
+              <div class="account-info">
+                <span class="account-relation">어머니</span> <span class="account-name">백현지</span>
+                <div class="account-number">국민 000000-00-000000</div>
+              </div>
+              <div class="account-actions">
+                <button class="btn-copy" onclick="copyAccount('00000000000000')">복사</button>
+                <a href="supertoss://transfer?bank=국민&accountNo=00000000000000" class="btn-toss">토스</a>
+              </div>
+            </div>
+            <div class="account-item">
+              <div class="account-info">
+                <span class="account-relation">신부</span> <span class="account-name">백현지</span>
+                <div class="account-number">국민 000000-00-000000</div>
+              </div>
+              <div class="account-actions">
+                <button class="btn-copy" onclick="copyAccount('00000000000000')">복사</button>
+                <a href="supertoss://transfer?bank=국민&accountNo=00000000000000" class="btn-toss">토스</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `
   },
-  { title: '식사 안내', html: `<p>연회장은 지하 1층에 마련되어 있습니다.</p>` },
+  { title: '우리 가족 소개', html: `
+    <div class="family-container">
+
+      <div class="family-group">
+        <div class="family-group-title">신랑 측 가족</div>
+        <div class="family-photo-wrap">
+          <img src="../photos/family/groom_family.jpg" alt="신랑 측 가족사진">
+        </div>
+        <div class="family-member">
+          <div class="family-member-name">아버지 김현수</div>
+          <div class="family-member-desc">소개글을 입력해주세요.</div>
+        </div>
+        <div class="family-member">
+          <div class="family-member-name">어머니 정영애</div>
+          <div class="family-member-desc">소개글을 입력해주세요.</div>
+        </div>
+        <div class="family-member">
+          <div class="family-member-name">형 김아롬누리</div>
+          <div class="family-member-desc">소개글을 입력해주세요.</div>
+        </div>
+        <div class="family-member">
+          <div class="family-member-name">형수 양지유</div>
+          <div class="family-member-desc">소개글을 입력해주세요.</div>
+        </div>
+      </div>
+
+      <div class="family-group">
+        <div class="family-group-title">신부 측 가족</div>
+        <div class="family-photo-wrap">
+          <img src="../photos/family/bride_family.jpg" alt="신부 측 가족사진">
+        </div>
+        <div class="family-member">
+          <div class="family-member-name">아버지 백문기</div>
+          <div class="family-member-desc">소개글을 입력해주세요.</div>
+        </div>
+        <div class="family-member">
+          <div class="family-member-name">어머니 김복순</div>
+          <div class="family-member-desc">소개글을 입력해주세요.</div>
+        </div>
+        <div class="family-member">
+          <div class="family-member-name">여동생 백민정</div>
+          <div class="family-member-desc">소개글을 입력해주세요.</div>
+        </div>
+        <div class="family-member">
+          <div class="family-member-name">남동생 백성진</div>
+          <div class="family-member-desc">소개글을 입력해주세요.</div>
+        </div>
+      </div>
+
+    </div>
+  ` },
   { title: '주차 안내', html: `<p>양재사옥 주차장을 무료로 이용하실 수 있습니다.</p>` },
-  { title: '방명록', html: `<p>축복의 한마디를 남겨주세요.</p>` },
-  { title: '결혼식 컨셉', html: `<p>가든 모던 컨셉의 예식입니다.</p>` }
+  { title: '결혼식 사진 업로드', html: `<p>오늘의 아름다운 순간들을 공유해주세요.</p>` },
+  { title: '결혼식 플레이리스트', html: `<p>오늘의 예식을 위해 정성껏 선곡했습니다.</p>` }
 ];
 
 /* ============================================================
@@ -58,9 +183,11 @@ function openCardModal(index) {
   const dim = document.getElementById('s5-dim');
   if (!modal || !body || !dim) return;
   body.innerHTML = `<h3>${data.title}</h3>${data.html}`;
+  modal.scrollTop = 0;
   dim.classList.add('active');
   modal.classList.add('active');
   document.body.classList.add('scroll-locked');
+  if (lenis) lenis.stop();
 }
 
 function closeCardModal() {
@@ -70,6 +197,30 @@ function closeCardModal() {
   dim.classList.remove('active');
   modal.classList.remove('active');
   document.body.classList.remove('scroll-locked');
+  if (lenis) lenis.start();
+}
+
+function copyAccount(accountNumber) {
+  // 계좌번호에서 하이픈 제거
+  const cleanNumber = accountNumber.replace(/-/g, '');
+  
+  navigator.clipboard.writeText(cleanNumber).then(() => {
+    showToast();
+  }).catch(err => {
+    console.error('복사 실패:', err);
+    // 폴백: prompt 사용 (일부 구형 브라우저 대응)
+    window.prompt("계좌번호를 복사해 주세요:", cleanNumber);
+  });
+}
+
+function showToast() {
+  const toast = document.getElementById('toast');
+  if (!toast) return;
+  
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2000);
 }
 
 function openCollageLightbox(src, fullscreen = false) {
@@ -120,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smoothWheel: true,
-    smoothTouch: false,
+    smoothTouch: true,
   });
 
   lenis.on('scroll', ScrollTrigger.update);
@@ -137,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSection3();
   initSection4();
   initSection5();
+  initRevealAnimation();
 });
 
 /* ============================================================
@@ -206,20 +358,33 @@ function initDynamicIsland() {
   document.getElementById('btn-calendar').addEventListener('click', downloadICS);
 
   // 햄버거 메뉴 (모바일)
-  const menuBtn   = document.getElementById('btn-menu');
+  const menuBtn = document.getElementById('btn-menu');
   const menuPanel = document.getElementById('di-menu-panel');
   if (menuBtn && menuPanel) {
     function closeMenu() {
-      menuPanel.hidden = true;
-      menuBtn.textContent = '☰';
+      if (menuPanel.hidden || menuPanel.classList.contains('closing')) return;
+      menuBtn.classList.remove('open');
       menuBtn.setAttribute('aria-expanded', 'false');
+      menuPanel.classList.add('closing');
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        menuPanel.hidden = true;
+        menuPanel.classList.remove('closing');
+      };
+      menuPanel.addEventListener('animationend', finish, { once: true });
+      setTimeout(finish, 400); // animationend 미발생 시 fallback
     }
     menuBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const opening = menuPanel.hidden;
-      menuPanel.hidden = !opening;
-      menuBtn.textContent = opening ? '✕' : '☰';
-      menuBtn.setAttribute('aria-expanded', String(opening));
+      if (!menuPanel.hidden) {
+        closeMenu();
+      } else {
+        menuPanel.hidden = false;
+        menuBtn.classList.add('open');
+        menuBtn.setAttribute('aria-expanded', 'true');
+      }
     });
     document.addEventListener('click', (e) => {
       if (!menuPanel.hidden && !menuPanel.contains(e.target)) closeMenu();
@@ -230,8 +395,38 @@ function initDynamicIsland() {
       gsap.to(window, { scrollTo: '#section-3', duration: 1, ease: 'power2.inOut' });
     });
     document.getElementById('mb-location').addEventListener('click', () => { closeMenu(); openCardModal(0); });
-    document.getElementById('mb-account').addEventListener('click',  () => { closeMenu(); openCardModal(1); });
+    document.getElementById('mb-account').addEventListener('click', () => { closeMenu(); openCardModal(1); });
     document.getElementById('mb-calendar').addEventListener('click', () => { closeMenu(); downloadICS(); });
+
+    // 스크롤 시 메뉴 닫기 및 하단 바운스 효과
+    let isBouncing = false;
+    lenis.on('scroll', ({ scroll, limit, velocity }) => {
+      // 1. 메뉴 닫기
+      if (!menuPanel.hidden && Math.abs(velocity) > 0.5) {
+        closeMenu();
+      }
+
+      // 2. 하단 바운스 (튕김) 효과
+      if (scroll >= limit - 2 && velocity > 1 && !isBouncing) {
+        isBouncing = true;
+        const mainContent = document.getElementById('main-content');
+        const bounceAmt = Math.min(velocity * 0.8, 40); // 튕김 강도 상향
+
+        gsap.to(mainContent, {
+          y: -bounceAmt,
+          duration: 0.15,
+          ease: "power2.out",
+          onComplete: () => {
+            gsap.to(mainContent, {
+              y: 0,
+              duration: 0.8,
+              ease: "elastic.out(1.2, 0.4)",
+              onComplete: () => { isBouncing = false; }
+            });
+          }
+        });
+      }
+    });
   }
 }
 
@@ -331,34 +526,34 @@ function initCollage() {
   // 모바일 11장: T1(l1)·T2(l6)·T3(l2) / L1(r1)·L2(l7)·L3(r2) / R1(l3)·R2(t1)·R3(t4) / B1(b1)·B2(b3)
   // 인덱스 → photo class 매핑: 0=l1,1=l2,2=l3,5=l6,6=l7,7=r1,8=r2,14=t1,17=t4,18=b1,20=b3
   const mobilePositions = startPositions.map(p => p);
-  mobilePositions[0]  = { x: '-20vw',  y: '-150vh' }; // T1(l1)  — 위 좌
-  mobilePositions[1]  = { x: '-20vw',  y: '-150vh' }; // T3(l2)  — 위 좌 2
-  mobilePositions[2]  = { x: '130vw',  y: '-20vh' };  // R1(l3)  — 우상
-  mobilePositions[5]  = { x: '130vw',  y: '-130vh' }; // T2(l6)  — 위 우
-  mobilePositions[6]  = { x: '-130vw', y: '10vh' };   // L2(l7)  — 좌 중
-  mobilePositions[7]  = { x: '-130vw', y: '-40vh' };  // L1(r1)  — 좌 상
-  mobilePositions[8]  = { x: '-130vw', y: '40vh' };   // L3(r2)  — 좌 하
-  mobilePositions[14] = { x: '130vw',  y: '20vh' };   // R2(t1)  — 우 중
-  mobilePositions[17] = { x: '130vw',  y: '60vh' };   // R3(t4)  — 우 하
-  mobilePositions[18] = { x: '-30vw',  y: '150vh' };  // B1(b1)  — 아래 좌
-  mobilePositions[20] = { x: '20vw',   y: '150vh' };  // B2(b3)  — 아래 우
+  mobilePositions[0] = { x: '-20vw', y: '-150vh' }; // T1(l1)  — 위 좌
+  mobilePositions[1] = { x: '-20vw', y: '-150vh' }; // T3(l2)  — 위 좌 2
+  mobilePositions[2] = { x: '130vw', y: '-20vh' };  // R1(l3)  — 우상
+  mobilePositions[5] = { x: '130vw', y: '-130vh' }; // T2(l6)  — 위 우
+  mobilePositions[6] = { x: '-130vw', y: '10vh' };   // L2(l7)  — 좌 중
+  mobilePositions[7] = { x: '-130vw', y: '-40vh' };  // L1(r1)  — 좌 상
+  mobilePositions[8] = { x: '-130vw', y: '40vh' };   // L3(r2)  — 좌 하
+  mobilePositions[14] = { x: '130vw', y: '20vh' };   // R2(t1)  — 우 중
+  mobilePositions[17] = { x: '130vw', y: '60vh' };   // R3(t4)  — 우 하
+  mobilePositions[18] = { x: '-30vw', y: '150vh' };  // B1(b1)  — 아래 좌
+  mobilePositions[20] = { x: '20vw', y: '150vh' };  // B2(b3)  — 아래 우
 
   const mobileDelays = Array.from({ length: 22 }, () => 0);
-  mobileDelays[0]  = 0.35; // T1
-  mobileDelays[1]  = 0.25; // T3
-  mobileDelays[2]  = 0.15; // R1
-  mobileDelays[5]  = 0.45; // T2
-  mobileDelays[6]  = 0.20; // L2
-  mobileDelays[7]  = 0.08; // L1 (메인 옆, 먼저)
-  mobileDelays[8]  = 0.32; // L3
+  mobileDelays[0] = 0.35; // T1
+  mobileDelays[1] = 0.25; // T3
+  mobileDelays[2] = 0.15; // R1
+  mobileDelays[5] = 0.45; // T2
+  mobileDelays[6] = 0.20; // L2
+  mobileDelays[7] = 0.08; // L1 (메인 옆, 먼저)
+  mobileDelays[8] = 0.32; // L3
   mobileDelays[14] = 0.18; // R2
   mobileDelays[17] = 0.38; // R3
   mobileDelays[18] = 0.42; // B1
   mobileDelays[20] = 0.55; // B2 (마지막)
 
   const activePositions = isMobile ? mobilePositions : startPositions;
-  const activeDelays    = isMobile ? mobileDelays    : arrivalDelays;
-  const pinEnd          = isMobile ? '+=400vh'       : '+=1000vh';
+  const activeDelays = isMobile ? mobileDelays : arrivalDelays;
+  const pinEnd = isMobile ? '+=400vh' : '+=1000vh';
 
   photos.forEach((photo, i) => {
     const pos = activePositions[i] || { x: '0', y: '150vh' };
@@ -407,6 +602,21 @@ function initCollage() {
           islandShown = false;
           gsap.to(island, { yPercent: -200, opacity: 0, scale: 0.85, duration: 0.4, ease: 'power2.in' });
         }
+
+        // 섹션1 탈출 직전 구간(90~100%): 스크롤 점점 묵직하게
+        if (!isMobile && lenis) {
+          if (self.progress > 0.9) {
+            lenis.options.duration = gsap.utils.mapRange(0.9, 1.0, 1.2, 4.0, self.progress);
+          } else {
+            lenis.options.duration = 1.2;
+          }
+        }
+      },
+      onLeave: () => {
+        if (lenis) lenis.options.duration = 1.2;
+      },
+      onEnterBack: () => {
+        if (lenis) lenis.options.duration = 1.2;
       }
     }
   });
@@ -567,43 +777,36 @@ function initSection3() {
   const initialPhotoY = window.innerHeight;
   const isMobile = window.matchMedia('(max-width: 599px)').matches;
 
-  const card0 = document.querySelector('.s3-text-card[data-slot="0"]');
-  const card1 = document.querySelector('.s3-text-card[data-slot="1"]');
-  const card3 = document.querySelector('.s3-text-card[data-slot="3"]');
-  const card4 = document.querySelector('.s3-text-card[data-slot="4"]');
-  const card6 = document.querySelector('.s3-text-card[data-slot="6"]');
-
-  // photo0 / titleEl / card0: y 오프셋 없이 DOM 자연 위치(y=0)에 둠
-  // → 섹션2 스크롤 시 바로 아래에 붙어서 자연스럽게 올라오는 효과
-  gsap.set(Array.from(photos).slice(1), { y: initialPhotoY });
-  gsap.set([card1, card3, card4, card6].filter(Boolean),
-    isMobile ? { opacity: 0, y: 30 } : { y: initialPhotoY, opacity: 0 });
-
-  // ── 마스터 타임라인 ────────────────────────────────────────────
-  // photo0 / titleEl / card0 입장은 인트로 트리거가 처리 → 메인에서는 제외
-  const mainTl = gsap.timeline({
-    scrollTrigger: {
-      id: 'section3-main',
-      trigger: '#section-3', // 섹션 전체를 트리거로 사용
-      start: "top top",      // 섹션이 상단에 닿자마자 시작
-      end: "bottom bottom",  // 섹션 끝까지 균등 배분
-      scrub: window.matchMedia('(max-width: 599px)').matches ? 0.1 : 0.05
-    }
-  });
-
-  // 사진 간격 조정: 첫 번째 사진(Photo 1)을 포함하여 모든 구간이 동일한 Hold(6단위)를 갖도록 설정
-  // 총 길이(total duration): 60 (마지막 56 + 애니메이션 4)
   const PHOTO_POS = [0, 6, 16, 26, 36, 46, 56];
   const ANIM_DUR = 4.0;
-  // 모바일: 퇴장(MOB_EXIT) 직후 입장 시작, 합계 ANIM_DUR 유지 → 겹침 없음
-  // PC: 퇴장·입장 동시 시작(좌우 교차 배치라 겹침 없음), 속도 동일
   const MOB_EXIT = 0.6;
   const enterDur = isMobile ? ANIM_DUR - MOB_EXIT : ANIM_DUR;
   const enterOffset = isMobile ? MOB_EXIT : 0;
   const cardFromState = isMobile ? { opacity: 0, y: 30 } : { y: initialPhotoY, opacity: 0 };
   const cardExitY = isMobile ? -30 : -400;
 
-  // 사진 등장 시퀀스 — photo0는 자연 스크롤로 등장하므로 스킵
+  // 카드들을 data-slot 순서대로 가져오기
+  const allCards = [];
+  for (let i = 0; i < 7; i++) {
+    allCards[i] = document.querySelector(`.s3-text-card[data-slot="${i}"]`);
+  }
+
+  // 초기 상태 설정: 첫 번째 카드(slot 0) 제외하고 모두 숨김
+  gsap.set(allCards.slice(1).filter(Boolean), cardFromState);
+  gsap.set(Array.from(photos).slice(1), { y: initialPhotoY });
+
+  // ── 마스터 타임라인 ────────────────────────────────────────────
+  const mainTl = gsap.timeline({
+    scrollTrigger: {
+      id: 'section3-main',
+      trigger: '#section-3',
+      start: "top top",
+      end: "bottom bottom",
+      scrub: isMobile ? 0.1 : 0.05
+    }
+  });
+
+  // 사진 등장 시퀀스 (Photo 0은 자연 등장하므로 1번부터)
   photos.forEach((photo, i) => {
     if (i === 0) return;
     mainTl.fromTo(photo,
@@ -613,23 +816,38 @@ function initSection3() {
     );
   });
 
-  const exitCard = (card, pos) => mainTl.to(card,
-    isMobile
-      ? { y: cardExitY, opacity: 0, duration: MOB_EXIT }
-      : { y: cardExitY, opacity: 0, duration: ANIM_DUR, ease: "power2.out" },
-    pos
-  );
-  const enterCard = (card, pos) => mainTl.fromTo(card,
-    cardFromState,
-    { y: 0, opacity: 1, duration: enterDur, ease: "power2.out" },
-    pos + enterOffset
-  );
+  const exitCard = (card, pos) => {
+    if (!card) return;
+    if (isMobile) {
+      mainTl.to(card, { y: cardExitY, opacity: 0, duration: MOB_EXIT }, pos);
+    } else {
+      mainTl.to(card, { y: cardExitY, duration: ANIM_DUR, ease: "power2.out" }, pos);
+      mainTl.to(card, { opacity: 0, duration: ANIM_DUR * 0.4, ease: "power1.in" }, pos);
+    }
+  };
+  const enterCard = (card, pos) => {
+    if (!card) return;
+    mainTl.fromTo(card,
+      cardFromState,
+      { y: 0, opacity: 1, duration: enterDur, ease: "power2.out" },
+      pos + enterOffset
+    );
+  };
 
-  if (card0) exitCard(card0, PHOTO_POS[1]);
-  if (card1) { enterCard(card1, PHOTO_POS[1]); exitCard(card1, PHOTO_POS[3]); }
-  if (card3) { enterCard(card3, PHOTO_POS[3]); exitCard(card3, PHOTO_POS[4]); }
-  if (card4) { enterCard(card4, PHOTO_POS[4]); exitCard(card4, PHOTO_POS[6]); }
-  if (card6) { enterCard(card6, PHOTO_POS[6]); }
+  // 7개 카드 순차적 등장/퇴장 시퀀스
+  allCards.forEach((card, i) => {
+    if (i === 0) {
+      // 첫 번째 카드는 바로 퇴장만
+      exitCard(card, PHOTO_POS[1]);
+    } else {
+      // 이전 사진이 들어올 때(PHOTO_POS[i]) 입장
+      enterCard(card, PHOTO_POS[i]);
+      // 다음 사진이 들어올 때(PHOTO_POS[i+1]) 퇴장 (마지막 카드 제외)
+      if (i < 6) {
+        exitCard(card, PHOTO_POS[i + 1]);
+      }
+    }
+  });
 }
 
 function initSection4() {
@@ -682,62 +900,32 @@ function initSection4() {
 
 }
 
-function initSection5() {
-  const isMobile = window.matchMedia('(max-width: 599px)').matches;
-  const cards = document.querySelectorAll('.s5-card');
-  cards.forEach(card => card.addEventListener('click', () => openCardModal(Number(card.dataset.card))));
-  document.getElementById('s5-dim').addEventListener('click', closeCardModal);
-  document.getElementById('s5-modal-close').addEventListener('click', closeCardModal);
+function initRevealAnimation() {
+  // 초기 상태 설정
+  gsap.set('.reveal-item', { opacity: 0, y: 40 });
 
-  if (isMobile) return; // 모바일에서는 Edge Nudge 비활성화 (네이티브 스크롤 사용)
-
-  // ── Edge Nudge ─────────────────────────────────────────────
-  // 마우스가 갤러리 끝 22% 구역에 들어오면 트랙을 해당 방향으로 최대 90px 이동
-  const wrap = document.querySelector('.s5-gallery-wrap');
-  const track = document.querySelector('.s5-track');
-
-  const nudgeWrap = document.createElement('div');
-  nudgeWrap.className = 's5-nudge-wrap';
-  track.parentNode.insertBefore(nudgeWrap, track);
-  nudgeWrap.appendChild(track);
-
-  const EDGE_ZONE = 0.22;
-  const MAX_NUDGE = 90;
-  const LERP = 0.12;
-  let targetNudge = 0;
-  let currentNudge = 0;
-  let rafId = null;
-
-  function tick() {
-    currentNudge += (targetNudge - currentNudge) * LERP;
-    nudgeWrap.style.transform = `translateX(${currentNudge}px)`;
-    if (Math.abs(currentNudge - targetNudge) > 0.3) {
-      rafId = requestAnimationFrame(tick);
-    } else {
-      currentNudge = targetNudge;
-      nudgeWrap.style.transform = `translateX(${currentNudge}px)`;
-      rafId = null;
-    }
-  }
-
-  function setNudge(x) {
-    targetNudge = x;
-    if (!rafId) rafId = requestAnimationFrame(tick);
-  }
-
-  wrap.addEventListener('mousemove', (e) => {
-    const rect = wrap.getBoundingClientRect();
-    const frac = (e.clientX - rect.left) / rect.width;
-    if (frac < EDGE_ZONE) {
-      setNudge(((EDGE_ZONE - frac) / EDGE_ZONE) * MAX_NUDGE);
-    } else if (frac > 1 - EDGE_ZONE) {
-      setNudge(-((frac - (1 - EDGE_ZONE)) / EDGE_ZONE) * MAX_NUDGE);
-    } else {
-      setNudge(0);
+  // 화면에 나타나는 요소들을 배치(batch)로 그룹화하여 스태거 효과 적용
+  ScrollTrigger.batch('.reveal-item', {
+    start: 'top 85%',
+    onEnter: (batch) => {
+      gsap.to(batch, {
+        opacity: 1,
+        y: 0,
+        duration: 1.2,
+        stagger: 0.15,
+        ease: 'power3.out',
+        overwrite: true
+      });
     }
   });
+}
 
-  wrap.addEventListener('mouseleave', () => setNudge(0));
+function initSection5() {
+  document.querySelectorAll('.s5-card').forEach(card => {
+    card.addEventListener('click', () => openCardModal(Number(card.dataset.card)));
+  });
+  document.getElementById('s5-dim').addEventListener('click', closeCardModal);
+  document.getElementById('s5-modal-close').addEventListener('click', closeCardModal);
 }
 
 function downloadICS() {

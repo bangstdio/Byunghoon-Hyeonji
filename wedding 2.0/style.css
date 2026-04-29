@@ -1,6 +1,70 @@
 /* ============================================================
-   Design Tokens
+   External Fonts
    ============================================================ */
+@font-face {
+  font-family: 'GowunBatang';
+  src: url('fonts/GowunBatang-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Paperlogy';
+  src: url('fonts/Paperlogy-3Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Paperlogy';
+  src: url('fonts/Paperlogy-1/Paperlogy-5Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Paperlogy';
+  src: url('fonts/Paperlogy-7Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Freesentation';
+  src: url('fonts/Freesentation-2/Freesentation-3Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Freesentation';
+  src: url('fonts/Freesentation-2/Freesentation-4Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Freesentation';
+  src: url('fonts/Freesentation-2/Freesentation-7Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sogang';
+  src: url('fonts/SOGANG_UNIVERSITY_for_mac.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --color-bg: #f5f4ed;
   /* Parchment Background */
@@ -14,6 +78,7 @@
   /* Terracotta Brand */
   --color-border: #f0eee6;
   /* Border Cream */
+  --font-gowun: 'GowunBatang', serif;
   --font-serif: 'Anthropic Serif', 'Georgia', serif;
   --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
   --radius-card: 16px;
@@ -130,9 +195,9 @@ body {
 }
 
 .di-logo-desktop {
-  color: #87867f;
-  font-family: var(--font-sans);
-  font-size: 13px;
+  color: #3d3d3a;
+  font-family: 'Freesentation', sans-serif;
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.5px;
   padding-right: 16px;
@@ -148,8 +213,7 @@ body {
 
 /* 날짜·장소 보조 텍스트 */
 .di-event {
-  font-weight: 400;
-  letter-spacing: 0.1px;
+  font-weight: 500;
 }
 
 /* .di-event { display: none; } — 모바일에서도 정보 표시를 위해 제거 */
@@ -164,8 +228,8 @@ body {
   background: transparent;
   border: none;
   cursor: pointer;
-  font-family: var(--font-sans);
-  font-size: 13px;
+  font-family: 'Freesentation', sans-serif;
+  font-size: 15px;
   font-weight: 500;
   color: #3d3d3a;
   padding: 6px 14px;
@@ -187,7 +251,7 @@ body {
 #btn-calendar {
   background: var(--color-brand);
   color: #ffffff;
-  font-weight: 600;
+  font-weight: 500;
   border-radius: var(--radius-pill);
   padding: 6px 12px;
 }
@@ -204,7 +268,10 @@ body {
 
 @media (max-width: 599px) {
   #dynamic-island {
-    padding: 11px 12px 11px 18px;
+    /* 변경 가능 값: 8px = DI 아래 이동량 (위 여백 조절) */
+    top: calc(max(5px, env(safe-area-inset-top)) + 8px);
+    padding: 7px 12px 7px 18px;
+    /* 세로 여백 줄임 → 높이 ~85% */
   }
 
   .di-logo-desktop {
@@ -212,12 +279,38 @@ body {
   }
 
   .di-logo-mobile {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 3px;
     color: #3d3d3a;
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: -0.2px;
     line-height: 1;
+    white-space: nowrap;
+  }
+
+  .di-logo-text {
+    font-family: 'Freesentation', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .di-event-mobile {
+    font-family: 'Freesentation', sans-serif;
+    font-size: 15px;
+    /* 다시 13px로 확대 */
+    font-weight: 500;
+    letter-spacing: -0.3px;
+    color: #3d3d3a;
+    display: flex;
+    align-items: center;
+    opacity: 0.85;
+  }
+
+  .di-event-mobile::before {
+    content: '|';
+    margin-right: 3px;
+    opacity: 1;
+    font-size: 11px;
   }
 
   .di-nav {
@@ -299,7 +392,7 @@ body {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.88);
-  z-index: 500;
+  z-index: 3000;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.32s ease;
@@ -315,7 +408,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.88);
-  z-index: 501;
+  z-index: 3001;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.42s cubic-bezier(0.23, 1, 0.32, 1),
@@ -418,6 +511,8 @@ body {
   bottom: auto !important;
   border-radius: var(--radius-card);
   object-fit: cover;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
 /* ╔═══════════════════════════════════════════════════════
@@ -618,9 +713,10 @@ body {
   will-change: transform;
   z-index: 5;
   color: #ffffff;
-  font-family: var(--font-serif);
+  font-family: 'Instrument Serif', 'Georgia', serif;
+  font-style: italic;
   font-size: 10cqw;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.1;
   text-align: left;
   white-space: nowrap;
@@ -640,10 +736,13 @@ body {
   .s1-main-wrapper {
     border-radius: 28px;
     overflow: hidden;
-    margin: 0 8px 8px 8px;
-    width: calc(100% - 16px);
-    height: calc(100vh - 8px);
-    top: 0;
+    margin: 0 13px 0 13px;
+    /* +5px 좌우 여백 */
+    width: calc(100% - 26px);
+    top: env(safe-area-inset-top);
+    /* 하드웨어 DI 하단~웹 메뉴바 상단 gap 중앙 */
+    height: calc(100dvh - env(safe-area-inset-top) - 28px);
+    /* -20px 높이 감소 + 8px 하단 여백 */
   }
 
   .s1-main {
@@ -652,6 +751,8 @@ body {
   }
 
   .s1-title {
+    transform: translate(calc(8cqw + 8px), calc(-8cqw - 30px));
+    font-size: 15cqw;
     text-shadow: 0 1px 5px rgba(0, 0, 0, 1);
     /* 모바일 섀도우 */
   }
@@ -667,7 +768,6 @@ body {
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 18px;
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -679,7 +779,6 @@ body {
   transition: background 0.2s ease;
   -webkit-tap-highlight-color: transparent;
   flex-shrink: 0;
-  line-height: 1;
 }
 
 .di-btn-hamburger:hover {
@@ -706,9 +805,39 @@ html.dark .di-btn-hamburger:hover {
 
   .di-btn-hamburger {
     display: flex;
-    transform: translateY(-1px);
-    /* 위쪽으로 살짝 보정 */
   }
+
+  /* DI가 env(safe-area-inset-top)+8px 위치 + 높이 48px + gap 8px */
+  #di-menu-panel {
+    top: calc(env(safe-area-inset-top) + 64px);
+  }
+}
+
+/* ── 햄버거 2줄 바 ─────────────────────────────── */
+
+.ham-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  pointer-events: none;
+}
+
+.ham-bar {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 1px;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* 두 줄이 회전하며 X로 변환: 각 바의 중심을 공통 교차점으로 이동 후 45° 회전 */
+.di-btn-hamburger.open .ham-top {
+  transform: translateY(3.25px) rotate(45deg);
+}
+
+.di-btn-hamburger.open .ham-bot {
+  transform: translateY(-3.25px) rotate(-45deg);
 }
 
 /* ── 햄버거 드롭다운 패널 ─────────────────────────────── */
@@ -716,19 +845,22 @@ html.dark .di-btn-hamburger:hover {
 #di-menu-panel {
   position: fixed;
   top: 64px;
-  /* island(top8 + height~48) + gap8 */
+  /* desktop: DI top(~8px) + height(~48px) + gap(8px) */
   right: 5vw;
   z-index: 999;
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(24px) saturate(1.5) brightness(1.1);
   -webkit-backdrop-filter: blur(24px) saturate(1.5) brightness(1.1);
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   overflow: hidden;
   min-width: 152px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   transform-origin: top right;
-  animation: menuIn 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  animation: menuIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+#di-menu-panel.closing {
+  animation: menuOut 0.3s cubic-bezier(0.4, 0, 1, 1) forwards;
 }
 
 #di-menu-panel[hidden] {
@@ -737,24 +869,38 @@ html.dark .di-btn-hamburger:hover {
 
 @keyframes menuIn {
   from {
-    opacity: 0;
-    transform: scale(0.92) translateY(-6px);
+    clip-path: inset(0 0 100% 0 round 16px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0);
   }
 
   to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
+    clip-path: inset(0 0 0% 0 round 16px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  }
+}
+
+@keyframes menuOut {
+  from {
+    clip-path: inset(0 0 0% 0 round 16px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  }
+
+  to {
+    clip-path: inset(0 0 100% 0 round 16px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0);
   }
 }
 
 .di-menu-btn {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   width: 100%;
   background: transparent;
   border: none;
   text-align: left;
   padding: 13px 18px;
-  font-family: var(--font-sans);
+  font-family: 'Freesentation', sans-serif;
   font-size: 14px;
   font-weight: 500;
   color: #3d3d3a;
@@ -792,8 +938,7 @@ html.dark .di-menu-btn:active {
 #section-1,
 #section-2,
 #section-3,
-#section-4,
-#section-5 {
+#section-4 {
   min-height: 100vh;
   background: var(--color-bg);
 }
@@ -822,20 +967,20 @@ html.dark .di-menu-btn:active {
   align-items: center;
   justify-content: center;
   min-height: 0;
-  padding: 40vh 0 40vh;
+  padding: 20vh 0 25vh;
 }
 
 .s2-inner {
   width: 60%;
-  max-width: 720px;
+  max-width: 800px;
   text-align: center;
 }
 
 .s2-text {
   /* Apple Display Hero: SF Pro Display / 56px / 600 / 1.07 / -0.28px */
-  font-family: 'SF Pro Display', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-gowun);
   font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.5;
   letter-spacing: -0.28px;
   text-align: center;
@@ -857,9 +1002,11 @@ html.dark .di-menu-btn:active {
   }
 
   .s2-text {
-    font-size: clamp(1.5rem, 6vw, 2rem);
+    font-size: clamp(1.5rem, 7.5vw, 2.2rem);
     line-height: 1.44;
-    /* 모바일 기준 15% 늘림 */
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    /* 모바일 기준 유동적 크기 및 단어 단위 줄바꿈 적용 */
   }
 }
 
@@ -897,16 +1044,16 @@ html.dark .di-menu-btn:active {
   top: 72px;
   z-index: 30;
   padding: 28px 5vw 16px;
-  font-family: var(--font-sans);
-  font-size: 56px;
-  font-weight: 700;
+  font-family: 'Sogang', serif;
+  font-size: 80px;
+  font-weight: 500;
   letter-spacing: -1.75px;
   color: var(--color-text-primary);
   text-align: center;
 }
 
 .s3-photo-stack {
-  top: 190px;
+  top: 250px;
   z-index: 20;
   display: flex;
   justify-content: center;
@@ -1023,7 +1170,7 @@ html.dark .di-menu-btn:active {
   .s3-text-slot {
     min-height: 81.25vh;
     /* 모바일 동일 적용 */
-    padding-top: 32px;
+    padding-top: 120px;
   }
 
   .s3-text-slot.s3-left {
@@ -1047,37 +1194,59 @@ html.dark .di-menu-btn:active {
   position: absolute;
   top: 0;
   width: 46vw;
-  max-width: 210px;
+  max-width: 370px;
 }
 
 .s3-text-card.s3-left {
-  left: 6%;
-  text-align: left;
+  right: calc(50% + 204px + 6vw);
+  /* 사진 좌측 끝 기준 6vw gap */
+  text-align: right;
 }
 
 .s3-text-card.s3-right {
-  right: 6%;
-  text-align: right;
+  left: calc(50% + 204px + 6vw);
+  /* 사진 우측 끝 기준 6vw gap */
+  text-align: left;
+}
+
+.s3-card-title {
+  font-family: 'Paperlogy', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #141413;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+}
+
+.s3-card-desc {
+  font-family: 'Freesentation', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #5e5d59;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
 }
 
 /* 모바일 설정: 파일 뒤쪽에 위치시켜 데스크탑 설정을 덮어씌움 */
 @media (max-width: 599px) {
   .s3-sticky-title {
-    font-size: 28px;
+    font-size: 40px;
+    /* ← 여기서 모바일 폰트 크기를 바꿀 수 있습니다 */
     letter-spacing: -0.75px;
     padding: 16px 6vw 12px;
-    top: 60px;
+    top: 80px;
     /* 타이틀 위치 */
+    font-weight: 700;
   }
 
   .s3-card-stack {
-    top: 155px;
+    top: 205px;
     /* 텍스트 위치 (여기서 조정하세요) */
     z-index: 26;
   }
 
   .s3-photo-stack {
-    top: 270px;
+    top: 350px;
     /* 사진 위치 */
     padding: 0 4vw;
   }
@@ -1091,26 +1260,22 @@ html.dark .di-menu-btn:active {
   .s3-text-card.s3-right {
     left: 6%;
     right: auto;
-    text-align: left;
+    text-align: center;
+    /* 모바일 가운데 정렬 */
+  }
+
+  .s3-card-title {
+    font-size: 30px;
+    /* 모바일 제목 크기 */
+  }
+
+  .s3-card-desc {
+    font-size: 20px;
+    /* 모바일 본문 크기 */
   }
 }
 
-.s3-card-title {
-  font-family: var(--font-sans);
-  font-size: 20px;
-  font-weight: 700;
-  color: #141413;
-  letter-spacing: -0.25px;
-  margin-bottom: 8px;
-}
 
-.s3-card-desc {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 400;
-  color: #5e5d59;
-  line-height: 1.65;
-}
 
 /* ============================================================
    Utility — Scroll Lock (바텀시트 오픈 시 활성화)
@@ -1129,7 +1294,7 @@ body.scroll-locked {
   z-index: 50;
   background: var(--color-bg);
   min-height: 0;
-  padding: 60px 5vw 60px;
+  padding: 65px 5vw 70px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1138,22 +1303,22 @@ body.scroll-locked {
 .s4-inner {
   text-align: center;
   width: 100%;
-  max-width: 520px;
+  max-width: 580px;
 }
 
 .s4-label {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 600;
+  font-family: 'Paperlogy', sans-serif;
+  font-size: 23px;
+  font-weight: 700;
   color: #615d59;
   letter-spacing: 0.4px;
   margin-bottom: 18px;
 }
 
 .s4-date {
-  font-family: var(--font-sans);
-  font-size: 48px;
-  font-weight: 700;
+  font-family: 'Sogang', serif;
+  font-size: 55px;
+  font-weight: 500;
   color: rgba(0, 0, 0, 0.95);
   letter-spacing: -1.5px;
   line-height: 1.1;
@@ -1161,10 +1326,10 @@ body.scroll-locked {
 }
 
 .s4-venue {
-  font-family: var(--font-sans);
-  font-size: 20px;
+  font-family: 'Freesentation', sans-serif;
+  font-size: 30px;
   font-weight: 500;
-  color: #615d59;
+  color: rgba(0, 0, 0, 0.95);
   margin-bottom: 36px;
 }
 
@@ -1178,37 +1343,48 @@ body.scroll-locked {
 .s4-countdown {
   display: flex;
   justify-content: center;
-  align-items: baseline;
-  gap: 28px;
-  margin-bottom: 20px;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 100%;
 }
 
 .s4-unit {
+  flex: 1;
   display: flex;
-  align-items: baseline;
-  gap: 3px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .s4-num {
-  font-family: var(--font-sans);
-  font-size: 40px;
-  font-weight: 700;
+  font-family: var(--font-gowun);
+  font-size: 38px;
+  font-weight: 400;
   color: rgba(0, 0, 0, 0.95);
   font-variant-numeric: tabular-nums;
   letter-spacing: -1px;
+  line-height: 1;
 }
 
 .s4-unit-label {
-  font-family: var(--font-sans);
-  font-size: 16px;
-  font-weight: 500;
+  font-family: 'Freesentation', sans-serif;
+  font-size: 18px;
+  font-weight: 300;
   color: #615d59;
+  margin-top: 8px;
+}
+
+.s4-sep {
+  font-size: 24px;
+  color: rgba(0, 0, 0, 0.2);
+  margin-top: -24px;
+  /* 숫자 높이에 맞게 보정 */
 }
 
 .s4-suffix {
-  font-family: var(--font-sans);
-  font-size: 16px;
-  font-weight: 400;
+  font-family: 'Freesentation', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
   color: #615d59;
 }
 
@@ -1222,7 +1398,7 @@ body.scroll-locked {
 
 @media (max-width: 599px) {
   #section-4 {
-    padding: 50px 6vw 50px;
+    padding: 160px 6vw 120px;
   }
 
   .s4-date {
@@ -1231,7 +1407,7 @@ body.scroll-locked {
   }
 
   .s4-venue {
-    font-size: 17px;
+    font-size: 25px;
   }
 
   .s4-countdown {
@@ -1253,131 +1429,39 @@ body.scroll-locked {
 
 #section-5 {
   background: var(--color-bg);
-  min-height: 0;
-  padding: 40px 0;
-  overflow: hidden;
+  padding: 60px 0 50px;
   position: relative;
   z-index: 35;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
-/* ── 무한 갤러리 ──────────────────────────────────────────── */
-
-.s5-gallery-wrap {
-  overflow: visible;
-  width: 100%;
-}
-
-.s5-nudge-wrap {
-  will-change: transform;
-}
-
-.s5-track {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: max-content;
-  padding: 0 14px;
-  animation: s5-scroll 24s linear infinite;
-  will-change: transform;
-}
-
-.s5-gallery-wrap:hover .s5-track {
-  animation-play-state: paused;
-}
-
-@keyframes s5-scroll {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
+.s5-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.8vw;
+  /* 1440px 기준 ≈ 40px (16px × 2.5), 뷰포트와 함께 비례 스케일 */
+  padding: 0 1vw;
 }
 
 .s5-card {
-  width: 208px;
-  height: calc(208px * 4 / 3);
+  aspect-ratio: 16 / 9;
   border-radius: 16px;
   overflow: hidden;
   position: relative;
   cursor: pointer;
-  flex-shrink: 0;
-  transform-origin: center center;
-  transition: transform 0.55s cubic-bezier(0.23, 1, 0.32, 1),
-    filter 0.45s cubic-bezier(0.23, 1, 0.32, 1),
-    margin 0.55s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-/* 트랙 호버 시: 나머지 카드 축소 / 카드 hover-out은 관성으로 천천히 복귀 */
-.s5-track:hover .s5-card {
-  transform: scale(0.88);
-  filter: brightness(0.80);
-  margin: -16.64px -12.48px;
-  transition: transform 0.9s cubic-bezier(0.23, 1, 0.32, 1),
-    filter 0.75s cubic-bezier(0.23, 1, 0.32, 1),
-    margin 0.9s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-/* 호버된 카드: 빠르게 확장 */
-.s5-track:hover .s5-card:hover {
-  transform: scale(1.05);
-  filter: brightness(1);
-  margin: 6.93px 5.2px;
   transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1),
-    filter 0.35s cubic-bezier(0.23, 1, 0.32, 1),
-    margin 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+    filter 0.35s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-@media (max-width: 599px) {
-  #section-5 {
-    padding: 40px 0;
-  }
+.s5-card:hover {
+  transform: scale(1.03);
+}
 
-  .s5-gallery-wrap {
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    padding: 0 20px;
-    scrollbar-width: none;
-    /* Firefox */
-    touch-action: pan-x;
-    /* 좌우 스크롤 시 상하 스크롤 방지 */
-  }
-
-  .s5-gallery-wrap::-webkit-scrollbar {
-    display: none;
-    /* Chrome, Safari */
-  }
-
-  .s5-track {
-    animation: none !important;
-    padding: 10px 0;
-    gap: 12px;
-  }
-
-  .s5-card {
-    width: 150px;
-    /* 사용자 요청 크기 */
-    height: calc(150px * 4 / 3);
-  }
-
-  .s5-track:hover .s5-card,
-  .s5-track:hover .s5-card:hover {
-    margin: 0;
-    /* 모바일 터치 시 크기/여백 변화 제거 */
-    transform: none;
-    filter: none;
-  }
-
-  .s5-clone {
-    display: none;
-    /* 모바일은 1바퀴만 표시 */
-  }
+.s5-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 70%);
+  z-index: 1;
 }
 
 .s5-card img {
@@ -1387,25 +1471,51 @@ body.scroll-locked {
   display: block;
 }
 
-/* 중앙 텍스트를 위한 비네트 오버레이 제거 (텍스트 그림자로 대체) */
+.s5-card-text-box {
+  position: absolute;
+  bottom: 25px;
+  left: 25px;
+  z-index: 2;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+}
 
 .s5-card-title {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80%;
-  text-align: center;
-  font-family: var(--font-sans);
-  font-size: 22px;
+  font-family: 'Paperlogy', sans-serif;
+  font-size: 30px;
   font-weight: 700;
-  line-height: 1.14;
-  letter-spacing: 0.196px;
   color: #ffffff;
-  z-index: 2;
-  text-shadow: 0 1px 5px rgba(0, 0, 0, 1);
-  pointer-events: none;
-  white-space: nowrap;
+  text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+}
+
+.s5-card-desc {
+  font-family: 'Freesentation', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+}
+
+@media (max-width: 599px) {
+  #section-5 {
+    padding: 40px 0 40px;
+  }
+
+  .s5-grid {
+    grid-template-columns: 1fr;
+    padding: 0 20px;
+    gap: 12px;
+  }
+
+  .s5-card:hover {
+    transform: none;
+    filter: none;
+  }
 }
 
 /* ── 딤 배경 ───────────────────────────────────────────────── */
@@ -1414,7 +1524,7 @@ body.scroll-locked {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
-  z-index: 200;
+  z-index: 3000;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s ease;
@@ -1425,78 +1535,105 @@ body.scroll-locked {
   pointer-events: all;
 }
 
-/* ── Apple Card 모달 ─────────────────────────────────────────── */
+/* ── Claude-style Bottom Sheet ─────────────────────────── */
+.s5-dim {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 20, 19, 0.4); /* Anthropic Near Black with opacity */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 3000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.s5-dim.active {
+  opacity: 1;
+  pointer-events: all;
+}
 
 .s5-modal {
   position: fixed;
-  top: 50%;
+  bottom: 0;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0.92);
-  background: #f5f5f7;
-  border-radius: 20px;
-  box-shadow: rgba(0, 0, 0, 0.22) 3px 5px 30px 0px;
-  z-index: 201;
-  width: 90vw;
-  max-width: 420px;
-  max-height: 80vh;
+  transform: translateX(-50%) translateY(100%);
+  background: #faf9f5; /* Claude Ivory */
+  border-radius: 32px 32px 0 0;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px -4px 24px; /* Whisper shadow */
+  z-index: 3001;
+  width: 100%;
+  max-width: 550px; /* PC에서도 너무 넓지 않게 조절 */
+  max-height: 85vh;
   overflow-y: auto;
-  padding: 32px 28px 40px;
-  opacity: 0;
+  padding: 20px 28px 48px;
+  opacity: 1; /* translate로 제어하므로 opacity는 1 유지 */
   pointer-events: none;
-  transition: opacity 0.28s cubic-bezier(0.23, 1, 0.32, 1),
-    transform 0.28s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   -webkit-overflow-scrolling: touch;
 }
 
 .s5-modal.active {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+  transform: translateX(-50%) translateY(0);
   pointer-events: all;
+}
+
+/* 상단 핸들 바 */
+.s5-modal-handle {
+  width: 36px;
+  height: 4px;
+  background: #e8e6dc; /* Border Warm */
+  border-radius: 2px;
+  margin: 0 auto 32px;
 }
 
 /* 닫기 버튼 */
 .s5-modal-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 28px;
-  height: 28px;
+  top: 24px;
+  right: 24px;
+  width: 32px;
+  height: 32px;
   border: none;
-  background: rgba(0, 0, 0, 0.08);
+  background: #f0eee6; /* Border Cream */
   border-radius: 50%;
-  font-size: 15px;
+  font-size: 18px;
   line-height: 1;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #141413;
+  color: #5e5d59; /* Olive Gray */
   padding: 0;
-  transition: background 0.15s ease;
+  transition: all 0.2s ease;
 }
 
 .s5-modal-close:hover {
-  background: rgba(0, 0, 0, 0.14);
+  background: #e8e6dc;
+  color: #141413;
 }
 
 /* 모달 본문 */
 .s5-modal-body h3 {
-  font-family: var(--font-sans);
-  font-size: 22px;
+  font-family: 'Paperlogy', sans-serif;
+  font-size: 30px;
   font-weight: 700;
-  color: #141413;
-  letter-spacing: -0.4px;
-  margin-bottom: 20px;
-  padding-right: 28px;
+  color: #141413; /* Anthropic Near Black */
+  letter-spacing: -0.5px;
+  margin-bottom: 24px;
+  line-height: 1.2;
 }
 
 .s5-modal-body p {
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 400;
-  color: #5e5d59;
-  line-height: 1.75;
-  margin-bottom: 16px;
+  font-family: 'Freesentation', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #5e5d59; /* Olive Gray */
+  line-height: 1.6;
+  margin-bottom: 20px;
 }
 
 .s5-modal-body p:last-child {
@@ -1508,38 +1645,42 @@ body.scroll-locked {
   color: #141413;
 }
 
-/* ── 마음 전하실 곳 — 계좌 리스트 ─────────────────────────── */
-
-.account-group {
-  margin-bottom: 22px;
+/* ── Account Modal UI ─────────────────────────────────── */
+.account-container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding-top: 4px;
 }
 
-.account-group:last-child {
-  margin-bottom: 0;
-}
-
-.account-group h4 {
-  font-family: var(--font-sans);
-  font-size: 11px;
+.account-group-title {
+  font-size: 13px;
   font-weight: 600;
-  color: var(--color-text-muted);
-  letter-spacing: 0.6px;
+  color: #a0a09a;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e8e6dc;
+}
+
+.account-list {
+  display: flex;
+  flex-direction: column;
 }
 
 .account-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid #f0efeb;
 }
 
 .account-item:last-child {
   border-bottom: none;
-  padding-bottom: 0;
+  padding-bottom: 2px;
 }
 
 .account-info {
@@ -1547,66 +1688,144 @@ body.scroll-locked {
   min-width: 0;
 }
 
-.account-role {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--color-text-muted);
+.account-relation {
+  font-size: 16px;
+  font-weight: 400;
+  color: #a0a09a;
 }
 
 .account-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin-left: 5px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #141413;
+  margin-left: 6px;
 }
 
 .account-number {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
-  color: var(--color-text-secondary);
-  margin-top: 3px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: #5e5d59;
+  margin-top: 5px;
+  letter-spacing: -0.1px;
 }
 
 .account-actions {
   display: flex;
-  gap: 4px;
+  gap: 6px;
   flex-shrink: 0;
 }
 
-.account-actions button {
-  font-family: var(--font-sans);
-  font-size: 11px;
-  font-weight: 600;
-  padding: 5px 8px;
-  border-radius: 7px;
+.btn-copy, .btn-toss {
   border: none;
+  height: 44px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 22px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
   white-space: nowrap;
   transition: opacity 0.15s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
-.account-actions button:active {
-  opacity: 0.65;
-}
-
 .btn-copy {
-  background: rgba(0, 0, 0, 0.08);
-  color: #141413;
+  background: #f0efeb;
+  color: #5e5d59;
 }
 
 .btn-toss {
-  background: #0064FF;
-  color: #ffffff;
+  background: #3182f6;
+  color: #fff;
 }
 
-.btn-kakao {
-  background: #FEE500;
-  color: #3A1D1D;
+.btn-copy:active, .btn-toss:active {
+  opacity: 0.65;
 }
+
+/* ── 우리 가족 소개 ────────────────────────────────────── */
+.family-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-top: 4px;
+}
+
+.family-group-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #141413;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e8e6dc;
+  margin-bottom: 16px;
+}
+
+.family-photo-wrap {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f0efeb;
+  margin-bottom: 20px;
+}
+
+.family-photo-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.family-member {
+  padding: 14px 0;
+  border-bottom: 1px solid #f0efeb;
+}
+
+.family-member:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.family-member-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #141413;
+  margin-bottom: 5px;
+}
+
+.family-member-desc {
+  font-size: 14px;
+  font-weight: 400;
+  color: #8e8d89;
+  line-height: 1.6;
+}
+
+/* Toast 알림 */
+.toast {
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(20, 20, 19, 0.9);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 14px;
+  z-index: 5000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 
 /* ============================================================
    Tweaks Panel
@@ -1735,7 +1954,8 @@ body.scroll-locked {
   }
 
   .di-event {
-    color: var(--color-text-secondary);
+    color: #c5c1bb;
+    /* 기존 대비 약 20% 밝게 조정 */
   }
 
   .di-btn:hover {
@@ -1755,7 +1975,7 @@ body.scroll-locked {
   }
 
   #di-menu-panel {
-    background: rgba(28, 26, 22, 0.90);
+    background: rgba(30, 28, 24, 0.60);
     border-color: rgba(255, 255, 255, 0.10);
   }
 
