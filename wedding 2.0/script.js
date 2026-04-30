@@ -71,7 +71,7 @@ const S5_CARD_DATA = [
               </div>
               <div class="account-actions">
                 <button class="btn-copy" onclick="copyAccount('42200204108548')">복사</button>
-                <a href="supertoss://transfer?bank=국민&accountNo=42200204108548" class="btn-toss">토스</a>
+                <a href="supertoss://send?bank=국민&accountNo=42200204108548&amount=0" class="btn-toss">토스</a>
               </div>
             </div>
           </div>
