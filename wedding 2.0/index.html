@@ -15,6 +15,11 @@
   <link rel="preload" as="image" href="photos/s1/main.jpg" fetchpriority="high">
   <link rel="preload" as="font" href="fonts/KCCBangJeonghwanTTF.ttf" type="font/truetype" crossorigin>
 
+  <!-- Modal image prefetch (idle-time, low priority) -->
+  <link rel="prefetch" href="photos/s5/info/venue.jpg">
+  <link rel="prefetch" href="photos/s5/info/groom.jpg">
+  <link rel="prefetch" href="photos/s5/info/bride.jpg">
+
   <!-- GSAP + Plugins -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
@@ -230,42 +235,42 @@
     <section id="section-5">
       <div class="s5-grid">
         <div class="s5-card" data-card="0">
-          <img src="photos/s5/01.jpg" alt="오시는 길" loading="lazy">
+          <img src="photos/s5/01.jpg" alt="오시는 길" fetchpriority="low">
           <div class="s5-card-text-box">
             <span class="s5-card-title">오시는 길</span>
             <span class="s5-card-desc">지도와 교통편을 알려드려요</span>
           </div>
         </div>
         <div class="s5-card" data-card="1">
-          <img src="photos/s5/02.jpg" alt="마음 전하실 곳" loading="lazy">
+          <img src="photos/s5/02.jpg" alt="마음 전하실 곳" fetchpriority="low">
           <div class="s5-card-text-box">
             <span class="s5-card-title">마음 전하실 곳</span>
             <span class="s5-card-desc">소중한 마음, 감사히 기억하겠습니다</span>
           </div>
         </div>
         <div class="s5-card" data-card="2">
-          <img src="photos/s5/03.jpg" alt="우리 가족 소개" loading="lazy">
+          <img src="photos/s5/03.jpg" alt="우리 가족 소개" fetchpriority="low">
           <div class="s5-card-text-box">
             <span class="s5-card-title">우리 가족 소개</span>
             <span class="s5-card-desc">저희가 사랑하는 이들이에요</span>
           </div>
         </div>
         <div class="s5-card" data-card="3">
-          <img src="photos/s5/04.jpg" alt="주차 안내" loading="lazy">
+          <img src="photos/s5/04.jpg" alt="주차 안내" fetchpriority="low">
           <div class="s5-card-text-box">
             <span class="s5-card-title">주차 안내</span>
             <span class="s5-card-desc">차를 가지고 오신다면 참고하세요</span>
           </div>
         </div>
         <div class="s5-card" data-card="4">
-          <img src="photos/s5/05.jpg" alt="결혼식 사진 업로드" loading="lazy">
+          <img src="photos/s5/05.jpg" alt="결혼식 사진 업로드" fetchpriority="low">
           <div class="s5-card-text-box">
             <span class="s5-card-title">결혼식 사진 업로드</span>
             <span class="s5-card-desc">오늘은 내가 스냅 작가! 사진을 공유해주세요</span>
           </div>
         </div>
         <div class="s5-card" data-card="5">
-          <img src="photos/s5/06.jpg" alt="결혼식 플레이리스트" loading="lazy">
+          <img src="photos/s5/06.jpg" alt="결혼식 플레이리스트" fetchpriority="low">
           <div class="s5-card-text-box">
             <span class="s5-card-title">결혼식 플레이리스트</span>
             <span class="s5-card-desc">마음을 담아 선곡했어요</span>

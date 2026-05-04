@@ -295,8 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
       else mainImg.addEventListener('load', resolve, { once: true });
     })
   ]).then(() => {
-    gsap.to(mainImg, { opacity: 1, duration: 1, ease: 'power2.out' });
-    gsap.to(mainTitle, { opacity: 1, duration: 1, delay: 0.2, ease: 'power2.out' });
+    gsap.set([mainImg, mainTitle], { opacity: 1 });
   });
 
   initDynamicIsland();
