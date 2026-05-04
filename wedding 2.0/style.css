@@ -1846,6 +1846,13 @@ body.scroll-locked {
 .btn-toss {
   background: #3182f6;
   color: #fff;
+  display: none;
+}
+
+@media (max-width: 599px) {
+  .btn-toss {
+    display: flex;
+  }
 }
 
 .btn-copy:active,
