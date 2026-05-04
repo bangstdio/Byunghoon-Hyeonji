@@ -912,8 +912,8 @@ function initSection5() {
 function downloadICS() {
   const lines = [
     'BEGIN:VCALENDAR', 'VERSION:2.0', 'BEGIN:VEVENT',
-    'SUMMARY:Byunghoon & Hyeonji 결혼식', 'DTSTART:20261128T030000Z',
-    'LOCATION:현대차·기아 양재사옥', 'END:VEVENT', 'END:VCALENDAR'
+    'SUMMARY:김병훈 ♥ 백현지 결혼식', 'DTSTART:20261128T030000Z', 'DTEND:20261128T040000Z',
+    'LOCATION:현대차·기아 양재사옥(서울 서초구 헌릉로12)', 'END:VEVENT', 'END:VCALENDAR'
   ];
   const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar' });
   const url = URL.createObjectURL(blob);
