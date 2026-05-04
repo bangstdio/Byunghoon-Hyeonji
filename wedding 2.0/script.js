@@ -284,6 +284,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
+  // 메인 이미지 + 타이틀 폰트 로드 완료 후 순차 페이드인
+  const mainImg = document.querySelector('.s1-main');
+  const mainTitle = document.querySelector('.s1-title');
+  gsap.set([mainImg, mainTitle], { opacity: 0 });
+  Promise.all([
+    document.fonts.load('400 1em KCCBangJeonghwan'),
+    new Promise(resolve => {
+      if (mainImg.complete && mainImg.naturalWidth > 0) resolve();
+      else mainImg.addEventListener('load', resolve, { once: true });
+    })
+  ]).then(() => {
+    gsap.to(mainImg, { opacity: 1, duration: 1, ease: 'power2.out' });
+    gsap.to(mainTitle, { opacity: 1, duration: 1, delay: 0.2, ease: 'power2.out' });
+  });
+
   initDynamicIsland();
   initCollage();
   initSection2();

@@ -11,6 +11,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+  <!-- Critical resource preloads -->
+  <link rel="preload" as="image" href="photos/s1/main.jpg" fetchpriority="high">
+  <link rel="preload" as="font" href="fonts/KCCBangJeonghwanTTF.ttf" type="font/truetype" crossorigin>
+
   <!-- GSAP + Plugins -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
@@ -62,10 +66,7 @@
 
         <!-- 메인 사진 래퍼: 풀스크린에서 시작, GSAP가 width/height로 그리드 셀로 줄임 -->
         <div class="s1-main-wrapper">
-          <picture>
-            <source media="(max-width: 599px)" srcset="photos/s1/main_m.jpg">
-            <img class="s1-main" src="photos/s1/main.jpg" alt="메인 사진">
-          </picture>
+          <img class="s1-main" src="photos/s1/main.jpg" alt="메인 사진" fetchpriority="high">
           <h1 class="s1-title">병훈과 현지</h1>
         </div>
 
