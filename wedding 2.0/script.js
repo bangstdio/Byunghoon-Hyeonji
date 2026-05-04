@@ -26,7 +26,7 @@ const S5_CARD_DATA = [
       </a>
       <p style="font-weight:700; font-size:20px; margin-bottom:4px;">현대차·기아 양재사옥</p>
       <p style="font-weight:500; font-size:18px; margin-bottom:4px;">서울시 서초구 헌릉로 12</p>
-      <p style="font-weight:400; color:#8e8d89; margin-bottom:24px; font-size:18px;">"경부고속도로에서 보이는 그 쌍둥이 빌딩, 맞습니다."</p>
+      <p style="font-weight:400; color:#8e8d89; margin-bottom:24px; font-size:18px;">"경부고속도로에서 보이는 그 쌍둥이 빌딩 맞습니다."</p>
       <div style="display:flex; gap:8px; margin-bottom:16px;">
         <a href="https://naver.me/5z5iEAfa" target="_blank" style="flex:1; padding:10px 4px; text-align:center; background:#03C75A; color:#fff; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">네이버 지도</a>
         <a href="https://tmap.life/ae83f03a" target="_blank" style="flex:1; padding:10px 4px; text-align:center; background:#2B86FF; color:#fff; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">TMAP</a>
@@ -585,27 +585,27 @@ function initCollage() {
         gsap.set(titleEl, { clearProps: 'opacity' });
       },
       onUpdate: (self) => {
-        // 콜라주 완성과 동시에(혹은 아주 살짝 직전 0.68) 아일랜드가 등장하도록 설정
-        const isReady = self.progress >= 0.68;
+        const isReady = self.progress >= 0.85;
         const section1 = document.getElementById('section-1');
 
-        // 콜라주가 완성 상태를 벗어날 때(위로 스크롤) 모든 호버 효과 강제 초기화
         if (!isReady && section1.classList.contains('is-ready')) {
           resetDim();
         }
 
         section1.classList.toggle('is-ready', isReady);
 
-        // 다이내믹 아일랜드 표시/숨기기
-        if (!islandShown && isReady) {
-          islandShown = true;
-          gsap.to(island, { yPercent: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.4)' });
-        } else if (islandShown && !isReady) {
-          islandShown = false;
-          gsap.to(island, { yPercent: -200, opacity: 0, scale: 0.85, duration: 0.4, ease: 'power2.in' });
+        // 0.68–0.92 구간: 스크롤 진행도에 직접 연동된 점진 등장
+        if (!isMobile) {
+          const t = gsap.utils.clamp(0, 1, gsap.utils.mapRange(0, 0.7, 0, 1, self.progress));
+          gsap.set(island, {
+            yPercent: gsap.utils.interpolate(-200, 0, t),
+            opacity: t,
+            scale: gsap.utils.interpolate(0.85, 1, t),
+          });
+          islandShown = t >= 1;
         }
 
-        // 섹션1 탈출 직전 구간(90~100%): 스크롤 점점 묵직하게
+        // 0.90–1.00: 데드 스크롤 (묵직한 느낌)
         if (!isMobile && lenis) {
           if (self.progress > 0.9) {
             lenis.options.duration = gsap.utils.mapRange(0.9, 1.0, 1.2, 4.0, self.progress);
