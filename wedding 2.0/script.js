@@ -10,8 +10,6 @@ function debounce(fn, ms) {
    Constants
    ============================================================ */
 const WEDDING_DATE = '2026-11-28T12:00:00+09:00';
-const WEDDING_VENUE = '현대차·기아 양재사옥';
-const SMOOTH_SCROLL_DURATION = 0.8;
 let lenis;
 let islandWasVisible = false;
 let islandShown = false;
@@ -24,7 +22,7 @@ const S5_CARD_DATA = [
     title: '오시는 길',
     html: `
       <a href="https://naver.me/5z5iEAfa" target="_blank" style="display:block; width:100%; height:250px; background-color:#eaeaea; border-radius:8px; margin-bottom:16px; overflow:hidden; position:relative; text-decoration:none;">
-        <img src="../photos/venue_main.jpg" alt="현대차 양재사옥 전경" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.src='https://picsum.photos/seed/map/600/400'; this.style.opacity='0.5';">
+        <img src="photos/s5/info/venue.jpg" alt="현대차 양재사옥 전경" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none'">
       </a>
       <p style="font-weight:700; font-size:20px; margin-bottom:4px;">현대차·기아 양재사옥</p>
       <p style="font-weight:500; font-size:18px; margin-bottom:4px;">서울시 서초구 헌릉로 12</p>
@@ -93,7 +91,7 @@ const S5_CARD_DATA = [
             </div>
             <div class="account-item">
               <div class="account-info">
-                <span class="account-relation">어머니</span> <span class="account-name">백현지</span>
+                <span class="account-relation">어머니</span> <span class="account-name">김복순</span>
                 <div class="account-number">국민 000000-00-000000</div>
               </div>
               <div class="account-actions">
@@ -116,13 +114,14 @@ const S5_CARD_DATA = [
       </div>
     `
   },
-  { title: '우리 가족 소개', html: `
+  {
+    title: '우리 가족 소개', html: `
     <div class="family-container">
 
       <div class="family-group">
         <div class="family-group-title">신랑 측 가족</div>
         <div class="family-photo-wrap">
-          <img src="../photos/family/groom_family.jpg" alt="신랑 측 가족사진">
+          <img src="photos/s5/info/groom.jpg" alt="신랑 측 가족사진">
         </div>
         <div class="family-member">
           <div class="family-member-name">아버지 김현수</div>
@@ -140,12 +139,16 @@ const S5_CARD_DATA = [
           <div class="family-member-name">형수 양지유</div>
           <div class="family-member-desc">소개글을 입력해주세요.</div>
         </div>
+        <div class="family-member">
+          <div class="family-member-name">조카 뽁뽁이</div>
+          <div class="family-member-desc">소개글을 입력해주세요.</div>
+        </div>
       </div>
 
       <div class="family-group">
         <div class="family-group-title">신부 측 가족</div>
         <div class="family-photo-wrap">
-          <img src="../photos/family/bride_family.jpg" alt="신부 측 가족사진">
+          <img src="photos/s5/info/bride.jpg" alt="신부 측 가족사진">
         </div>
         <div class="family-member">
           <div class="family-member-name">아버지 백문기</div>
@@ -203,7 +206,7 @@ function closeCardModal() {
 function copyAccount(accountNumber) {
   // 계좌번호에서 하이픈 제거
   const cleanNumber = accountNumber.replace(/-/g, '');
-  
+
   navigator.clipboard.writeText(cleanNumber).then(() => {
     showToast();
   }).catch(err => {
@@ -216,7 +219,7 @@ function copyAccount(accountNumber) {
 function showToast() {
   const toast = document.getElementById('toast');
   if (!toast) return;
-  
+
   toast.classList.add('show');
   setTimeout(() => {
     toast.classList.remove('show');
@@ -241,6 +244,7 @@ function openCollageLightbox(src, fullscreen = false) {
   }
   dim.classList.add('active');
   lb.classList.add('active');
+  if (lenis) lenis.stop();
   document.body.classList.add('scroll-locked');
 }
 
@@ -250,6 +254,7 @@ function closeCollageLightbox() {
   lb.classList.remove('active', 's1-lb-fullscreen');
   dim.classList.remove('active', 's1-lb-fullscreen');
   document.body.classList.remove('scroll-locked');
+  if (lenis) lenis.start();
 
   // 다이내믹 아일랜드 관성으로 복귀 (back.out: 살짝 오버슈트 후 안착)
   if (islandWasVisible) {
@@ -259,9 +264,6 @@ function closeCollageLightbox() {
   }
 }
 
-window.copyAccount = function (text) {
-  navigator.clipboard.writeText(text).then(() => alert('복사되었습니다.'));
-};
 
 /* ============================================================
    Init & Lifecycle
@@ -271,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smoothWheel: true,
-    smoothTouch: true,
+    smoothTouch: false,
   });
 
   lenis.on('scroll', ScrollTrigger.update);
@@ -288,7 +290,17 @@ document.addEventListener('DOMContentLoaded', () => {
   initSection3();
   initSection4();
   initSection5();
-  initRevealAnimation();
+
+  // 화면 회전: 브라우저 레이아웃이 안정된 뒤 GSAP 전체 재계산
+  // 기존 resize 디바운스(150ms)가 먼저 실행되고, 450ms 후 한 번 더 refresh해
+  // iOS/iPadOS의 느린 회전 완료를 확실히 커버한다
+  window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+      if (lenis) lenis.stop();
+      ScrollTrigger.refresh(true);
+      setTimeout(() => { if (lenis) lenis.start(); }, 150);
+    }, 450);
+  });
 });
 
 /* ============================================================
@@ -416,7 +428,6 @@ function initCollage() {
   const wrapper = document.querySelector('.s1-main-wrapper');
   const titleEl = document.querySelector('.s1-title');
   const photos = document.querySelectorAll('.collage-photo');
-  const galleryContainer = document.querySelector('.s1-gallery-container');
 
   // 22장 카드 — 카드 클래스에 맞춰 사방에서 날아오는 시작 위치
   // l* (좌측) → 좌측에서, r* (우측) → 우측에서, t* (상단) → 위에서, b* (하단) → 아래에서
@@ -675,7 +686,7 @@ function initCollage() {
     });
     photo.addEventListener('click', () => {
       if (!document.getElementById('section-1').classList.contains('is-ready')) return;
-      const largeSrc = photo.getAttribute('src').replace('Section 1/', 'Section 1/large/');
+      const largeSrc = photo.getAttribute('src').replace('photos/s1/', 'photos/s1/lg/');
       openCollageLightbox(largeSrc);
     });
   });
@@ -742,8 +753,6 @@ function initSection2() {
 function initSection3() {
   const photos = document.querySelectorAll('.s3-photo');
   const slots = document.querySelectorAll('.s3-text-slot');
-  const titleEl = document.querySelector('.s3-sticky-title');
-  const cards = document.querySelectorAll('.s3-text-card');
   if (!photos.length || !slots.length) return;
 
   const photoOffsets = [
@@ -751,15 +760,17 @@ function initSection3() {
     { x: 12, y: 78, r: -1.1 }, { x: -9, y: 100, r: 2.9 }, { x: 5, y: 120, r: -4.2 }, { x: -14, y: 138, r: 1.6 }
   ];
 
-  const initialPhotoY = window.innerHeight;
-  const isMobile = window.matchMedia('(max-width: 599px)').matches;
+  // let으로 선언: 화면 회전 시 onRefreshInit에서 재계산
+  let initialPhotoY = window.innerHeight;
+  const isMobile = window.matchMedia('(max-width: 1023px)').matches;
 
   const PHOTO_POS = [0, 6, 16, 26, 36, 46, 56];
   const ANIM_DUR = 4.0;
   const MOB_EXIT = 0.6;
   const enterDur = isMobile ? ANIM_DUR - MOB_EXIT : ANIM_DUR;
   const enterOffset = isMobile ? MOB_EXIT : 0;
-  const cardFromState = isMobile ? { opacity: 0, y: 30 } : { y: initialPhotoY, opacity: 0 };
+  // 데스크탑 cardFromState: y를 함수로 → invalidateOnRefresh 시 재평가
+  const cardFromState = isMobile ? { opacity: 0, y: 30 } : { y: () => initialPhotoY, opacity: 0 };
   const cardExitY = isMobile ? -30 : -400;
 
   // 카드들을 data-slot 순서대로 가져오기
@@ -768,9 +779,13 @@ function initSection3() {
     allCards[i] = document.querySelector(`.s3-text-card[data-slot="${i}"]`);
   }
 
-  // 초기 상태 설정: 첫 번째 카드(slot 0) 제외하고 모두 숨김
-  gsap.set(allCards.slice(1).filter(Boolean), cardFromState);
-  gsap.set(Array.from(photos).slice(1), { y: initialPhotoY });
+  // 초기 상태 설정 함수: 리프레시 시 재호출
+  const resetS3InitialState = () => {
+    initialPhotoY = window.innerHeight;
+    gsap.set(allCards.slice(1).filter(Boolean), cardFromState);
+    gsap.set(Array.from(photos).slice(1), { y: initialPhotoY });
+  };
+  resetS3InitialState();
 
   // ── 마스터 타임라인 ────────────────────────────────────────────
   const mainTl = gsap.timeline({
@@ -779,7 +794,9 @@ function initSection3() {
       trigger: '#section-3',
       start: "top top",
       end: "bottom bottom",
-      scrub: isMobile ? 0.1 : 0.05
+      scrub: isMobile ? 0.1 : 0.05,
+      invalidateOnRefresh: true,
+      onRefreshInit: resetS3InitialState
     }
   });
 
@@ -787,7 +804,7 @@ function initSection3() {
   photos.forEach((photo, i) => {
     if (i === 0) return;
     mainTl.fromTo(photo,
-      { y: initialPhotoY, x: photoOffsets[i].x, rotation: photoOffsets[i].r },
+      { y: () => initialPhotoY, x: photoOffsets[i].x, rotation: photoOffsets[i].r },
       { y: photoOffsets[i].y, duration: enterDur, ease: "power2.out" },
       PHOTO_POS[i] + enterOffset
     );
@@ -836,14 +853,7 @@ function initSection4() {
     launchFireworks();
   };
 
-  // 1. 페이지 최하단 스냅포인트: 섹션 3을 다 보고 내려오면 페이지 끝(섹션 4, 5 영역)으로 스냅
-  ScrollTrigger.create({
-    trigger: '#section-4',
-    start: 'top bottom',
-    end: () => ScrollTrigger.maxScroll(window)
-  });
-
-  // 2. 날짜 부분이 화면의 60%(중앙보다 살짝 아래)를 지날 때 폭죽 트리거
+  // 날짜 부분이 화면의 60%(중앙보다 살짝 아래)를 지날 때 폭죽 트리거
   ScrollTrigger.create({
     trigger: '.s4-date',
     start: 'top 60%',
@@ -877,26 +887,6 @@ function initSection4() {
 
 }
 
-function initRevealAnimation() {
-  // 초기 상태 설정
-  gsap.set('.reveal-item', { opacity: 0, y: 40 });
-
-  // 화면에 나타나는 요소들을 배치(batch)로 그룹화하여 스태거 효과 적용
-  ScrollTrigger.batch('.reveal-item', {
-    start: 'top 85%',
-    onEnter: (batch) => {
-      gsap.to(batch, {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        stagger: 0.15,
-        ease: 'power3.out',
-        overwrite: true
-      });
-    }
-  });
-}
-
 function initSection5() {
   document.querySelectorAll('.s5-card').forEach(card => {
     card.addEventListener('click', () => openCardModal(Number(card.dataset.card)));
@@ -908,7 +898,7 @@ function initSection5() {
 function downloadICS() {
   const lines = [
     'BEGIN:VCALENDAR', 'VERSION:2.0', 'BEGIN:VEVENT',
-    'SUMMARY:Byunghoon & Hyeonji 결혼식', 'DTSTART:20261128T120000+0900',
+    'SUMMARY:Byunghoon & Hyeonji 결혼식', 'DTSTART:20261128T030000Z',
     'LOCATION:현대차·기아 양재사옥', 'END:VEVENT', 'END:VCALENDAR'
   ];
   const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar' });
@@ -917,6 +907,7 @@ function downloadICS() {
   a.href = url;
   a.download = 'wedding.ics';
   a.click();
+  URL.revokeObjectURL(url);
 }
 
 

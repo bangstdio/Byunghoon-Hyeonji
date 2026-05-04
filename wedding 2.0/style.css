@@ -67,16 +67,16 @@
 
 @font-face {
   font-family: 'Freesentation';
-  src: url('fonts/Freesentation-2/Freesentation-7Bold.ttf') format('truetype');
-  font-weight: 700;
+  src: url('fonts/Freesentation-2/Freesentation-6SemiBold.ttf') format('truetype');
+  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Sogang';
-  src: url('fonts/SOGANG_UNIVERSITY_for_mac.otf') format('opentype');
-  font-weight: 500;
+  font-family: 'Freesentation';
+  src: url('fonts/Freesentation-2/Freesentation-7Bold.ttf') format('truetype');
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
@@ -85,45 +85,23 @@
   --color-bg: #f5f4ed;
   /* Parchment Background */
   --color-text-primary: #141413;
-  /* Anthropic Near Black */
   --color-text-secondary: #5e5d59;
-  /* Olive Gray */
-  --color-text-muted: #87867f;
-  /* Stone Gray */
   --color-brand: #c96442;
-  /* Terracotta Brand */
-  --color-border: #f0eee6;
-  /* Border Cream */
   --font-gowun: 'GowunBatang', serif;
-  --font-serif: 'Anthropic Serif', 'Georgia', serif;
   --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
   --radius-card: 16px;
   --radius-pill: 9999px;
-  --radius-button: 8px;
-  --radius-large: 24px;
   --shadow-warm: 0px 0px 0px 1px #d1cfc5;
   --shadow-whisper: rgba(0, 0, 0, 0.05) 0px 4px 24px;
 
   /* Collage Math Tokens — Tweakable via JS */
   --s1-gap: 1.2vh;
   --s1-main-scale: 1;
-  /* Mobile: collage hidden, only main visible (handled via media query) */
-  --s1-cw: 60vw;
-  --s1-ch: calc(60vw * 4 / 3);
-  --s1-col-w: 14vw;
-  /* side strip column width */
-  --s1-row-h: 12vw;
-  /* top/bottom strip row height */
 }
 
 @media (min-width: 600px) {
   :root {
     --s1-gap: 1.0vh;
-    /* 3:4 main image, scaled */
-    --s1-ch: calc(60vh * var(--s1-main-scale));
-    --s1-cw: calc(var(--s1-ch) * 3 / 4);
-    --s1-col-w: 12vh;
-    --s1-row-h: 10vh;
   }
 }
 
@@ -141,13 +119,6 @@
 html {
   scroll-behavior: auto;
   overscroll-behavior: none;
-}
-
-/* 다크모드 전환 페이드 — color/background를 쓰는 모든 요소에 일괄 적용 */
-*,
-*::before,
-*::after {
-  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
 }
 
 html.lenis,
@@ -341,6 +312,47 @@ body {
   }
 }
 
+/* 태블릿 (600–1023px): 로고 텍스트를 모바일 형식으로, nav 버튼은 데스크탑 그대로 */
+@media (min-width: 600px) and (max-width: 1023px) {
+  .di-logo-desktop {
+    display: none;
+  }
+
+  .di-logo-mobile {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: #3d3d3a;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .di-logo-text {
+    font-family: 'Freesentation', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .di-event-mobile {
+    font-family: 'Freesentation', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.3px;
+    color: #3d3d3a;
+    display: flex;
+    align-items: center;
+    opacity: 0.85;
+  }
+
+  .di-event-mobile::before {
+    content: '|';
+    margin-right: 3px;
+    opacity: 1;
+    font-size: 11px;
+  }
+}
+
 /* ============================================================
    SECTION 1 — Title Collage
    ============================================================ */
@@ -529,8 +541,6 @@ body {
   bottom: auto !important;
   border-radius: var(--radius-card);
   object-fit: cover;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
 }
 
 /* ╔═══════════════════════════════════════════════════════
@@ -781,8 +791,10 @@ body {
 .di-btn-hamburger {
   display: none;
   /* 데스크탑에서는 숨김 */
-  background: transparent;
-  border: none;
+  background: rgba(0, 0, 0, 0.055);
+  border: 0.5px solid rgba(0, 0, 0, 0.07);
+  box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.5),
+              0 1px 2px rgba(0, 0, 0, 0.05);
   cursor: pointer;
   width: 34px;
   height: 34px;
@@ -792,21 +804,27 @@ body {
   padding: 0;
   margin-left: 2px;
   color: #3d3d3a;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
   -webkit-tap-highlight-color: transparent;
   flex-shrink: 0;
 }
 
 .di-btn-hamburger:hover {
-  background: rgba(0, 0, 0, 0.06);
+  background: rgba(0, 0, 0, 0.10);
+  box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.4),
+              0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 html.dark .di-btn-hamburger {
   color: var(--color-text-primary);
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.10);
+  box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.14),
+              0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 html.dark .di-btn-hamburger:hover {
-  background: rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.16);
 }
 
 @media (max-width: 599px) {
@@ -864,11 +882,13 @@ html.dark .di-btn-hamburger:hover {
   /* desktop: DI top(~8px) + height(~48px) + gap(8px) */
   right: 5vw;
   z-index: 999;
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(24px) saturate(1.5) brightness(1.1);
-  -webkit-backdrop-filter: blur(24px) saturate(1.5) brightness(1.1);
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(24px) saturate(1.5) brightness(1.05);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5) brightness(1.05);
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 0.5px solid rgba(0, 0, 0, 0.07);
+  box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.55),
+              0 8px 32px rgba(0, 0, 0, 0.10);
   overflow: hidden;
   min-width: 152px;
   transform-origin: top right;
@@ -884,27 +904,13 @@ html.dark .di-btn-hamburger:hover {
 }
 
 @keyframes menuIn {
-  from {
-    clip-path: inset(0 0 100% 0 round 16px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0);
-  }
-
-  to {
-    clip-path: inset(0 0 0% 0 round 16px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  }
+  from { clip-path: inset(0 0 100% 0 round 16px); }
+  to   { clip-path: inset(0 0 0%   0 round 16px); }
 }
 
 @keyframes menuOut {
-  from {
-    clip-path: inset(0 0 0% 0 round 16px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  }
-
-  to {
-    clip-path: inset(0 0 100% 0 round 16px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0);
-  }
+  from { clip-path: inset(0 0 0%   0 round 16px); }
+  to   { clip-path: inset(0 0 100% 0 round 16px); }
 }
 
 .di-menu-btn {
@@ -934,8 +940,10 @@ html.dark .di-btn-hamburger:hover {
 }
 
 html.dark #di-menu-panel {
-  background: rgba(28, 26, 22, 0.90);
+  background: rgba(28, 26, 22, 0.78);
   border-color: rgba(255, 255, 255, 0.10);
+  box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.12),
+              0 8px 32px rgba(0, 0, 0, 0.40);
 }
 
 html.dark .di-menu-btn {
@@ -1060,9 +1068,9 @@ html.dark .di-menu-btn:active {
   top: 72px;
   z-index: 30;
   padding: 28px 5vw 16px;
-  font-family: 'Sogang', serif;
+  font-family: 'GowunBatang', serif;
   font-size: 80px;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: -1.75px;
   color: var(--color-text-primary);
   text-align: center;
@@ -1198,14 +1206,6 @@ html.dark .di-menu-btn:active {
   }
 }
 
-/* 카드 스택 */
-.s3-card-stack {
-  top: 358px;
-  height: 0;
-  overflow: visible;
-  z-index: 25;
-}
-
 .s3-text-card {
   position: absolute;
   top: 0;
@@ -1226,12 +1226,12 @@ html.dark .di-menu-btn:active {
 }
 
 .s3-card-title {
-  font-family: 'GowunBatang', serif;
-  font-size: 30px;
-  font-weight: 700;
+  font-family: 'Freesentation', sans-serif;
+  font-size: 35px;
+  font-weight: 600;
   color: #141413;
   letter-spacing: -0.5px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .s3-card-desc {
@@ -1241,6 +1241,53 @@ html.dark .di-menu-btn:active {
   color: #5e5d59;
   line-height: 1.6;
   letter-spacing: 0.5px;
+}
+
+/* ── ≤ 1023px (iPad 포함): 타이틀 → 카드 → 사진 수직 스택 ──
+   모든 BASE 규칙 뒤에 위치 → 올바르게 덮어씌움
+   아래 max-width: 599px 블록이 폰 전용 값을 다시 덮어씌움        */
+@media (max-width: 1023px) {
+  .s3-sticky-title {
+    font-size: 54px;
+    letter-spacing: -1px;
+    padding: 18px 6vw 12px;
+    top: 80px;
+  }
+
+  .s3-card-stack {
+    top: 220px;
+    z-index: 26;
+  }
+
+  .s3-photo-stack {
+    top: 375px;
+    padding: 0 5vw;
+  }
+
+  .s3-photo {
+    width: 70vw;
+    height: calc(70vw * 0.75);
+  }
+
+  .s3-text-card {
+    width: 88vw;
+    max-width: none;
+  }
+
+  .s3-text-card.s3-left,
+  .s3-text-card.s3-right {
+    left: 6%;
+    right: auto;
+    text-align: center;
+  }
+
+  .s3-card-title {
+    font-size: 30px;
+  }
+
+  .s3-card-desc {
+    font-size: 19px;
+  }
 }
 
 /* 모바일 설정: 파일 뒤쪽에 위치시켜 데스크탑 설정을 덮어씌움 */
@@ -1281,13 +1328,71 @@ html.dark .di-menu-btn:active {
   }
 
   .s3-card-title {
-    font-size: 30px;
+    font-size: 25px;
     /* 모바일 제목 크기 */
   }
 
   .s3-card-desc {
     font-size: 20px;
     /* 모바일 본문 크기 */
+  }
+}
+
+/* ── 모바일 가로 (height ≤ 500px + landscape): 타이틀 축소 + 사진 중앙 + 좌우 카드 ──
+   max-width: 1023px 스택 레이아웃보다 뒤에 위치해 덮어씌움
+   iPad 가로(height 744px)는 이 쿼리에 해당하지 않음                              */
+@media (max-height: 500px) and (orientation: landscape) {
+  .s3-sticky-title {
+    font-size: 36px;
+    letter-spacing: -0.75px;
+    padding: 8px 5vw 6px;
+    top: 40px;
+  }
+
+  .s3-photo-stack {
+    top: 100px;
+    padding: 0 5vw;
+  }
+
+  /* 사진: 38vw 너비, 4:3 비율 유지 */
+  .s3-photo {
+    width: 38vw;
+    height: calc(38vw * 0.75);
+  }
+
+  /* 카드 스택: 사진 상단과 맞춤 */
+  .s3-card-stack {
+    top: 180px;
+    z-index: 25;
+  }
+
+  /* 카드: 데스크탑처럼 사진 좌우 배치 */
+  .s3-text-card {
+    width: 24vw;
+    max-width: none;
+  }
+
+  /* 50% + 19vw(사진 반폭) + 3vw(여백) = 50% + 22vw */
+  .s3-text-card.s3-left {
+    right: calc(50% + 22vw);
+    left: auto;
+    text-align: right;
+  }
+
+  .s3-text-card.s3-right {
+    left: calc(50% + 22vw);
+    right: auto;
+    text-align: left;
+  }
+
+  .s3-card-title {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .s3-card-desc {
+    font-size: 13px;
+    line-height: 1.5;
   }
 }
 
@@ -1332,13 +1437,13 @@ body.scroll-locked {
 }
 
 .s4-date {
-  font-family: 'Sogang', serif;
+  font-family: 'GowunBatang', serif;
   font-size: 55px;
-  font-weight: 500;
+  font-weight: 700;
   color: rgba(0, 0, 0, 0.95);
   letter-spacing: -1.5px;
   line-height: 1.1;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .s4-venue {
@@ -1360,7 +1465,7 @@ body.scroll-locked {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
   width: 100%;
 }
 
@@ -1534,23 +1639,6 @@ body.scroll-locked {
   }
 }
 
-/* ── 딤 배경 ───────────────────────────────────────────────── */
-
-.s5-dim {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 3000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-}
-
-.s5-dim.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
 /* ── Claude-style Bottom Sheet ─────────────────────────── */
 .s5-dim {
   position: fixed;
@@ -1558,7 +1646,8 @@ body.scroll-locked {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(20, 20, 19, 0.4); /* Anthropic Near Black with opacity */
+  background: rgba(20, 20, 19, 0.4);
+  /* Anthropic Near Black with opacity */
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   z-index: 3000;
@@ -1577,16 +1666,20 @@ body.scroll-locked {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%) translateY(100%);
-  background: #faf9f5; /* Claude Ivory */
+  background: #faf9f5;
+  /* Claude Ivory */
   border-radius: 32px 32px 0 0;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px -4px 24px; /* Whisper shadow */
+  box-shadow: rgba(0, 0, 0, 0.05) 0px -4px 24px;
+  /* Whisper shadow */
   z-index: 3001;
   width: 100%;
-  max-width: 550px; /* PC에서도 너무 넓지 않게 조절 */
+  max-width: 550px;
+  /* PC에서도 너무 넓지 않게 조절 */
   max-height: 85dvh;
   overflow-y: auto;
   padding: 20px 28px max(48px, calc(24px + env(safe-area-inset-bottom)));
-  opacity: 1; /* translate로 제어하므로 opacity는 1 유지 */
+  opacity: 1;
+  /* translate로 제어하므로 opacity는 1 유지 */
   pointer-events: none;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   -webkit-overflow-scrolling: touch;
@@ -1597,15 +1690,6 @@ body.scroll-locked {
   pointer-events: all;
 }
 
-/* 상단 핸들 바 */
-.s5-modal-handle {
-  width: 36px;
-  height: 4px;
-  background: #e8e6dc; /* Border Warm */
-  border-radius: 2px;
-  margin: 0 auto 32px;
-}
-
 /* 닫기 버튼 */
 .s5-modal-close {
   position: absolute;
@@ -1614,7 +1698,8 @@ body.scroll-locked {
   width: 32px;
   height: 32px;
   border: none;
-  background: #f0eee6; /* Border Cream */
+  background: #f0eee6;
+  /* Border Cream */
   border-radius: 50%;
   font-size: 18px;
   line-height: 1;
@@ -1622,7 +1707,8 @@ body.scroll-locked {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #5e5d59; /* Olive Gray */
+  color: #5e5d59;
+  /* Olive Gray */
   padding: 0;
   transition: all 0.2s ease;
 }
@@ -1637,7 +1723,8 @@ body.scroll-locked {
   font-family: 'Paperlogy', sans-serif;
   font-size: 30px;
   font-weight: 700;
-  color: #141413; /* Anthropic Near Black */
+  color: #141413;
+  /* Anthropic Near Black */
   letter-spacing: -0.5px;
   margin-bottom: 24px;
   line-height: 1.2;
@@ -1647,7 +1734,8 @@ body.scroll-locked {
   font-family: 'Freesentation', sans-serif;
   font-size: 20px;
   font-weight: 500;
-  color: #5e5d59; /* Olive Gray */
+  color: #5e5d59;
+  /* Olive Gray */
   line-height: 1.6;
   margin-bottom: 20px;
 }
@@ -1731,7 +1819,8 @@ body.scroll-locked {
   flex-shrink: 0;
 }
 
-.btn-copy, .btn-toss {
+.btn-copy,
+.btn-toss {
   border: none;
   height: 44px;
   padding: 0 18px;
@@ -1759,7 +1848,8 @@ body.scroll-locked {
   color: #fff;
 }
 
-.btn-copy:active, .btn-toss:active {
+.btn-copy:active,
+.btn-toss:active {
   opacity: 0.65;
 }
 
@@ -1950,9 +2040,7 @@ body.scroll-locked {
     --color-bg: #1a1916;
     --color-text-primary: #f0ede4;
     --color-text-secondary: #a39e98;
-    --color-text-muted: #c4c0b8;
     --color-brand: #d4724f;
-    --color-border: #2e2c28;
     --shadow-warm: 0px 0px 0px 1px #3a3832;
     --shadow-whisper: rgba(0, 0, 0, 0.30) 0px 4px 24px;
   }
