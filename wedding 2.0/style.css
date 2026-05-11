@@ -1114,6 +1114,7 @@ html.dark .di-menu-btn:active {
   object-fit: cover;
   /* 애니메이션에 의한 opacity, y 등은 스크립트에서 설정됨 */
   box-shadow: none;
+  will-change: transform;
 }
 
 /* 첫 번째 사진만 그림자 */
@@ -1221,6 +1222,7 @@ html.dark .di-menu-btn:active {
   top: 0;
   width: 46vw;
   max-width: 370px;
+  will-change: transform;
 }
 
 .s3-text-card.s3-left {
@@ -2187,6 +2189,40 @@ body.scroll-locked {
   .btn-copy {
     background: rgba(255, 255, 255, 0.12);
     color: var(--color-text-primary);
+  }
+
+  .account-group-title {
+    color: var(--color-text-secondary);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .account-name {
+    color: var(--color-text-primary);
+  }
+
+  .account-number {
+    color: var(--color-text-secondary);
+  }
+
+  .family-group-title {
+    color: var(--color-text-primary);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .family-photo-wrap {
+    background: #2a2824;
+  }
+
+  .family-member {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .family-member-name {
+    color: var(--color-text-primary);
+  }
+
+  .family-member-desc {
+    color: var(--color-text-secondary);
   }
 
   /* Tweaks Panel */

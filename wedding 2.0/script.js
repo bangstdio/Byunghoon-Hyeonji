@@ -26,7 +26,7 @@ const S5_CARD_DATA = [
       </a>
       <p style="font-weight:700; font-size:20px; margin-bottom:4px;">현대차·기아 양재사옥</p>
       <p style="font-weight:500; font-size:18px; margin-bottom:4px;">서울시 서초구 헌릉로 12</p>
-      <p style="font-weight:400; color:#8e8d89; margin-bottom:24px; font-size:18px;">"경부고속도로에서 보이는 그 쌍둥이 빌딩 맞습니다."</p>
+      <p style="font-weight:400; margin-bottom:24px; font-size:18px;">"경부고속도로에서 보이는 그 쌍둥이 빌딩 맞습니다."</p>
       <div style="display:flex; gap:8px; margin-bottom:16px;">
         <a href="https://naver.me/5z5iEAfa" target="_blank" style="flex:1; padding:10px 4px; text-align:center; background:#03C75A; color:#fff; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">네이버 지도</a>
         <a href="https://tmap.life/ae83f03a" target="_blank" style="flex:1; padding:10px 4px; text-align:center; background:#2B86FF; color:#fff; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">TMAP</a>
@@ -185,6 +185,7 @@ function openCardModal(index) {
   const body = document.getElementById('s5-modal-body');
   const dim = document.getElementById('s5-dim');
   if (!modal || !body || !dim) return;
+
   body.innerHTML = `<h3>${data.title}</h3>${data.html}`;
   modal.scrollTop = 0;
   dim.classList.add('active');
@@ -808,7 +809,7 @@ function initSection3() {
       trigger: '#section-3',
       start: "top top",
       end: "bottom bottom",
-      scrub: isMobile ? 0.1 : 0.05,
+      scrub: 0.05,
       invalidateOnRefresh: true,
       onRefreshInit: resetS3InitialState
     }
