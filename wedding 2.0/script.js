@@ -784,8 +784,6 @@ function initSection3() {
   const MOB_EXIT = 0.6;
   const enterDur = isMobile ? ANIM_DUR - MOB_EXIT : ANIM_DUR;
   const enterOffset = isMobile ? MOB_EXIT : 0;
-  // 모바일: PHOTO_POS 간격(10)과 동일하게 설정해 스크롤 1px ≈ 사진 1px 이동
-  const photoEnterDur = isMobile ? 10 : ANIM_DUR;
   // 데스크탑 cardFromState: y를 함수로 → invalidateOnRefresh 시 재평가
   const cardFromState = isMobile ? { opacity: 0, y: 30 } : { y: () => initialPhotoY, opacity: 0 };
   const cardExitY = isMobile ? -30 : -400;
@@ -822,7 +820,7 @@ function initSection3() {
     if (i === 0) return;
     mainTl.fromTo(photo,
       { y: () => initialPhotoY, x: photoOffsets[i].x, rotation: photoOffsets[i].r },
-      { y: photoOffsets[i].y, duration: photoEnterDur, ease: "none" },
+      { y: photoOffsets[i].y, duration: enterDur, ease: "power2.out" },
       PHOTO_POS[i] + enterOffset
     );
   });
