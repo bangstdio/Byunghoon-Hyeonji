@@ -319,18 +319,17 @@ function initLoadingScreen() {
   const content = screen ? screen.querySelector('.ls-content') : null;
   if (!screen || !bar || !content) return;
 
-  const MIN_DISPLAY_MS = 8000;   // 최소 표시 시간
+  const MIN_DISPLAY_MS = 8000;   // 최소 표시 시간 (선형 기준)
   const HARD_TIMEOUT_MS = 15000; // 리소스 강제 완료 타임아웃
-  const MIN_SPEED = 7;           // % per second, 최소 진행 속도
 
   let totalWeight = 0;
   let loadedWeight = 0;
-  let targetPct = 0;
+  let targetPct = 0;   // 실제 리소스 로딩 진행률
   let displayPct = 0;
   let resourcesDone = false;
   let minTimeDone = false;
   let done = false;
-  let lastTime = null;
+  let startTime = null;
 
   function tryComplete() {
     if (!done && resourcesDone && minTimeDone) {
@@ -422,16 +421,16 @@ function initLoadingScreen() {
   setTimeout(markResourcesDone, HARD_TIMEOUT_MS);
 
   // ── 진행바 애니메이션 ─────────────────────────────────────
+  // 빠른 로딩: 8초 선형으로 채움 / 느린 로딩: 실제 진행률 추종
   function tick(now) {
-    if (!lastTime) lastTime = now;
-    const dt = Math.min((now - lastTime) / 1000, 0.1);
-    lastTime = now;
+    if (!startTime) startTime = now;
+    const elapsed = now - startTime;
 
-    const gap = targetPct - displayPct;
-    let step = gap > 0 ? gap * dt * 5 : 0;
-    step = Math.max(step, MIN_SPEED * dt);
+    // 8초 기준 선형 진행률
+    const linearPct = Math.min((elapsed / MIN_DISPLAY_MS) * 100, 100);
 
-    displayPct = Math.min(displayPct + step, done ? 100 : 99);
+    // 실제 로딩이 선형보다 느리면 실제값, 빠르면 선형값
+    displayPct = done ? 100 : Math.min(targetPct, linearPct);
     bar.style.width = displayPct.toFixed(2) + '%';
 
     if (displayPct >= 100) {

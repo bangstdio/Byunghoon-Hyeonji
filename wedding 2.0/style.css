@@ -2309,6 +2309,7 @@ body.scroll-locked {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-bottom: 12vh; /* 전체 디자인을 위로 이동 */
   transition: opacity 0.65s ease;
 }
 
@@ -2415,6 +2416,7 @@ body.scroll-locked {
   .ls-progress-wrap {
     margin-bottom: 60px;
     height: 1.5px;
+    width: 280px; /* 전체 텍스트 너비의 약 30% */
   }
   .ls-note {
     font-size: 20px;
