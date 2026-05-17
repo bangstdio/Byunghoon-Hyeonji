@@ -319,8 +319,8 @@ function initLoadingScreen() {
   const content = screen ? screen.querySelector('.ls-content') : null;
   if (!screen || !bar || !content) return;
 
-  const MIN_DISPLAY_MS = 8000;   // 최소 표시 시간 (선형 기준)
-  const HARD_TIMEOUT_MS = 15000; // 리소스 강제 완료 타임아웃
+  const MIN_DISPLAY_MS = 5500;   // 최소 표시 시간 (선형 기준)
+  const HARD_TIMEOUT_MS = 10000; // 리소스 강제 완료 타임아웃
 
   let totalWeight = 0;
   let loadedWeight = 0;
