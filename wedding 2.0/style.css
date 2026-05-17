@@ -2324,38 +2324,39 @@ body.scroll-locked {
   text-align: center;
   padding: 0 40px;
   width: 100%;
-  max-width: 320px;
+  max-width: 416px;
+  opacity: 0; /* 폰트 로드 후 JS로 표시 */
 }
 
 .ls-invite {
   font-family: 'GowunBatang', serif;
   font-weight: 700;
-  font-size: 11px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.55);
   letter-spacing: 5px;
-  margin: 0 0 20px;
+  margin: 0 0 26px;
 }
 
 .ls-title {
   font-family: 'Freesentation', sans-serif;
   font-weight: 500;
-  font-size: 19px;
+  font-size: 25px;
   color: #fff;
-  margin: 0 0 18px;
+  margin: 0 0 23px;
   letter-spacing: 0.3px;
 }
 
 .ls-info {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  margin-bottom: 36px;
+  gap: 7px;
+  margin-bottom: 47px;
 }
 
 .ls-info p {
   font-family: 'Freesentation', sans-serif;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 16px;
   color: rgba(255, 255, 255, 0.65);
   margin: 0;
   letter-spacing: 0.2px;
@@ -2367,7 +2368,7 @@ body.scroll-locked {
   background: rgba(255, 255, 255, 0.12);
   border-radius: 1px;
   overflow: hidden;
-  margin-bottom: 30px;
+  margin-bottom: 39px;
 }
 
 .ls-bar {
@@ -2380,9 +2381,43 @@ body.scroll-locked {
 .ls-note {
   font-family: 'Freesentation', sans-serif;
   font-weight: 400;
-  font-size: 10px;
+  font-size: 13px;
   color: rgba(255, 255, 255, 0.32);
   line-height: 1.75;
   margin: 0;
   word-break: keep-all;
+}
+
+/* ── PC: 원본의 2× + 줄바꿈 없음 ── */
+@media (min-width: 769px) {
+  .ls-content {
+    max-width: none;
+    padding: 0 60px;
+  }
+  .ls-invite {
+    font-size: 22px;
+    margin-bottom: 40px;
+    white-space: nowrap;
+  }
+  .ls-title {
+    font-size: 38px;
+    margin-bottom: 36px;
+    white-space: nowrap;
+  }
+  .ls-info {
+    gap: 10px;
+    margin-bottom: 72px;
+  }
+  .ls-info p {
+    font-size: 24px;
+    white-space: nowrap;
+  }
+  .ls-progress-wrap {
+    margin-bottom: 60px;
+    height: 1.5px;
+  }
+  .ls-note {
+    font-size: 20px;
+    white-space: nowrap;
+  }
 }
