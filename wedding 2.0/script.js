@@ -421,12 +421,12 @@ function initLoadingScreen() {
   setTimeout(markResourcesDone, HARD_TIMEOUT_MS);
 
   // ── 진행바 애니메이션 ─────────────────────────────────────
-  // 빠른 로딩: 8초 선형으로 채움 / 느린 로딩: 실제 진행률 추종
+  // 빠른 로딩: 5.5초 선형으로 채움 / 느린 로딩: 실제 진행률 추종
   function tick(now) {
     if (!startTime) startTime = now;
     const elapsed = now - startTime;
 
-    // 8초 기준 선형 진행률
+    // 5.5초 기준 선형 진행률
     const linearPct = Math.min((elapsed / MIN_DISPLAY_MS) * 100, 100);
 
     // 실제 로딩이 선형보다 느리면 실제값, 빠르면 선형값
@@ -445,7 +445,7 @@ function initLoadingScreen() {
     screen.classList.add('ls-fade-out');
     setTimeout(() => {
       screen.remove();
-      ScrollTrigger.refresh(); // 로딩 중 계산된 트리거 위치 재보정
+      if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
     }, 700);
   }
 }
@@ -453,6 +453,10 @@ function initLoadingScreen() {
 /* ============================================================
    Init & Lifecycle
    ============================================================ */
+
+// defer 스크립트(GSAP/Lenis)와 무관하게 즉시 실행 — body 끝에 위치하므로 DOM 준비됨
+initLoadingScreen();
+
 document.addEventListener('DOMContentLoaded', () => {
   lenis = new Lenis({
     duration: 1.2,
@@ -468,8 +472,6 @@ document.addEventListener('DOMContentLoaded', () => {
   gsap.ticker.lagSmoothing(0);
 
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-
-  initLoadingScreen();
 
   // 메인 이미지 + 타이틀 폰트 로드 완료 후 순차 페이드인
   const mainImg = document.querySelector('.s1-main');
