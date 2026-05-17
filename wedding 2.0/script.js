@@ -1,4 +1,9 @@
 /* ============================================================
+   Viewport Height Fix (카카오톡 URL 바 show/hide로 인한 높이 변동 방지)
+   ============================================================ */
+document.documentElement.style.setProperty('--vh', window.innerHeight + 'px');
+
+/* ============================================================
    Utilities
    ============================================================ */
 function debounce(fn, ms) {
@@ -913,6 +918,7 @@ function initCollage() {
     const newWidth = window.innerWidth;
     if (newWidth === _prevResizeWidth) return; // 툴바 show/hide (height만 변화) 무시
     _prevResizeWidth = newWidth;
+    document.documentElement.style.setProperty('--vh', window.innerHeight + 'px');
 
     const isReady = document.getElementById('section-1').classList.contains('is-ready');
 
@@ -1068,15 +1074,20 @@ function initSection4() {
     launchFireworks();
   };
 
-  // 날짜 부분이 화면의 60%(중앙보다 살짝 아래)를 지날 때 폭죽 트리거
-  ScrollTrigger.create({
-    trigger: '.s4-date',
-    start: 'top 60%',
-    onEnter: () => triggerFireworks(),
-    onLeaveBack: () => {
+  // 날짜 부분이 화면의 60% 지점에 들어올 때 폭죽 트리거
+  // IntersectionObserver: ScrollTrigger와 달리 실시간 레이아웃 기반 → 툴바 높이 변동에 강함
+  const dateEl = document.querySelector('.s4-date');
+  const fireworksObserver = new IntersectionObserver((entries) => {
+    const entry = entries[0];
+    if (entry.isIntersecting && !fireworksFired) {
+      fireworksFired = true;
+      launchFireworks();
+    }
+    if (!entry.isIntersecting && entry.boundingClientRect.top > 0) {
       fireworksFired = false; // 위로 다시 올라가면 리셋
     }
-  });
+  }, { rootMargin: '0px 0px -40% 0px', threshold: 0 });
+  fireworksObserver.observe(dateEl);
 
   const countdownEl = document.getElementById('s4-countdown');
   const target = new Date(WEDDING_DATE);
