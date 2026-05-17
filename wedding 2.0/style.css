@@ -911,7 +911,7 @@ html.dark .di-btn-hamburger:hover {
 .ham-bar {
   display: block;
   width: 18px;
-  height: 1.5px;
+  height: 2px;
   background: currentColor;
   border-radius: 1px;
   transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
@@ -919,11 +919,11 @@ html.dark .di-btn-hamburger:hover {
 
 /* 두 줄이 회전하며 X로 변환: 각 바의 중심을 공통 교차점으로 이동 후 45° 회전 */
 .di-btn-hamburger.open .ham-top {
-  transform: translateY(3.25px) rotate(45deg);
+  transform: translateY(3.5px) rotate(45deg);
 }
 
 .di-btn-hamburger.open .ham-bot {
-  transform: translateY(-3.25px) rotate(-45deg);
+  transform: translateY(-3.5px) rotate(-45deg);
 }
 
 /* ── 햄버거 드롭다운 패널 ─────────────────────────────── */
