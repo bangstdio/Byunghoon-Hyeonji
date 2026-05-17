@@ -503,8 +503,13 @@ body {
 }
 
 @keyframes s1-lb-shimmer {
-  0%   { transform: translateX(-200%); }
-  100% { transform: translateX(500%); }
+  0% {
+    transform: translateX(-200%);
+  }
+
+  100% {
+    transform: translateX(500%);
+  }
 }
 
 .s1-lb-close {
@@ -2300,6 +2305,7 @@ body.scroll-locked {
     color: var(--color-text-secondary);
   }
 }
+
 /* ─── Loading Screen ──────────────────────────────────────────── */
 #loading-screen {
   position: fixed;
@@ -2309,7 +2315,8 @@ body.scroll-locked {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 12vh; /* 전체 디자인을 위로 이동 */
+  padding-top: 5vh;
+  padding-bottom: 7vh;
   transition: opacity 0.65s ease;
 }
 
@@ -2326,14 +2333,15 @@ body.scroll-locked {
   padding: 0 40px;
   width: 100%;
   max-width: 416px;
-  opacity: 0; /* 폰트 로드 후 JS로 표시 */
+  opacity: 0;
+  /* 폰트 로드 후 JS로 표시 */
 }
 
 .ls-invite {
   font-family: 'GowunBatang', serif;
   font-weight: 700;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.55);
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.8);
   letter-spacing: 5px;
   margin: 0 0 26px;
 }
@@ -2357,8 +2365,8 @@ body.scroll-locked {
 .ls-info p {
   font-family: 'Freesentation', sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.65);
+  font-size: 19px;
+  color: rgba(255, 255, 255, 1);
   margin: 0;
   letter-spacing: 0.2px;
 }
@@ -2382,8 +2390,8 @@ body.scroll-locked {
 .ls-note {
   font-family: 'Freesentation', sans-serif;
   font-weight: 400;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.32);
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.65);
   line-height: 1.75;
   margin: 0;
   word-break: keep-all;
@@ -2395,29 +2403,36 @@ body.scroll-locked {
     max-width: none;
     padding: 0 60px;
   }
+
   .ls-invite {
-    font-size: 22px;
-    margin-bottom: 40px;
+    font-size: 25px;
+    margin-bottom: 60px;
     white-space: nowrap;
   }
+
   .ls-title {
-    font-size: 38px;
+    font-size: 33px;
     margin-bottom: 36px;
     white-space: nowrap;
   }
+
   .ls-info {
     gap: 10px;
     margin-bottom: 72px;
   }
+
   .ls-info p {
-    font-size: 24px;
+    font-size: 28px;
     white-space: nowrap;
   }
+
   .ls-progress-wrap {
     margin-bottom: 60px;
     height: 1.5px;
-    width: 280px; /* 전체 텍스트 너비의 약 30% */
+    width: 280px;
+    /* 전체 텍스트 너비의 약 30% */
   }
+
   .ls-note {
     font-size: 20px;
     white-space: nowrap;
