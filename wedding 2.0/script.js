@@ -476,6 +476,8 @@ document.addEventListener('DOMContentLoaded', () => {
   gsap.ticker.lagSmoothing(0);
 
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+  // 모바일 툴바 show/hide(height만 변하는 resize)를 ScrollTrigger가 무시하도록 설정
+  ScrollTrigger.config({ ignoreMobileResize: true });
 
   // 메인 이미지 + 타이틀 폰트 로드 완료 후 순차 페이드인
   const mainImg = document.querySelector('.s1-main');
@@ -906,7 +908,12 @@ function initCollage() {
 
   // ── 창 크기 변경 시 FLIP 애니메이션 ──────────────────────
   // 변경 전 위치 저장 → 레이아웃 갱신 → 역방향 offset 적용 → 0으로 스르륵
+  let _prevResizeWidth = window.innerWidth;
   window.addEventListener('resize', debounce(() => {
+    const newWidth = window.innerWidth;
+    if (newWidth === _prevResizeWidth) return; // 툴바 show/hide (height만 변화) 무시
+    _prevResizeWidth = newWidth;
+
     const isReady = document.getElementById('section-1').classList.contains('is-ready');
 
     if (!isReady) { ScrollTrigger.refresh(); return; }
