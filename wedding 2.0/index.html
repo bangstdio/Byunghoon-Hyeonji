@@ -14,6 +14,9 @@
   <!-- Critical resource preloads -->
   <link rel="preload" as="image" href="photos/s1/main.jpg" fetchpriority="high">
   <link rel="preload" as="font" href="fonts/KCCBangJeonghwanTTF.ttf" type="font/truetype" crossorigin>
+  <link rel="preload" as="font" href="fonts/GowunBatang-Bold.ttf" type="font/truetype" crossorigin>
+  <link rel="preload" as="font" href="fonts/Freesentation-2/Freesentation-5Medium.ttf" type="font/truetype" crossorigin>
+  <link rel="preload" as="font" href="fonts/Freesentation-2/Freesentation-4Regular.ttf" type="font/truetype" crossorigin>
 
   <!-- Modal image prefetch (idle-time, low priority) -->
   <link rel="prefetch" href="photos/s5/info/venue.jpg">
@@ -31,6 +34,22 @@
 </head>
 
 <body>
+
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="ls-content">
+      <p class="ls-invite">초대합니다</p>
+      <h1 class="ls-title">병훈과 현지의 결혼식</h1>
+      <div class="ls-info">
+        <p>2026년 11월 28일 토요일 12시</p>
+        <p>현대차·기아 양재사옥</p>
+      </div>
+      <div class="ls-progress-wrap">
+        <div class="ls-bar" id="ls-bar"></div>
+      </div>
+      <p class="ls-note">우리만의 이야기를 담고자 신랑이 AI를 활용해 직접 제작한 모바일 청첩장입니다.<br>원활하지 않은 부분이 있더라도 너른 양해 부탁드립니다.</p>
+    </div>
+  </div>
 
   <!-- SECTION 0: Dynamic Island Navigation -->
   <nav id="dynamic-island" aria-label="페이지 네비게이션">
@@ -292,7 +311,10 @@
     <div class="s1-lb-dim" id="s1-lb-dim"></div>
     <div class="s1-lightbox" id="s1-lightbox" role="dialog" aria-modal="true">
       <button class="s1-lb-close" id="s1-lb-close" aria-label="닫기">&times;</button>
-      <img class="s1-lb-img" id="s1-lb-img" alt="">
+      <div class="s1-lb-loading" id="s1-lb-loading">
+        <div class="s1-lb-progress-track"><div class="s1-lb-progress-bar"></div></div>
+      </div>
+      <img class="s1-lb-img" id="s1-lb-img" alt="" style="display:none">
     </div>
 
     <!-- ── Tweaks Panel ───────────────────────── -->

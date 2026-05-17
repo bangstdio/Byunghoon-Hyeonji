@@ -227,9 +227,11 @@ function showToast() {
   }, 2000);
 }
 
-function openCollageLightbox(src, fullscreen = false) {
+function openCollageLightbox(src, fullscreen = false, thumbEl = null) {
   const lb = document.getElementById('s1-lightbox');
   const dim = document.getElementById('s1-lb-dim');
+  const img = document.getElementById('s1-lb-img');
+  const loading = document.getElementById('s1-lb-loading');
   const island = document.getElementById('dynamic-island');
 
   // 다이내믹 아일랜드가 화면에 있으면 위로 퇴장
@@ -238,7 +240,37 @@ function openCollageLightbox(src, fullscreen = false) {
     gsap.to(island, { yPercent: -200, duration: 0.42, ease: 'power3.inOut' });
   }
 
-  document.getElementById('s1-lb-img').src = src;
+  // 이전 로드 취소 및 이미지 숨김
+  img.onload = null;
+  img.onerror = null;
+  img.src = '';
+  img.style.display = 'none';
+
+  // 썸네일 비율로 로딩 플레이스홀더 크기 설정
+  if (!fullscreen && thumbEl && thumbEl.naturalWidth && thumbEl.naturalHeight) {
+    const ratio = thumbEl.naturalWidth / thumbEl.naturalHeight;
+    const maxW = Math.min(800, window.innerWidth * 0.88);
+    const maxH = window.innerHeight * 0.88;
+    let w = maxW, h = w / ratio;
+    if (h > maxH) { h = maxH; w = h * ratio; }
+    loading.style.width = Math.round(w) + 'px';
+    loading.style.height = Math.round(h) + 'px';
+  } else {
+    loading.style.width = '';
+    loading.style.height = '';
+  }
+  loading.style.display = 'flex';
+
+  function showImage() {
+    loading.style.display = 'none';
+    img.style.display = 'block';
+  }
+
+  img.onload = showImage;
+  img.onerror = showImage;
+  img.src = src;
+  if (img.complete && img.naturalWidth) showImage();
+
   if (fullscreen) {
     lb.classList.add('s1-lb-fullscreen');
     dim.classList.add('s1-lb-fullscreen');
@@ -252,10 +284,22 @@ function openCollageLightbox(src, fullscreen = false) {
 function closeCollageLightbox() {
   const lb = document.getElementById('s1-lightbox');
   const dim = document.getElementById('s1-lb-dim');
+  const img = document.getElementById('s1-lb-img');
+  const loading = document.getElementById('s1-lb-loading');
   lb.classList.remove('active', 's1-lb-fullscreen');
   dim.classList.remove('active', 's1-lb-fullscreen');
   document.body.classList.remove('scroll-locked');
   if (lenis) lenis.start();
+  // 트랜지션 후 상태 초기화
+  setTimeout(() => {
+    img.onload = null;
+    img.onerror = null;
+    img.src = '';
+    img.style.display = 'none';
+    loading.style.display = 'none';
+    loading.style.width = '';
+    loading.style.height = '';
+  }, 450);
 
   // 다이내믹 아일랜드 관성으로 복귀 (back.out: 살짝 오버슈트 후 안착)
   if (islandWasVisible) {
@@ -265,6 +309,124 @@ function closeCollageLightbox() {
   }
 }
 
+
+/* ============================================================
+   Loading Screen
+   ============================================================ */
+function initLoadingScreen() {
+  const screen = document.getElementById('loading-screen');
+  const bar = document.getElementById('ls-bar');
+  if (!screen || !bar) return;
+
+  const TIMEOUT_MS = 8000;
+  const MIN_SPEED = 7; // % per second, minimum advance
+
+  let totalWeight = 0;
+  let loadedWeight = 0;
+  let targetPct = 0;
+  let displayPct = 0;
+  let done = false;
+  let lastTime = null;
+
+  function trackItem(weight, promise) {
+    totalWeight += weight;
+    Promise.resolve(promise)
+      .then(() => onDone(weight))
+      .catch(() => onDone(weight));
+  }
+
+  function onDone(weight) {
+    loadedWeight += weight;
+    targetPct = (loadedWeight / totalWeight) * 100;
+    if (loadedWeight >= totalWeight) markDone();
+  }
+
+  function markDone() {
+    if (done) return;
+    done = true;
+    targetPct = 100;
+  }
+
+  function imgReady(img) {
+    return new Promise(resolve => {
+      if (img.complete && img.naturalWidth) return resolve();
+      img.addEventListener('load', resolve, { once: true });
+      img.addEventListener('error', resolve, { once: true });
+    });
+  }
+
+  // ── Fonts ──────────────────────────────────────────────────
+  trackItem(2, document.fonts.load('bold 1em GowunBatang'));
+  trackItem(2, document.fonts.load('500 1em Freesentation'));
+  trackItem(1, document.fonts.load('400 1em Freesentation'));
+
+  // ── S1 메인 이미지 ────────────────────────────────────────
+  const mainImg = document.querySelector('.s1-main');
+  if (mainImg) trackItem(4, imgReady(mainImg));
+
+  // ── S1 콜라쥬 (PC 전용 — new Image()로 lazy bypass) ──────
+  const isMobile = window.innerWidth <= 768;
+  if (!isMobile) {
+    document.querySelectorAll('.collage-photo').forEach(imgEl => {
+      const src = imgEl.getAttribute('src');
+      trackItem(0.3, new Promise(resolve => {
+        const tmp = new Image();
+        tmp.onload = resolve;
+        tmp.onerror = resolve;
+        tmp.src = src;
+      }));
+    });
+  }
+
+  // ── S3 영상 (canplaythrough) ──────────────────────────────
+  const s3Video = document.querySelector('#section-3 video.s3-photo');
+  if (s3Video) {
+    trackItem(6, new Promise(resolve => {
+      if (s3Video.readyState >= 4) return resolve();
+      s3Video.addEventListener('canplaythrough', resolve, { once: true });
+      s3Video.addEventListener('error', resolve, { once: true });
+    }));
+  }
+
+  // ── S3 사진 ───────────────────────────────────────────────
+  document.querySelectorAll('#section-3 img.s3-photo').forEach(img => {
+    trackItem(1, imgReady(img));
+  });
+
+  // ── 하드 타임아웃 8초 ─────────────────────────────────────
+  const timeout = setTimeout(markDone, TIMEOUT_MS);
+
+  // ── 진행바 애니메이션 (hybrid: min speed + eased approach) ─
+  function tick(now) {
+    if (!lastTime) lastTime = now;
+    const dt = Math.min((now - lastTime) / 1000, 0.1);
+    lastTime = now;
+
+    const gap = targetPct - displayPct;
+    let step = gap > 0 ? gap * dt * 5 : 0;   // eased approach
+    step = Math.max(step, MIN_SPEED * dt);     // minimum speed
+
+    displayPct = Math.min(displayPct + step, done ? 100 : 99);
+    bar.style.width = displayPct.toFixed(2) + '%';
+
+    if (displayPct >= 100) {
+      clearTimeout(timeout);
+      setTimeout(fadeOut, 280);
+      return;
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  function fadeOut() {
+    screen.classList.add('ls-fade-out');
+    if (lenis) lenis.start();
+    setTimeout(() => screen.remove(), 700);
+  }
+
+  // 로딩 중 스크롤 잠금
+  if (lenis) lenis.stop();
+}
 
 /* ============================================================
    Init & Lifecycle
@@ -284,6 +446,8 @@ document.addEventListener('DOMContentLoaded', () => {
   gsap.ticker.lagSmoothing(0);
 
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+  initLoadingScreen();
 
   // 메인 이미지 + 타이틀 폰트 로드 완료 후 순차 페이드인
   const mainImg = document.querySelector('.s1-main');
@@ -652,7 +816,8 @@ function initCollage() {
   // ── 메인 사진 클릭 → 전체화면 라이트박스 ─────────────────
   wrapper.addEventListener('click', () => {
     if (!document.getElementById('section-1').classList.contains('is-ready')) return;
-    openCollageLightbox(wrapper.querySelector('.s1-main').getAttribute('src'), true);
+    const mainImg = wrapper.querySelector('.s1-main');
+    openCollageLightbox(mainImg.getAttribute('src'), true, mainImg);
   });
 
   // ── 콜라주 호버: 비호버 사진 어둡게 + 클릭 시 라이트박스 ──────────────
@@ -702,7 +867,7 @@ function initCollage() {
     photo.addEventListener('click', () => {
       if (!document.getElementById('section-1').classList.contains('is-ready')) return;
       const largeSrc = photo.getAttribute('src').replace('photos/s1/', 'photos/s1/lg/');
-      openCollageLightbox(largeSrc);
+      openCollageLightbox(largeSrc, false, photo);
     });
   });
 

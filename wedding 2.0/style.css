@@ -67,6 +67,14 @@
 
 @font-face {
   font-family: 'Freesentation';
+  src: url('fonts/Freesentation-2/Freesentation-5Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Freesentation';
   src: url('fonts/Freesentation-2/Freesentation-6SemiBold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
@@ -458,6 +466,45 @@ body {
   border-radius: 12px;
   object-fit: contain;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+}
+
+.s1-lb-loading {
+  display: none;
+  background: #000;
+  border-radius: 12px;
+  position: relative;
+  min-width: 120px;
+  min-height: 80px;
+}
+
+.s1-lightbox.s1-lb-fullscreen .s1-lb-loading {
+  width: 100vw !important;
+  height: 100vh !important;
+  border-radius: 0;
+}
+
+.s1-lb-progress-track {
+  position: absolute;
+  bottom: 20px;
+  left: 10%;
+  width: 80%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.s1-lb-progress-bar {
+  width: 35%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 2px;
+  animation: s1-lb-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes s1-lb-shimmer {
+  0%   { transform: translateX(-200%); }
+  100% { transform: translateX(500%); }
 }
 
 .s1-lb-close {
@@ -2252,4 +2299,90 @@ body.scroll-locked {
   #tweaks-panel .tw-label {
     color: var(--color-text-secondary);
   }
+}
+/* ─── Loading Screen ──────────────────────────────────────────── */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.65s ease;
+}
+
+#loading-screen.ls-fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ls-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 40px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.ls-invite {
+  font-family: 'GowunBatang', serif;
+  font-weight: 700;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 5px;
+  margin: 0 0 20px;
+}
+
+.ls-title {
+  font-family: 'Freesentation', sans-serif;
+  font-weight: 500;
+  font-size: 19px;
+  color: #fff;
+  margin: 0 0 18px;
+  letter-spacing: 0.3px;
+}
+
+.ls-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 36px;
+}
+
+.ls-info p {
+  font-family: 'Freesentation', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+
+.ls-progress-wrap {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 1px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.ls-bar {
+  height: 100%;
+  width: 0%;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 1px;
+}
+
+.ls-note {
+  font-family: 'Freesentation', sans-serif;
+  font-weight: 400;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.32);
+  line-height: 1.75;
+  margin: 0;
+  word-break: keep-all;
 }
