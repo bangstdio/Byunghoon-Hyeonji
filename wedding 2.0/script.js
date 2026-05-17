@@ -457,6 +457,10 @@ function initLoadingScreen() {
 // defer 스크립트(GSAP/Lenis)와 무관하게 즉시 실행 — body 끝에 위치하므로 DOM 준비됨
 initLoadingScreen();
 
+// S5 모달 이미지 미리 디코딩 — 카드 클릭 시 즉시 표시되도록
+['photos/s5/info/venue.jpg', 'photos/s5/info/groom.jpg', 'photos/s5/info/bride.jpg']
+  .forEach(src => { const i = new Image(); i.src = src; });
+
 document.addEventListener('DOMContentLoaded', () => {
   lenis = new Lenis({
     duration: 1.2,
