@@ -443,11 +443,11 @@ function initLoadingScreen() {
 
   function fadeOut() {
     screen.classList.add('ls-fade-out');
-    if (lenis) lenis.start();
-    setTimeout(() => screen.remove(), 700);
+    setTimeout(() => {
+      screen.remove();
+      ScrollTrigger.refresh(); // 로딩 중 계산된 트리거 위치 재보정
+    }, 700);
   }
-
-  if (lenis) lenis.stop();
 }
 
 /* ============================================================
