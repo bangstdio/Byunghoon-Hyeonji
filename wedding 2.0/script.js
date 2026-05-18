@@ -29,7 +29,7 @@ const S5_CARD_DATA = [
       <a href="https://naver.me/5z5iEAfa" target="_blank" style="display:block; width:100%; height:250px; background-color:#eaeaea; border-radius:8px; margin-bottom:16px; overflow:hidden; position:relative; text-decoration:none;">
         <img src="photos/s5/info/venue.jpg" alt="현대차 양재사옥 전경" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none'">
       </a>
-      <p style="font-weight:700; font-size:20px; margin-bottom:4px;">현대차·기아 양재사옥</p>
+      <p style="font-weight:700; font-size:20px; margin-bottom:4px;">현대차·기아 양재사옥 2층 그랜드 홀</p>
       <p style="font-weight:500; font-size:18px; margin-bottom:4px;">서울시 서초구 헌릉로 12</p>
       <p style="font-weight:400; margin-bottom:24px; font-size:18px;">"신랑이 매일 출퇴근하는 곳에서 결혼합니다."</p>
       <div style="display:flex; gap:8px; margin-bottom:16px;">
@@ -175,7 +175,7 @@ const S5_CARD_DATA = [
 
     </div>
   ` },
-  { title: '주차 안내', html: `<p>양재사옥 주차장을 무료로 이용하실 수 있습니다.</p>` },
+  { title: '주차 안내', html: `<p>현대차·기아 양재사옥의 주차 타워를 무료로 이용하실 수 있습니다.</p>` },
   { title: '결혼식 사진 업로드', html: `<p>오늘의 아름다운 순간들을 공유해주세요.</p>` },
   { title: '결혼식 플레이리스트', html: `<p>오늘의 예식을 위해 정성껏 선곡했습니다.</p>` }
 ];
@@ -1125,7 +1125,7 @@ function downloadICS() {
   const lines = [
     'BEGIN:VCALENDAR', 'VERSION:2.0', 'BEGIN:VEVENT',
     'SUMMARY:김병훈 ♥ 백현지 결혼식', 'DTSTART:20261128T030000Z', 'DTEND:20261128T040000Z',
-    'LOCATION:현대차·기아 양재사옥(서울 서초구 헌릉로12)', 'END:VEVENT', 'END:VCALENDAR'
+    'LOCATION:현대차·기아 양재사옥 2층 그랜드 홀(서울 서초구 헌릉로12)', 'END:VEVENT', 'END:VCALENDAR'
   ];
   const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar' });
   const url = URL.createObjectURL(blob);
