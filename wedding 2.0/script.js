@@ -450,7 +450,14 @@ function initLoadingScreen() {
     screen.classList.add('ls-fade-out');
     setTimeout(() => {
       screen.remove();
+      document.body.classList.remove('scroll-locked');
+      if (lenis) lenis.start();
       if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+      // 모바일: 로딩 후 위에서 내려오는 애니메이션 (backdrop-filter 색 플래시 방지)
+      if (window.matchMedia('(max-width: 599px)').matches) {
+        const island = document.getElementById('dynamic-island');
+        if (island) gsap.to(island, { yPercent: 0, opacity: 1, duration: 0.6, ease: 'back.out(1.4)' });
+      }
     }, 700);
   }
 }
@@ -473,6 +480,9 @@ document.addEventListener('DOMContentLoaded', () => {
     smoothWheel: true,
     smoothTouch: false,
   });
+
+  // 로딩 중이면 즉시 멈춤 — fadeOut()에서 start()
+  if (document.getElementById('loading-screen')) lenis.stop();
 
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => {
@@ -569,7 +579,7 @@ function initDynamicIsland() {
   const island = document.getElementById('dynamic-island');
   const isMobile = window.matchMedia('(max-width: 599px)').matches;
   if (isMobile) {
-    gsap.set(island, { xPercent: -50, yPercent: 0, opacity: 1, scale: 1 });
+    gsap.set(island, { xPercent: -50, yPercent: -200, opacity: 0, scale: 1 });
     islandShown = true;
   } else {
     gsap.set(island, { xPercent: -50, yPercent: -200, opacity: 0, scale: 0.85 });

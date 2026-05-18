@@ -172,7 +172,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 800px;
+  width: 920px;
   max-width: 90vw;
   padding: 8px 12px 8px 20px;
 
@@ -1040,7 +1040,7 @@ html.dark .di-menu-btn:active {
    ============================================================ */
 @media (min-width: 1080px) {
   #dynamic-island {
-    width: 800px;
+    width: 920px;
   }
 }
 
@@ -1590,12 +1590,12 @@ body.scroll-locked {
   }
 
   .s4-date {
-    font-size: 36px;
+    font-size: 30px;
     letter-spacing: -1px;
   }
 
   .s4-venue {
-    font-size: 25px;
+    font-size: 23px;
   }
 
   .s4-countdown {
