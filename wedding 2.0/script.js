@@ -1,7 +1,14 @@
 /* ============================================================
    Viewport Height Fix (카카오톡 URL 바 show/hide로 인한 높이 변동 방지)
+   — CSS는 100lvh 직접 사용. JS용 lvh 픽셀값만 --vh에 저장한다.
    ============================================================ */
-document.documentElement.style.setProperty('--vh', window.innerHeight + 'px');
+(function setLvh() {
+  const el = document.createElement('div');
+  el.style.cssText = 'position:fixed;top:0;left:0;height:100lvh;pointer-events:none;visibility:hidden';
+  document.documentElement.appendChild(el);
+  document.documentElement.style.setProperty('--vh', el.offsetHeight + 'px');
+  el.remove();
+}());
 
 /* ============================================================
    Utilities
@@ -928,7 +935,6 @@ function initCollage() {
     const newWidth = window.innerWidth;
     if (newWidth === _prevResizeWidth) return; // 툴바 show/hide (height만 변화) 무시
     _prevResizeWidth = newWidth;
-    document.documentElement.style.setProperty('--vh', window.innerHeight + 'px');
 
     const isReady = document.getElementById('section-1').classList.contains('is-ready');
 
@@ -992,7 +998,10 @@ function initSection3() {
   ];
 
   // let으로 선언: 화면 회전 시 onRefreshInit에서 재계산
-  let initialPhotoY = window.innerHeight;
+  // sticky 컨테이너 실제 렌더 높이(=100lvh px)를 기준으로 삼아야
+  // 주소창 유무에 관계없이 항상 화면 밖에서 진입한다
+  const stickyEl = document.querySelector('.s3-master-sticky');
+  let initialPhotoY = stickyEl ? stickyEl.clientHeight : window.innerHeight;
   const isMobile = window.matchMedia('(max-width: 1023px)').matches;
 
   const PHOTO_POS = [0, 6, 16, 26, 36, 46, 56];
@@ -1012,7 +1021,7 @@ function initSection3() {
 
   // 초기 상태 설정 함수: 리프레시 시 재호출
   const resetS3InitialState = () => {
-    initialPhotoY = window.innerHeight;
+    initialPhotoY = stickyEl ? stickyEl.clientHeight : window.innerHeight;
     gsap.set(allCards.slice(1).filter(Boolean), cardFromState);
     gsap.set(Array.from(photos).slice(1), { y: initialPhotoY });
   };
