@@ -143,7 +143,7 @@ const S5_CARD_DATA = [
         <div class="family-photo-wrap">
           <img src="photos/s5/info/bride.jpg" alt="신부 측 가족사진">
         </div>
-        <div class="family-photo-caption">(왼쪽부터) 큰동생 백민정, 작은동생 백성진, 어머니 김복순, 아버지 백문기, 신부 백현지</div>
+        <div class="family-photo-caption">(왼쪽부터) 큰 동생 백민정, 작은 동생 백성진, 어머니 김복순, 아버지 백문기, 신부 백현지</div>
       </div>
 
     </div>
@@ -834,7 +834,7 @@ function initCollage() {
   wrapper.addEventListener('click', () => {
     if (!document.getElementById('section-1').classList.contains('is-ready')) return;
     const mainImg = wrapper.querySelector('.s1-main');
-    openCollageLightbox(mainImg.getAttribute('src'), true, mainImg);
+    openCollageLightbox(mainImg.getAttribute('src'), false, mainImg);
   });
 
   // ── 콜라주 호버: 비호버 사진 어둡게 + 클릭 시 라이트박스 ──────────────
