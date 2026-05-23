@@ -1058,15 +1058,14 @@ html.dark .di-menu-btn:active {
 }
 
 .s2-inner {
-  width: 60%;
-  max-width: 800px;
+  width: 75%;
+  max-width: 1100px;
   text-align: center;
 }
 
 .s2-text {
-  /* Apple Display Hero: SF Pro Display / 56px / 600 / 1.07 / -0.28px */
   font-family: var(--font-gowun);
-  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-size: clamp(2rem, 2.8vw, 2.6rem);
   font-weight: 400;
   line-height: 1.5;
   letter-spacing: -0.28px;
@@ -1083,17 +1082,29 @@ html.dark .di-menu-btn:active {
   color: rgba(0, 0, 0, 0.95);
 }
 
+.mob-br {
+  display: none;
+}
+
+.note-next {
+  display: block;
+  margin-top: 0.15em;
+}
+
 @media (max-width: 599px) {
+  .mob-br {
+    display: inline;
+  }
+
   .s2-inner {
     width: 88%;
   }
 
   .s2-text {
-    font-size: clamp(1.5rem, 7.5vw, 2.2rem);
+    font-size: clamp(1.3rem, 6.4vw, 1.9rem);
     line-height: 1.44;
     word-break: keep-all;
     overflow-wrap: break-word;
-    /* 모바일 기준 유동적 크기 및 단어 단위 줄바꿈 적용 */
   }
 }
 
@@ -1708,7 +1719,7 @@ body.scroll-locked {
 
 .s5-footer-note {
   font-family: 'Freesentation', sans-serif;
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 400;
   color: var(--color-text-secondary);
   line-height: 1.75;
@@ -1972,6 +1983,10 @@ body.scroll-locked {
   display: block;
 }
 
+.family-photo-wrap--groom img {
+  object-position: center 15%;
+}
+
 .family-member {
   padding: 14px 0;
   border-bottom: 1px solid #f0efeb;
@@ -1987,6 +2002,14 @@ body.scroll-locked {
   font-weight: 700;
   color: #141413;
   margin-bottom: 5px;
+}
+
+.family-photo-caption {
+  font-size: 16px;
+  font-weight: 400;
+  color: #141413;
+  margin-top: -8px;
+  line-height: 1.5;
 }
 
 .family-member-desc {

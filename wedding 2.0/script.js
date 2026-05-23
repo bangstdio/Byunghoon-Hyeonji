@@ -132,29 +132,10 @@ const S5_CARD_DATA = [
 
       <div class="family-group">
         <div class="family-group-title">신랑 측 가족</div>
-        <div class="family-photo-wrap">
+        <div class="family-photo-wrap family-photo-wrap--groom">
           <img src="photos/s5/info/groom.jpg" alt="신랑 측 가족사진">
         </div>
-        <div class="family-member">
-          <div class="family-member-name">아버지 김현수</div>
-          <div class="family-member-desc">소개글을 입력해주세요.</div>
-        </div>
-        <div class="family-member">
-          <div class="family-member-name">어머니 정영애</div>
-          <div class="family-member-desc">소개글을 입력해주세요.</div>
-        </div>
-        <div class="family-member">
-          <div class="family-member-name">형 김아롬누리</div>
-          <div class="family-member-desc">소개글을 입력해주세요.</div>
-        </div>
-        <div class="family-member">
-          <div class="family-member-name">형수 양지유</div>
-          <div class="family-member-desc">소개글을 입력해주세요.</div>
-        </div>
-        <div class="family-member">
-          <div class="family-member-name">조카 뽁뽁이</div>
-          <div class="family-member-desc">소개글을 입력해주세요.</div>
-        </div>
+        <div class="family-photo-caption">(왼쪽부터) 신랑 김병훈, 어머니 정영애, 형 김아롬누리, 아버지 김현수, 형수 양지유</div>
       </div>
 
       <div class="family-group">
@@ -162,22 +143,7 @@ const S5_CARD_DATA = [
         <div class="family-photo-wrap">
           <img src="photos/s5/info/bride.jpg" alt="신부 측 가족사진">
         </div>
-        <div class="family-member">
-          <div class="family-member-name">아버지 백문기</div>
-          <div class="family-member-desc">소개글을 입력해주세요.</div>
-        </div>
-        <div class="family-member">
-          <div class="family-member-name">어머니 김복순</div>
-          <div class="family-member-desc">소개글을 입력해주세요.</div>
-        </div>
-        <div class="family-member">
-          <div class="family-member-name">여동생 백민정</div>
-          <div class="family-member-desc">소개글을 입력해주세요.</div>
-        </div>
-        <div class="family-member">
-          <div class="family-member-name">남동생 백성진</div>
-          <div class="family-member-desc">소개글을 입력해주세요.</div>
-        </div>
+        <div class="family-photo-caption">(왼쪽부터) 큰동생 백민정, 작은동생 백성진, 어머니 김복순, 아버지 백문기, 신부 백현지</div>
       </div>
 
     </div>
