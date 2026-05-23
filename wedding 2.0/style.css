@@ -1096,6 +1096,10 @@ html.dark .di-menu-btn:active {
   height: 1.05em;
 }
 
+.s2-sign {
+  font-size: 0.8em;
+}
+
 @media (max-width: 599px) {
   .mob-br {
     display: inline;
