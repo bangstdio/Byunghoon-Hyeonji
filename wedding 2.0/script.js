@@ -21,7 +21,7 @@ function debounce(fn, ms) {
 /* ============================================================
    Constants
    ============================================================ */
-const WEDDING_DATE = '2026-11-28T12:00:00+09:00';
+const WEDDING_DATE = '2026-11-28T11:00:00+09:00';
 let lenis;
 let islandWasVisible = false;
 let islandShown = false;
@@ -77,11 +77,11 @@ const S5_CARD_DATA = [
             <div class="account-item">
               <div class="account-info">
                 <span class="account-relation">신랑</span> <span class="account-name">김병훈</span>
-                <div class="account-number">국민 422002-04-108548</div>
+                <div class="account-number">기업 973-013515-01-017</div>
               </div>
               <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('42200204108548')">복사</button>
-                <a href="supertoss://send?bank=%EA%B5%AD%EB%AF%BC&accountNo=42200204108548" class="btn-toss">토스</a>
+                <button class="btn-copy" onclick="copyAccount('97301351501017')">복사</button>
+                <a href="supertoss://send?bank=%EA%B8%B0%EC%97%85&accountNo=97301351501017&amount=0" class="btn-toss">토스</a>
               </div>
             </div>
           </div>
@@ -1109,7 +1109,7 @@ function initSection5() {
 function downloadICS() {
   const lines = [
     'BEGIN:VCALENDAR', 'VERSION:2.0', 'BEGIN:VEVENT',
-    'SUMMARY:김병훈 ♥ 백현지 결혼식', 'DTSTART:20261128T030000Z', 'DTEND:20261128T040000Z',
+    'SUMMARY:김병훈 ♥ 백현지 결혼식', 'DTSTART:20261128T020000Z', 'DTEND:20261128T030000Z',
     'LOCATION:현대차·기아 양재사옥 2층 그랜드 홀(서울 서초구 헌릉로12)', 'END:VEVENT', 'END:VCALENDAR'
   ];
   const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar' });
