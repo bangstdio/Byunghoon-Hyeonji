@@ -60,7 +60,7 @@ const S5_CARD_DATA = [
                 <div class="account-number">국민 000000-00-000000</div>
               </div>
               <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('00000000000000')">복사</button>
+                <button class="btn-copy" onclick="copyAccount('국민', '00000000000000')">복사</button>
                 <a href="supertoss://transfer?bank=국민&accountNo=00000000000000" class="btn-toss">토스</a>
               </div>
             </div>
@@ -70,7 +70,7 @@ const S5_CARD_DATA = [
                 <div class="account-number">농협 000000-00-000000</div>
               </div>
               <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('00000000000000')">복사</button>
+                <button class="btn-copy" onclick="copyAccount('농협', '00000000000000')">복사</button>
                 <a href="supertoss://transfer?bank=농협&accountNo=00000000000000" class="btn-toss">토스</a>
               </div>
             </div>
@@ -80,7 +80,7 @@ const S5_CARD_DATA = [
                 <div class="account-number">기업 973-013515-01-017</div>
               </div>
               <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('97301351501017')">복사</button>
+                <button class="btn-copy" onclick="copyAccount('기업', '97301351501017')">복사</button>
                 <a href="supertoss://send?bank=%EA%B8%B0%EC%97%85&accountNo=97301351501017&amount=0" class="btn-toss">토스</a>
               </div>
             </div>
@@ -97,7 +97,7 @@ const S5_CARD_DATA = [
                 <div class="account-number">국민 000000-00-000000</div>
               </div>
               <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('00000000000000')">복사</button>
+                <button class="btn-copy" onclick="copyAccount('국민', '00000000000000')">복사</button>
                 <a href="supertoss://transfer?bank=국민&accountNo=00000000000000" class="btn-toss">토스</a>
               </div>
             </div>
@@ -107,7 +107,7 @@ const S5_CARD_DATA = [
                 <div class="account-number">국민 000000-00-000000</div>
               </div>
               <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('00000000000000')">복사</button>
+                <button class="btn-copy" onclick="copyAccount('국민', '00000000000000')">복사</button>
                 <a href="supertoss://transfer?bank=국민&accountNo=00000000000000" class="btn-toss">토스</a>
               </div>
             </div>
@@ -117,7 +117,7 @@ const S5_CARD_DATA = [
                 <div class="account-number">국민 000000-00-000000</div>
               </div>
               <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('00000000000000')">복사</button>
+                <button class="btn-copy" onclick="copyAccount('국민', '00000000000000')">복사</button>
                 <a href="supertoss://transfer?bank=국민&accountNo=00000000000000" class="btn-toss">토스</a>
               </div>
             </div>
@@ -182,16 +182,15 @@ function closeCardModal() {
   if (lenis) lenis.start();
 }
 
-function copyAccount(accountNumber) {
-  // 계좌번호에서 하이픈 제거
+function copyAccount(bank, accountNumber) {
   const cleanNumber = accountNumber.replace(/-/g, '');
+  const text = `${bank} ${cleanNumber}`;
 
-  navigator.clipboard.writeText(cleanNumber).then(() => {
+  navigator.clipboard.writeText(text).then(() => {
     showToast();
   }).catch(err => {
     console.error('복사 실패:', err);
-    // 폴백: prompt 사용 (일부 구형 브라우저 대응)
-    window.prompt("계좌번호를 복사해 주세요:", cleanNumber);
+    window.prompt("계좌번호를 복사해 주세요:", text);
   });
 }
 
