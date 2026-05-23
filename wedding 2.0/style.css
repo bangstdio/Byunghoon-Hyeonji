@@ -1091,6 +1091,11 @@ html.dark .di-menu-btn:active {
   margin-top: 0.15em;
 }
 
+.s2-gap {
+  display: block;
+  height: 1.05em;
+}
+
 @media (max-width: 599px) {
   .mob-br {
     display: inline;
