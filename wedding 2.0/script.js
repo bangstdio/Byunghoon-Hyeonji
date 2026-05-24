@@ -958,8 +958,8 @@ function initSection3() {
   if (!photos.length || !slots.length) return;
 
   const photoOffsets = [
-    { x: 0, y: 0, r: 0.0 }, { x: 8, y: 28, r: -2.3 }, { x: -3, y: 54, r: 3.7 },
-    { x: 12, y: 78, r: -1.1 }, { x: -9, y: 100, r: 2.9 }, { x: 5, y: 120, r: -4.2 }, { x: 4, y: 138, r: 1.6 }
+    { x: 0, y: 0, r: 0.0 }, { x: 8, y: 23, r: -2.3 }, { x: -3, y: 44, r: 3.7 },
+    { x: 12, y: 63, r: -1.1 }, { x: -9, y: 81, r: 2.9 }, { x: 5, y: 97, r: -4.2 }, { x: 4, y: 112, r: 1.6 }
   ];
 
   // let으로 선언: 화면 회전 시 onRefreshInit에서 재계산
