@@ -942,7 +942,7 @@ function initSection2() {
   ScrollTrigger.create({
     trigger: '.s2-inner',
     start: 'top 93%',
-    end: 'top -20%',
+    end: 'top -2pu0%',
     scrub: 0.2,
     onUpdate: (self) => {
       const activeCount = Math.round(self.progress * words.length);
@@ -959,7 +959,7 @@ function initSection3() {
 
   const photoOffsets = [
     { x: 0, y: 0, r: 0.0 }, { x: 8, y: 28, r: -2.3 }, { x: -3, y: 54, r: 3.7 },
-    { x: 12, y: 78, r: -1.1 }, { x: -9, y: 100, r: 2.9 }, { x: 5, y: 120, r: -4.2 }, { x: -4, y: 138, r: 1.6 }
+    { x: 12, y: 78, r: -1.1 }, { x: -9, y: 100, r: 2.9 }, { x: 5, y: 120, r: -4.2 }, { x: 4, y: 138, r: 1.6 }
   ];
 
   // let으로 선언: 화면 회전 시 onRefreshInit에서 재계산
@@ -1016,7 +1016,7 @@ function initSection3() {
     );
   });
 
-  // 다음 사진 이동 중 이전 사진 축소 (마지막 사진은 정착 직후 시작)
+  // 다음 사진 이동 중 이전 사진 축소 (마지막 사진은 정착 후 t=67에 시작)
   photos.forEach((photo, i) => {
     const scaleStart = i < photos.length - 1
       ? PHOTO_POS[i + 1] + enterOffset
