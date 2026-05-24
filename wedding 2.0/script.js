@@ -989,6 +989,7 @@ function initSection3() {
     initialPhotoY = stickyEl ? stickyEl.clientHeight : window.innerHeight;
     gsap.set(allCards.slice(1).filter(Boolean), cardFromState);
     gsap.set(Array.from(photos).slice(1), { y: initialPhotoY });
+    gsap.set(Array.from(photos), { scale: 1 });
   };
   resetS3InitialState();
 
@@ -1012,6 +1013,16 @@ function initSection3() {
       { y: () => initialPhotoY, x: photoOffsets[i].x, rotation: photoOffsets[i].r },
       { y: photoOffsets[i].y, duration: enterDur, ease: "power2.out" },
       PHOTO_POS[i] + enterOffset
+    );
+  });
+
+  // 다음 사진 이동 중 이전 사진 축소 (마지막 사진 제외)
+  photos.forEach((photo, i) => {
+    if (i >= photos.length - 1) return;
+    mainTl.fromTo(photo,
+      { scale: 1 },
+      { scale: 0.9, duration: enterDur, ease: "power2.out" },
+      PHOTO_POS[i + 1] + enterOffset
     );
   });
 
