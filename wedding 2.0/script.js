@@ -143,7 +143,7 @@ const S5_CARD_DATA = [
         <div class="family-photo-wrap">
           <img src="photos/s5/info/bride.jpg" alt="신부 측 가족사진">
         </div>
-        <div class="family-photo-caption">(왼쪽부터) 큰 동생 백민정, 작은 동생 백성진, 어머니 김복순, 아버지 백문기, 신부 백현지</div>
+        <div class="family-photo-caption">(오른쪽부터) 신부 백현지, 아버지 백문기, 어머니 김복순, 작은 동생 백성진, 큰 동생 백민정</div>
       </div>
 
     </div>
@@ -942,7 +942,7 @@ function initSection2() {
   ScrollTrigger.create({
     trigger: '.s2-inner',
     start: 'top 93%',
-    end: 'top 13%',
+    end: 'top -20%',
     scrub: 0.2,
     onUpdate: (self) => {
       const activeCount = Math.round(self.progress * words.length);

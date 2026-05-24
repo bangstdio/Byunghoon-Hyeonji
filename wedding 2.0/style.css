@@ -127,6 +127,7 @@
 html {
   scroll-behavior: auto;
   overscroll-behavior: none;
+  background: var(--color-bg);
 }
 
 html.lenis,
@@ -1186,7 +1187,7 @@ html.dark .di-menu-btn:active {
   height: 306px;
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  background: #fff;
+  background: var(--color-bg);
   object-fit: cover;
   /* 애니메이션에 의한 opacity, y 등은 스크립트에서 설정됨 */
   box-shadow: none;
@@ -2322,6 +2323,10 @@ body.scroll-locked {
     color: var(--color-text-primary);
   }
 
+  .family-photo-caption {
+    color: var(--color-text-primary);
+  }
+
   .family-member-desc {
     color: var(--color-text-secondary);
   }
@@ -2353,6 +2358,35 @@ body.scroll-locked {
   #tweaks-panel .tw-label {
     color: var(--color-text-secondary);
   }
+
+  /* Loading Screen — 다크모드: 원래 어두운 색상으로 복원 */
+  #loading-screen {
+    background: #0a0a0a;
+  }
+
+  .ls-invite {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .ls-title {
+    color: #fff;
+  }
+
+  .ls-info p {
+    color: rgba(255, 255, 255, 1);
+  }
+
+  .ls-progress-wrap {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .ls-bar {
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .ls-note {
+    color: rgba(255, 255, 255, 0.65);
+  }
 }
 
 /* ─── Loading Screen ──────────────────────────────────────────── */
@@ -2360,7 +2394,7 @@ body.scroll-locked {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #0a0a0a;
+  background: var(--color-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2390,7 +2424,7 @@ body.scroll-locked {
   font-family: 'GowunBatang', serif;
   font-weight: 700;
   font-size: 18px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(20, 20, 19, 0.6);
   letter-spacing: 5px;
   margin: 0 0 26px;
 }
@@ -2399,7 +2433,7 @@ body.scroll-locked {
   font-family: 'Freesentation', sans-serif;
   font-weight: 500;
   font-size: 25px;
-  color: #fff;
+  color: #141413;
   margin: 0 0 23px;
   letter-spacing: 0.3px;
 }
@@ -2415,7 +2449,7 @@ body.scroll-locked {
   font-family: 'Freesentation', sans-serif;
   font-weight: 400;
   font-size: 19px;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(20, 20, 19, 0.85);
   margin: 0;
   letter-spacing: 0.2px;
 }
@@ -2423,7 +2457,7 @@ body.scroll-locked {
 .ls-progress-wrap {
   width: 100%;
   height: 1px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.10);
   border-radius: 1px;
   overflow: hidden;
   margin-bottom: 39px;
@@ -2432,7 +2466,7 @@ body.scroll-locked {
 .ls-bar {
   height: 100%;
   width: 0%;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.55);
   border-radius: 1px;
 }
 
@@ -2440,7 +2474,7 @@ body.scroll-locked {
   font-family: 'Freesentation', sans-serif;
   font-weight: 400;
   font-size: 15px;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(20, 20, 19, 0.45);
   line-height: 1.75;
   margin: 0;
   word-break: keep-all;
