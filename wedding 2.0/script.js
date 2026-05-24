@@ -1016,13 +1016,15 @@ function initSection3() {
     );
   });
 
-  // 다음 사진 이동 중 이전 사진 축소 (마지막 사진 제외)
+  // 다음 사진 이동 중 이전 사진 축소 (마지막 사진은 정착 직후 시작)
   photos.forEach((photo, i) => {
-    if (i >= photos.length - 1) return;
+    const scaleStart = i < photos.length - 1
+      ? PHOTO_POS[i + 1] + enterOffset
+      : PHOTO_POS[i] + enterOffset + enterDur;
     mainTl.fromTo(photo,
       { scale: 1 },
       { scale: 0.9, duration: enterDur, ease: "power2.out" },
-      PHOTO_POS[i + 1] + enterOffset
+      scaleStart
     );
   });
 
