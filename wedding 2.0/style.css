@@ -2359,34 +2359,6 @@ body.scroll-locked {
     color: var(--color-text-secondary);
   }
 
-  /* Loading Screen — 다크모드: 원래 어두운 색상으로 복원 */
-  #loading-screen {
-    background: #0a0a0a;
-  }
-
-  .ls-invite {
-    color: rgba(255, 255, 255, 0.8);
-  }
-
-  .ls-title {
-    color: #fff;
-  }
-
-  .ls-info p {
-    color: rgba(255, 255, 255, 1);
-  }
-
-  .ls-progress-wrap {
-    background: rgba(255, 255, 255, 0.12);
-  }
-
-  .ls-bar {
-    background: rgba(255, 255, 255, 0.8);
-  }
-
-  .ls-note {
-    color: rgba(255, 255, 255, 0.65);
-  }
 }
 
 /* ─── Loading Screen ──────────────────────────────────────────── */
@@ -2519,5 +2491,35 @@ body.scroll-locked {
   .ls-note {
     font-size: 20px;
     white-space: nowrap;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  #loading-screen {
+    background: #0a0a0a;
+  }
+
+  .ls-invite {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .ls-title {
+    color: #fff;
+  }
+
+  .ls-info p {
+    color: rgba(255, 255, 255, 1);
+  }
+
+  .ls-progress-wrap {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .ls-bar {
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .ls-note {
+    color: rgba(255, 255, 255, 0.65);
   }
 }
