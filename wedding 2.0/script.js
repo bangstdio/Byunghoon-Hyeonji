@@ -941,8 +941,8 @@ function initSection2() {
   const words = document.querySelectorAll('.s2-word');
   ScrollTrigger.create({
     trigger: '.s2-inner',
-    start: 'top 90%',
-    end: 'top 10%',
+    start: 'top 93%',
+    end: 'top 13%',
     scrub: 0.2,
     onUpdate: (self) => {
       const activeCount = Math.round(self.progress * words.length);
@@ -1047,6 +1047,10 @@ function initSection3() {
       }
     }
   });
+
+  // 마지막 사진 최종 위치 도달 후 s3-bottom-spacer 전체가 여유 스크롤로 활용되도록
+  // 타임라인을 t=72까지 연장 → 마지막 애니메이션(t=60) 완료 시점이 83% progress로 앞당겨짐
+  mainTl.to({ _: 0 }, { _: 1, duration: 12 }, 60);
 }
 
 function initSection4() {

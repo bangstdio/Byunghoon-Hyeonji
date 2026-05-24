@@ -1054,22 +1054,23 @@ html.dark .di-menu-btn:active {
   align-items: center;
   justify-content: center;
   min-height: 0;
-  padding: 20vh 0 25vh;
+  padding: 27vh 0 27vh;
 }
 
 .s2-inner {
   width: 75%;
   max-width: 1100px;
-  text-align: center;
+  text-align: left;
+  margin-left: 5%;
 }
 
 .s2-text {
   font-family: var(--font-gowun);
-  font-size: clamp(2rem, 2.8vw, 2.6rem);
-  font-weight: 400;
-  line-height: 1.5;
+  font-size: 19.8px;
+  font-weight: 700;
+  line-height: 1.7;
   letter-spacing: -0.28px;
-  text-align: center;
+  text-align: left;
 }
 
 .s2-word {
@@ -1093,7 +1094,7 @@ html.dark .di-menu-btn:active {
 
 .s2-gap {
   display: block;
-  height: 1.05em;
+  height: 1.2em;
 }
 
 .s2-sign {
@@ -1107,11 +1108,12 @@ html.dark .di-menu-btn:active {
 
   .s2-inner {
     width: 88%;
+    margin-left: 0;
   }
 
   .s2-text {
-    font-size: clamp(1.3rem, 6.4vw, 1.9rem);
-    line-height: 1.44;
+    font-size: 19.8px;
+    line-height: 1.6;
     word-break: keep-all;
     overflow-wrap: break-word;
   }
