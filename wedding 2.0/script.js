@@ -942,7 +942,7 @@ function initSection2() {
   ScrollTrigger.create({
     trigger: '.s2-inner',
     start: 'top 93%',
-    end: 'top -30%',
+    end: 'top -25%',
     scrub: 0.2,
     onUpdate: (self) => {
       const activeCount = Math.round(self.progress * words.length);
