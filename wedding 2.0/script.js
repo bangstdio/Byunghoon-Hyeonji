@@ -38,7 +38,8 @@ const S5_CARD_DATA = [
       </a>
       <p style="font-weight:700; font-size:20px; margin-bottom:4px;">현대차·기아 양재사옥 2층 그랜드 홀</p>
       <p style="font-weight:500; font-size:18px; margin-bottom:4px;">서울시 서초구 헌릉로 12</p>
-      <p style="font-weight:400; margin-bottom:24px; font-size:18px;">"신랑이 매일 출퇴근하는 곳에서 결혼합니다."</p>
+      <p style="font-weight:400; font-size:18px; margin-bottom:8px;">"신랑이 매일 출퇴근하는 곳에서 결혼합니다."</p>
+      <p style="font-weight:400; font-size:16px; color:#888; margin-bottom:24px;">현대차·기아 양재사옥의 주차 타워를 무료로 이용하실 수 있습니다.</p>
       <div style="display:flex; gap:8px; margin-bottom:16px;">
         <a href="https://naver.me/5z5iEAfa" target="_blank" style="flex:1; padding:10px 4px; text-align:center; background:#03C75A; color:#fff; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">네이버 지도</a>
         <a href="https://tmap.life/ae83f03a" target="_blank" style="flex:1; padding:10px 4px; text-align:center; background:#2B86FF; color:#fff; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">TMAP</a>
@@ -148,7 +149,7 @@ const S5_CARD_DATA = [
 
     </div>
   ` },
-  { title: '주차 안내', html: `<p>현대차·기아 양재사옥의 주차 타워를 무료로 이용하실 수 있습니다.</p>` },
+  { title: '둘 사진 더보기', html: `<p>결혼기념 스냅 사진을 준비 중입니다.</p>` },
   { title: '결혼식 사진 업로드', html: `<p>오늘의 아름다운 순간들을 공유해주세요.</p>` },
   { title: '결혼식 플레이리스트', html: `<p>오늘의 예식을 위해 정성껏 선곡했습니다.</p>` }
 ];
