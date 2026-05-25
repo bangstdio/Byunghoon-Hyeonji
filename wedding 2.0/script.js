@@ -456,7 +456,25 @@ document.addEventListener('DOMContentLoaded', () => {
   // 로딩 중이면 즉시 멈춤 — fadeOut()에서 start()
   if (document.getElementById('loading-screen')) lenis.stop();
 
-  lenis.on('scroll', ScrollTrigger.update);
+  // URL 바 show/hide(height-only resize) 중 ScrollTrigger.update를 억제
+  // — ignoreMobileResize가 refresh()를 막아도 update()는 잘못된 scrollY로 실행돼 순간이동 유발
+  let _urlBarResizing = false;
+  let _urlBarResizeTimer = null;
+  let _prevResizeW = window.innerWidth;
+  window.addEventListener('resize', () => {
+    const curW = window.innerWidth;
+    if (curW === _prevResizeW) {
+      _urlBarResizing = true;
+      clearTimeout(_urlBarResizeTimer);
+      _urlBarResizeTimer = setTimeout(() => {
+        _urlBarResizing = false;
+        ScrollTrigger.update();
+      }, 200);
+    }
+    _prevResizeW = curW;
+  }, { passive: true });
+
+  lenis.on('scroll', () => { if (!_urlBarResizing) ScrollTrigger.update(); });
   gsap.ticker.add((time) => {
     lenis.raf(time * 1000);
   });
