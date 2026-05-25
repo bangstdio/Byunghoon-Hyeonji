@@ -2356,30 +2356,6 @@ body.scroll-locked {
 
 }
 
-/* ─── Screen Edge Fades ───────────────────────────────────────── */
-/* 상하단 화면 끝을 배경색으로 페이드 → 풀스크린 몰입감 + iOS 하단바 색상 안정화 */
-.edge-fade-top,
-.edge-fade-bottom {
-  position: fixed;
-  left: 0;
-  width: 100%;
-  pointer-events: none;
-  z-index: 998;
-}
-
-.edge-fade-top {
-  top: 0;
-  height: max(72px, calc(env(safe-area-inset-top) + 36px));
-  background: linear-gradient(to bottom, var(--color-bg) 0%, transparent 100%);
-}
-
-.edge-fade-bottom {
-  bottom: 0;
-  height: max(60px, calc(env(safe-area-inset-bottom) + 32px));
-  /* 하단 30%는 완전 불투명 → iOS가 항상 배경색으로 인식 (toolbar/홈 인디케이터 안정화) */
-  background: linear-gradient(to top, var(--color-bg) 30%, transparent 100%);
-}
-
 /* ─── Loading Screen ──────────────────────────────────────────── */
 #loading-screen {
   position: fixed;
