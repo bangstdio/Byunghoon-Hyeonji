@@ -366,7 +366,9 @@ body {
    SECTION 1 — Title Collage
    ============================================================ */
 
-/* #section-1: GSAP pin이 spacer를 자동 추가 — 명시적 height 불필요 */
+#section-1 {
+  /* GSAP pin이 spacer를 자동 추가 — 명시적 height 불필요 */
+}
 
 .s1-visual {
   position: relative;
