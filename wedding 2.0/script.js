@@ -1286,7 +1286,7 @@ function initSnapSlider() {
 
   // 썸네일 HTML 생성
   const thumbnailsHTML = shuffled.map((fname, idx) =>
-    `<div class="snap-thumbnail" data-index="${idx}" style="background-image: url('photos/s5/snaps/${fname}')"></div>`
+    `<div class="snap-thumbnail" data-index="${idx}" style="background-image: url('photos/s5/snaps/${encodeURI(fname)}')"></div>`
   ).join('');
 
   root.innerHTML = `
@@ -1335,7 +1335,7 @@ function initSnapSlider() {
     const filename = shuffled[idx];
     if (!filename || preloadedImages[filename]) return;
     const img = new Image();
-    img.src = `photos/s5/snaps/${filename}`;
+    img.src = `photos/s5/snaps/${encodeURI(filename)}`;
     preloadedImages[filename] = img;
   }
 
@@ -1348,7 +1348,7 @@ function initSnapSlider() {
 
     currentIndex = index;
     const filename = shuffled[currentIndex];
-    const src = `photos/s5/snaps/${filename}`;
+    const src = `photos/s5/snaps/${encodeURI(filename)}`;
 
     imgEl.style.opacity = '0';
     loadingEl.style.display = 'flex';
