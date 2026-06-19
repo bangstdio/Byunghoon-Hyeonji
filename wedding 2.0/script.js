@@ -1413,21 +1413,6 @@ function initSnapSlider() {
     thumbsScroll.scrollLeft += 100;
   });
 
-  // 마우스 휠 스크롤 (메인 이미지)
-  let lastWheelTime = 0;
-  sliderMain.addEventListener('wheel', (e) => {
-    const now = Date.now();
-    if (now - lastWheelTime < 500) return; // 500ms 디바운싱
-    lastWheelTime = now;
-
-    e.preventDefault();
-    if (e.deltaY > 0) {
-      updateSlider(currentIndex + 1);
-    } else {
-      updateSlider(currentIndex - 1);
-    }
-  }, { passive: false });
-
   // 터치 스와이프 (메인 이미지)
   const sliderMain = root.querySelector('.snap-slider-main');
   let touchStartX = 0;
