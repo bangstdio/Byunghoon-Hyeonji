@@ -2535,9 +2535,9 @@ body.scroll-locked {
 .snap-slider-main {
   position: relative;
   width: 100%;
-  height: 50vh;
-  min-height: 350px;
-  max-height: 600px;
+  height: 65vh;
+  min-height: 450px;
+  max-height: 700px;
   background: linear-gradient(135deg, #f9f7f0 0%, #ede9e0 100%);
   border-radius: 20px;
   overflow: hidden;
@@ -2562,7 +2562,6 @@ body.scroll-locked {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  border-radius: 12px;
   opacity: 0;
   transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   user-select: none;
@@ -2596,29 +2595,29 @@ body.scroll-locked {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 46px;
-  height: 46px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: #5e5d59;
-  font-size: 32px;
+  width: auto;
+  height: auto;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 48px;
   font-weight: 300;
-  border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10;
   transition: all 0.25s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 8px 16px;
   -webkit-tap-highlight-color: transparent;
+}
+
+.snap-nav-btn:hover {
+  color: rgba(255, 255, 255, 1);
 }
 
 .snap-nav-btn:active {
   transform: translateY(-50%) scale(0.92);
-  background: #f0eee6;
 }
 
 .snap-nav-btn.prev {
@@ -2675,82 +2674,45 @@ body.scroll-locked {
 }
 
 .snap-slider-counter {
-  font-family: 'Freesentation', sans-serif;
-  font-size: 19px;
-  font-weight: 500;
-  color: #8e8d89;
-  letter-spacing: 0.2px;
+  display: none;
 }
 
 /* 다크모드 대응 */
 @media (prefers-color-scheme: dark) {
-  .snap-scrollbar-track {
-    background: #3a3832;
-  }
-
   .snap-slider-main {
     background: linear-gradient(135deg, #2a2824 0%, #1f1d19 100%);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     border-color: rgba(255, 255, 255, 0.1);
   }
 
-  .snap-nav-btn {
-    background: rgba(255, 255, 255, 0.08);
-    color: #ccc;
-    border-color: rgba(255, 255, 255, 0.15);
-  }
-
-  .snap-nav-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
+  .snap-thumbnails-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
   }
 }
 
 /* 하단 썸네일 스트립 */
 .snap-thumbnails-strip {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  margin-top: 16px;
+  width: calc(100% + 56px);
+  margin: 20px -28px 0;
+  padding: 0 28px;
+  overflow: hidden;
 }
 
 .snap-thumbnails-nav {
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  color: #5e5d59;
-  transition: all 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.snap-thumbnails-nav:hover {
-  background: #f0eee6;
-  color: #141413;
-}
-
-.snap-thumbnails-nav:active {
-  transform: scale(0.92);
+  display: none;
 }
 
 .snap-thumbnails-scroll {
-  flex: 1;
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  mask-image: linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%);
 }
 
 .snap-thumbnails-scroll::-webkit-scrollbar {
-  height: 4px;
+  height: 3px;
 }
 
 .snap-thumbnails-scroll::-webkit-scrollbar-track {
@@ -2758,14 +2720,14 @@ body.scroll-locked {
 }
 
 .snap-thumbnails-scroll::-webkit-scrollbar-thumb {
-  background: #d4a574;
+  background: rgba(255, 255, 255, 0.3);
   border-radius: 2px;
 }
 
 .snap-thumbnails-container {
   display: flex;
-  gap: 6px;
-  padding: 2px 0;
+  gap: 8px;
+  padding: 8px 0;
 }
 
 .snap-thumbnail {
@@ -2813,32 +2775,31 @@ body.scroll-locked {
 /* 모바일 뷰 최적화 */
 @media (max-width: 599px) {
   .snap-slider-main {
-    height: 44vh;
+    height: 55vh;
+    min-height: 400px;
     border-radius: 16px;
   }
 
   .snap-nav-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 28px;
+    font-size: 40px;
+    padding: 4px 12px;
   }
 
   .snap-nav-btn.prev {
-    left: 10px;
+    left: 8px;
   }
 
   .snap-nav-btn.next {
-    right: 10px;
+    right: 8px;
   }
 
   .snap-thumbnail {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
   }
 
-  .snap-thumbnails-nav {
-    width: 28px;
-    height: 28px;
-    font-size: 10px;
+  .snap-thumbnails-strip {
+    margin: 16px -20px 0;
+    padding: 0 20px;
   }
 }
