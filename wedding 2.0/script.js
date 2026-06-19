@@ -1354,24 +1354,27 @@ function initSnapSlider() {
     const filename = shuffled[currentIndex];
     const src = `photos/s5/snaps/${filename}`;
 
+    imgEl.style.opacity = '0';
+    loadingEl.style.display = 'flex';
+
     imgEl.onload = () => {
-      loadingEl.style.display = 'none';
       imageWrapper.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
       imageWrapper.style.transform = 'translateX(0)';
+      loadingEl.style.display = 'none';
       imgEl.style.opacity = '1';
     };
     imgEl.onerror = () => {
-      loadingEl.style.display = 'none';
       imageWrapper.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
       imageWrapper.style.transform = 'translateX(0)';
+      loadingEl.style.display = 'none';
       imgEl.style.opacity = '1';
     };
     imgEl.src = src;
 
     if (imgEl.complete && imgEl.naturalWidth) {
-      loadingEl.style.display = 'none';
       imageWrapper.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
       imageWrapper.style.transform = 'translateX(0)';
+      loadingEl.style.display = 'none';
       imgEl.style.opacity = '1';
     }
 
