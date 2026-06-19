@@ -2538,14 +2538,10 @@ body.scroll-locked {
   height: 65vh;
   min-height: 450px;
   max-height: 700px;
-  background: linear-gradient(135deg, #f9f7f0 0%, #ede9e0 100%);
-  border-radius: 20px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .snap-image-wrapper {
@@ -2674,12 +2670,6 @@ body.scroll-locked {
 
 /* 다크모드 대응 */
 @media (prefers-color-scheme: dark) {
-  .snap-slider-main {
-    background: linear-gradient(135deg, #2a2824 0%, #1f1d19 100%);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-
   .snap-thumbnails-scroll::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.2);
   }
