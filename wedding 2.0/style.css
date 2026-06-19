@@ -2552,7 +2552,6 @@ body.scroll-locked {
   justify-content: center;
   position: relative;
   padding: 12px;
-  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .snap-img {

@@ -1339,29 +1339,39 @@ function initSnapSlider() {
     preloadedImages[filename] = img;
   }
 
-  function updateSlider(index) {
+  function updateSlider(index, direction = 0) {
     if (index < 0) index = total - 1;
     if (index >= total) index = 0;
-    currentIndex = index;
 
+    const nextIndex = index;
+    const isMovingForward = nextIndex > currentIndex || (currentIndex === total - 1 && nextIndex === 0);
+
+    imageWrapper.style.transition = 'none';
+    const slideDistance = isMovingForward ? -100 : 100;
+    imageWrapper.style.transform = `translateX(${slideDistance}%)`;
+
+    currentIndex = index;
     const filename = shuffled[currentIndex];
     const src = `photos/s5/snaps/${filename}`;
 
-    imgEl.style.opacity = '0';
-    loadingEl.style.display = 'flex';
-
     imgEl.onload = () => {
       loadingEl.style.display = 'none';
+      imageWrapper.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
+      imageWrapper.style.transform = 'translateX(0)';
       imgEl.style.opacity = '1';
     };
     imgEl.onerror = () => {
       loadingEl.style.display = 'none';
+      imageWrapper.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
+      imageWrapper.style.transform = 'translateX(0)';
       imgEl.style.opacity = '1';
     };
     imgEl.src = src;
 
     if (imgEl.complete && imgEl.naturalWidth) {
       loadingEl.style.display = 'none';
+      imageWrapper.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
+      imageWrapper.style.transform = 'translateX(0)';
       imgEl.style.opacity = '1';
     }
 
@@ -1415,36 +1425,15 @@ function initSnapSlider() {
 
   // 터치 스와이프 (메인 이미지)
   const sliderMain = root.querySelector('.snap-slider-main');
-  const imageWrapper = root.querySelector('.snap-image-wrapper');
   let touchStartX = 0;
   let touchStartY = 0;
-  let isTouching = false;
 
   sliderMain.addEventListener('touchstart', (e) => {
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
-    isTouching = true;
-    imageWrapper.style.transition = 'none';
   }, { passive: true });
 
-  sliderMain.addEventListener('touchmove', (e) => {
-    if (!isTouching) return;
-    const currentX = e.touches[0].clientX;
-    const diffX = currentX - touchStartX;
-    const absY = Math.abs(e.touches[0].clientY - touchStartY);
-
-    if (Math.abs(diffX) > Math.abs(absY)) {
-      e.preventDefault && e.preventDefault();
-      imageWrapper.style.transform = `translateX(${diffX * 0.3}px)`;
-    }
-  }, { passive: false });
-
   sliderMain.addEventListener('touchend', (e) => {
-    if (!isTouching) return;
-    isTouching = false;
-    imageWrapper.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
-    imageWrapper.style.transform = 'translateX(0)';
-
     const touchEndX = e.changedTouches[0].clientX;
     const touchEndY = e.changedTouches[0].clientY;
     const diffX = touchEndX - touchStartX;
