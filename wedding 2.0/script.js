@@ -21,7 +21,7 @@ function debounce(fn, ms) {
 /* ============================================================
    Constants
    ============================================================ */
-const WEDDING_DATE = '2026-11-28T11:00:00+09:00';
+const WEDDING_DATE = '2026-11-29T12:00:00+09:00';
 let lenis;
 let islandWasVisible = false;
 let islandShown = false;
@@ -1143,7 +1143,7 @@ function initSection5() {
 function downloadICS() {
   const lines = [
     'BEGIN:VCALENDAR', 'VERSION:2.0', 'BEGIN:VEVENT',
-    'SUMMARY:김병훈 ♥ 백현지 결혼식', 'DTSTART:20261128T020000Z', 'DTEND:20261128T030000Z',
+    'SUMMARY:김병훈 ♥ 백현지 결혼식', 'DTSTART:20261129T030000Z', 'DTEND:20261129T040000Z',
     'LOCATION:현대차·기아 양재사옥 2층 그랜드 홀(서울 서초구 헌릉로12)', 'END:VEVENT', 'END:VCALENDAR'
   ];
   const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar' });
