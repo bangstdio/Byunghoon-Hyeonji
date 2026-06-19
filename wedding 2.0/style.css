@@ -2594,12 +2594,11 @@ body.scroll-locked {
 .snap-nav-btn {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
   width: auto;
   height: auto;
   border: none;
   background: transparent;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.6);
   font-size: 48px;
   font-weight: 300;
   cursor: pointer;
@@ -2607,13 +2606,9 @@ body.scroll-locked {
   align-items: center;
   justify-content: center;
   z-index: 10;
-  transition: all 0.25s ease;
   padding: 8px 16px;
   -webkit-tap-highlight-color: transparent;
-}
-
-.snap-nav-btn:hover {
-  color: rgba(255, 255, 255, 1);
+  transition: transform 0.2s ease;
 }
 
 .snap-nav-btn:active {
@@ -2621,13 +2616,13 @@ body.scroll-locked {
 }
 
 .snap-nav-btn.prev {
-  left: 16px;
-  padding-right: 2px;
+  left: -70px;
+  transform: translateY(-50%);
 }
 
 .snap-nav-btn.next {
-  right: 16px;
-  padding-left: 2px;
+  right: -70px;
+  transform: translateY(-50%);
 }
 
 @media (hover: hover) {
@@ -2786,11 +2781,11 @@ body.scroll-locked {
   }
 
   .snap-nav-btn.prev {
-    left: 8px;
+    left: -60px;
   }
 
   .snap-nav-btn.next {
-    right: 8px;
+    right: -60px;
   }
 
   .snap-thumbnail {
