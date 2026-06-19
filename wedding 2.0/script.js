@@ -1339,41 +1339,30 @@ function initSnapSlider() {
     preloadedImages[filename] = img;
   }
 
-  function updateSlider(index, direction = 0) {
+  function updateSlider(index) {
     if (index < 0) index = total - 1;
     if (index >= total) index = 0;
-
-    const nextIndex = index;
-    const isMovingForward = nextIndex > currentIndex || (currentIndex === total - 1 && nextIndex === 0);
-
     currentIndex = index;
+
     const filename = shuffled[currentIndex];
     const src = `photos/s5/snaps/${encodeURI(filename)}`;
 
     imgEl.style.opacity = '0';
     loadingEl.style.display = 'flex';
-    imageWrapper.style.transition = 'none';
-    imageWrapper.style.transform = 'translateX(0)';
 
-    const handleLoad = () => {
-      imageWrapper.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
-      const slideDistance = isMovingForward ? -100 : 100;
-      imageWrapper.style.transform = `translateX(${slideDistance}%)`;
-
-      setTimeout(() => {
-        imageWrapper.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
-        imageWrapper.style.transform = 'translateX(0)';
-        loadingEl.style.display = 'none';
-        imgEl.style.opacity = '1';
-      }, 50);
+    imgEl.onload = () => {
+      loadingEl.style.display = 'none';
+      imgEl.style.opacity = '1';
     };
-
-    imgEl.onload = handleLoad;
-    imgEl.onerror = handleLoad;
+    imgEl.onerror = () => {
+      loadingEl.style.display = 'none';
+      imgEl.style.opacity = '1';
+    };
     imgEl.src = src;
 
     if (imgEl.complete && imgEl.naturalWidth) {
-      handleLoad();
+      loadingEl.style.display = 'none';
+      imgEl.style.opacity = '1';
     }
 
     counterEl.textContent = `${currentIndex + 1} / ${total}`;
