@@ -148,7 +148,7 @@ const S5_CARD_DATA = [
 
     </div>
   ` },
-  { title: '둘 사진 더보기', html: `<p>결혼기념 스냅 사진을 준비 중입니다.</p>` },
+  { title: '둘의 사진 더보기', html: `<div id="snap-slider-root"></div>` },
   { title: '결혼식 사진 업로드', html: `<p>오늘의 아름다운 순간들을 공유해주세요.</p>` },
   { title: '결혼식 플레이리스트', html: `<p>오늘의 예식을 위해 정성껏 선곡했습니다.</p>` }
 ];
@@ -170,6 +170,10 @@ function openCardModal(index) {
   modal.classList.add('active');
   document.body.classList.add('scroll-locked');
   if (lenis) lenis.stop();
+
+  if (index === 3) {
+    initSnapSlider();
+  }
 }
 
 function closeCardModal() {
@@ -1252,3 +1256,205 @@ function initTweaks() {
 window.addEventListener('load', () => {
   setTimeout(initTweaks, 100);
 });
+
+/* ============================================================
+   Snap Photos Slider
+   ============================================================ */
+const SNAP_IMAGES = [
+  '1-1.jpg', '1-101.jpg', '1-103.jpg', '1-105.jpg', '1-106.jpg', '1-107.jpg', '1-109.jpg', '1-11.jpg', '1-112.jpg',
+  '1-116.jpg', '1-117.jpg', '1-12.jpg', '1-123.jpg', '1-126.jpg', '1-127.jpg', '1-128.jpg', '1-129.jpg', '1-13.jpg',
+  '1-130.jpg', '1-131.jpg', '1-133.jpg', '1-134.jpg', '1-137.jpg', '1-14.jpg', '1-142.jpg', '1-16.jpg', '1-162.jpg',
+  '1-17.jpg', '1-19.jpg', '1-2.jpg', '1-22.jpg', '1-25.jpg', '1-26.jpg', '1-29.jpg', '1-30.jpg', '1-34.jpg',
+  '1-39.jpg', '1-40.jpg', '1-43.jpg', '1-44.jpg', '1-45.jpg', '1-46.jpg', '1-50.jpg', '1-52.jpg', '1-53.jpg',
+  '1-57.jpg', '1-62.jpg', '1-68.jpg', '1-7.jpg', '1-72.jpg', '1-79.jpg', '1-8.jpg', '1-81.jpg', '1-84.jpg',
+  '1-86.jpg', '1-89.jpg', '1-90.jpg', '1-91.jpg', '1-93.jpg', '1-94.jpg', '1-97.jpg', '1-98.jpg', '1-99.jpg'
+];
+
+function initSnapSlider() {
+  const root = document.getElementById('snap-slider-root');
+  if (!root) return;
+
+  // Fisher-Yates Shuffle
+  const shuffled = [...SNAP_IMAGES];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  const total = shuffled.length;
+  let currentIndex = 0;
+
+  // 썸네일 HTML 생성
+  const thumbnailsHTML = shuffled.map((fname, idx) =>
+    `<div class="snap-thumbnail" data-index="${idx}" style="background-image: url('photos/s5/snaps/${fname}')"></div>`
+  ).join('');
+
+  root.innerHTML = `
+    <div class="snap-slider-container">
+      <!-- 중앙 메인 이미지 -->
+      <div class="snap-slider-main">
+        <button class="snap-nav-btn prev" aria-label="이전 사진">&lsaquo;</button>
+        <div class="snap-image-wrapper">
+          <div class="snap-loading-indicator">
+            <div class="snap-spinner"></div>
+          </div>
+          <img class="snap-img" src="" alt="스냅 사진" style="opacity: 0;">
+        </div>
+        <button class="snap-nav-btn next" aria-label="다음 사진">&rsaquo;</button>
+      </div>
+
+      <!-- 하단 썸네일 스트립 -->
+      <div class="snap-thumbnails-strip">
+        <button class="snap-thumbnails-nav prev" aria-label="썸네일 왼쪽">◀</button>
+        <div class="snap-thumbnails-scroll">
+          <div class="snap-thumbnails-container">
+            ${thumbnailsHTML}
+          </div>
+        </div>
+        <button class="snap-thumbnails-nav next" aria-label="썸네일 오른쪽">▶</button>
+      </div>
+
+      <div class="snap-slider-counter">1 / ${total}</div>
+    </div>
+  `;
+
+  const imgEl = root.querySelector('.snap-img');
+  const loadingEl = root.querySelector('.snap-loading-indicator');
+  const prevBtn = root.querySelector('.snap-nav-btn.prev');
+  const nextBtn = root.querySelector('.snap-nav-btn.next');
+  const counterEl = root.querySelector('.snap-slider-counter');
+  const thumbnailEls = root.querySelectorAll('.snap-thumbnail');
+  const thumbsContainer = root.querySelector('.snap-thumbnails-container');
+  const thumbsScroll = root.querySelector('.snap-thumbnails-scroll');
+  const thumbsNavPrev = root.querySelector('.snap-thumbnails-nav.prev');
+  const thumbsNavNext = root.querySelector('.snap-thumbnails-nav.next');
+
+  const preloadedImages = {};
+
+  function preloadImage(idx) {
+    const filename = shuffled[idx];
+    if (!filename || preloadedImages[filename]) return;
+    const img = new Image();
+    img.src = `photos/s5/snaps/${filename}`;
+    preloadedImages[filename] = img;
+  }
+
+  function updateSlider(index) {
+    if (index < 0) index = total - 1;
+    if (index >= total) index = 0;
+    currentIndex = index;
+
+    const filename = shuffled[currentIndex];
+    const src = `photos/s5/snaps/${filename}`;
+
+    imgEl.style.opacity = '0';
+    loadingEl.style.display = 'flex';
+
+    imgEl.onload = () => {
+      loadingEl.style.display = 'none';
+      imgEl.style.opacity = '1';
+    };
+    imgEl.onerror = () => {
+      loadingEl.style.display = 'none';
+      imgEl.style.opacity = '1';
+    };
+    imgEl.src = src;
+
+    if (imgEl.complete && imgEl.naturalWidth) {
+      loadingEl.style.display = 'none';
+      imgEl.style.opacity = '1';
+    }
+
+    counterEl.textContent = `${currentIndex + 1} / ${total}`;
+
+    // 썸네일 업데이트
+    thumbnailEls.forEach((thumb, idx) => {
+      thumb.classList.toggle('active', idx === currentIndex);
+    });
+
+    // 썸네일 스트립 자동 스크롤
+    const thumbElement = thumbnailEls[currentIndex];
+    if (thumbElement) {
+      const thumbRect = thumbElement.getBoundingClientRect();
+      const scrollRect = thumbsScroll.getBoundingClientRect();
+      const containerLeft = thumbsContainer.offsetLeft;
+
+      const thumbLeft = thumbElement.offsetLeft - containerLeft;
+      const thumbRight = thumbLeft + thumbElement.offsetWidth;
+      const scrollLeft = thumbsScroll.scrollLeft;
+      const scrollRight = scrollLeft + thumbsScroll.clientWidth;
+
+      if (thumbLeft < scrollLeft) {
+        thumbsScroll.scrollLeft = thumbLeft - 10;
+      } else if (thumbRight > scrollRight) {
+        thumbsScroll.scrollLeft = thumbRight - thumbsScroll.clientWidth + 10;
+      }
+    }
+
+    // 스마트 프리로드
+    preloadImage((currentIndex + 1) % total);
+    preloadImage((currentIndex - 1 + total) % total);
+  }
+
+  // 버튼 네비게이션
+  prevBtn.addEventListener('click', () => updateSlider(currentIndex - 1));
+  nextBtn.addEventListener('click', () => updateSlider(currentIndex + 1));
+
+  // 썸네일 클릭
+  thumbnailEls.forEach((thumb, idx) => {
+    thumb.addEventListener('click', () => updateSlider(idx));
+  });
+
+  // 썸네일 스트립 스크롤 버튼
+  thumbsNavPrev.addEventListener('click', () => {
+    thumbsScroll.scrollLeft -= 100;
+  });
+  thumbsNavNext.addEventListener('click', () => {
+    thumbsScroll.scrollLeft += 100;
+  });
+
+  // 터치 스와이프 (메인 이미지)
+  const sliderMain = root.querySelector('.snap-slider-main');
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  sliderMain.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  sliderMain.addEventListener('touchend', (e) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const diffX = touchEndX - touchStartX;
+    const diffY = touchEndY - touchStartY;
+
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+      if (diffX > 0) {
+        updateSlider(currentIndex - 1);
+      } else {
+        updateSlider(currentIndex + 1);
+      }
+    }
+  }, { passive: true });
+
+  // 키보드 네비게이션
+  const onKeyDown = (e) => {
+    if (e.key === 'ArrowLeft') updateSlider(currentIndex - 1);
+    if (e.key === 'ArrowRight') updateSlider(currentIndex + 1);
+  };
+  document.addEventListener('keydown', onKeyDown);
+
+  // 모달 닫힐 때 이벤트 리스너 정리
+  const modalCloseBtn = document.getElementById('s5-modal-close');
+  const dim = document.getElementById('s5-dim');
+  const cleanUp = () => {
+    document.removeEventListener('keydown', onKeyDown);
+    modalCloseBtn.removeEventListener('click', cleanUp);
+    dim.removeEventListener('click', cleanUp);
+  };
+  modalCloseBtn.addEventListener('click', cleanUp, { once: true });
+  dim.addEventListener('click', cleanUp, { once: true });
+
+  updateSlider(0);
+}

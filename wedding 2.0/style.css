@@ -2706,24 +2706,139 @@ body.scroll-locked {
   }
 }
 
+/* 하단 썸네일 스트립 */
+.snap-thumbnails-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.snap-thumbnails-nav {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #5e5d59;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.snap-thumbnails-nav:hover {
+  background: #f0eee6;
+  color: #141413;
+}
+
+.snap-thumbnails-nav:active {
+  transform: scale(0.92);
+}
+
+.snap-thumbnails-scroll {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.snap-thumbnails-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.snap-thumbnails-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.snap-thumbnails-scroll::-webkit-scrollbar-thumb {
+  background: #d4a574;
+  border-radius: 2px;
+}
+
+.snap-thumbnails-container {
+  display: flex;
+  gap: 6px;
+  padding: 2px 0;
+}
+
+.snap-thumbnail {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+}
+
+.snap-thumbnail:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.snap-thumbnail.active {
+  border-color: var(--color-brand, #d4724f);
+  opacity: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 다크모드 대응 */
+@media (prefers-color-scheme: dark) {
+  .snap-thumbnails-nav {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #ccc;
+  }
+
+  .snap-thumbnails-nav:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+  }
+
+  .snap-thumbnails-scroll::-webkit-scrollbar-thumb {
+    background: #8b7355;
+  }
+}
+
 /* 모바일 뷰 최적화 */
 @media (max-width: 599px) {
   .snap-slider-main {
     height: 44vh;
     border-radius: 16px;
   }
-  
+
   .snap-nav-btn {
     width: 40px;
     height: 40px;
     font-size: 28px;
   }
-  
+
   .snap-nav-btn.prev {
     left: 10px;
   }
-  
+
   .snap-nav-btn.next {
     right: 10px;
+  }
+
+  .snap-thumbnail {
+    width: 40px;
+    height: 40px;
+  }
+
+  .snap-thumbnails-nav {
+    width: 28px;
+    height: 28px;
+    font-size: 10px;
   }
 }
