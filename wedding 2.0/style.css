@@ -2525,6 +2525,13 @@ body.scroll-locked {
 /* ============================================================
    Snap Photos Slider inside Modal
    ============================================================ */
+#snap-slider-root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
 .snap-slider-container {
   display: flex;
   flex-direction: column;
