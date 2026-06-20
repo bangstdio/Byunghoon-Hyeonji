@@ -2682,8 +2682,8 @@ body.scroll-locked {
 /* 하단 썸네일 스트립 */
 .snap-thumbnails-strip {
   width: calc(100% + 56px);
-  margin: 20px -28px 0;
-  padding: 0 28px;
+  margin: 20px -28px calc(-1 * max(48px, calc(24px + env(safe-area-inset-bottom))));
+  padding: 0 28px max(48px, calc(24px + env(safe-area-inset-bottom))) 28px;
   overflow: hidden;
   flex-shrink: 0;
 }
