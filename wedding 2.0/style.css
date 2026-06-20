@@ -2723,6 +2723,7 @@ body.scroll-locked {
   border-radius: 6px;
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   cursor: pointer;
   border: 2px solid transparent;
   transition: all 0.2s ease;
