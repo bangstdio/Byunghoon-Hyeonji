@@ -135,7 +135,7 @@ const S5_CARD_DATA = [
         <div class="family-photo-wrap family-photo-wrap--groom">
           <img src="photos/s5/info/groom.jpg" alt="신랑 측 가족사진">
         </div>
-        <div class="family-photo-caption">(왼쪽부터) 신랑 김병훈, 어머니 정영애, 형 김아롬누리, 아버지 김현수, 형수 양지유</div>
+        <div class="family-photo-caption">(오른쪽부터) 신랑 김병훈, 아버지 김현수, 어머니 정영애, 형수 양지유, 형 김아롬누리</div>
       </div>
 
       <div class="family-group">
