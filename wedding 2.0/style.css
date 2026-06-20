@@ -1777,7 +1777,7 @@ body.scroll-locked {
   width: 100%;
   max-width: 550px;
   /* PC에서도 너무 넓지 않게 조절 */
-  max-height: 85dvh;
+  max-height: 92dvh;
   overflow: hidden;
   padding: 20px 28px max(48px, calc(24px + env(safe-area-inset-bottom)));
   opacity: 1;
@@ -2539,8 +2539,8 @@ body.scroll-locked {
   position: relative;
   width: 100%;
   height: auto;
-  min-height: 300px;
-  max-height: 400px;
+  min-height: 350px;
+  max-height: 550px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -2767,8 +2767,8 @@ body.scroll-locked {
 @media (max-width: 599px) {
   .snap-slider-main {
     height: auto;
-    min-height: 250px;
-    max-height: 350px;
+    min-height: 300px;
+    max-height: 450px;
     border-radius: 16px;
   }
 
