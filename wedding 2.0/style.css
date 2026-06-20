@@ -2533,18 +2533,18 @@ body.scroll-locked {
   padding-top: 4px;
   flex: 1;
   overflow: hidden;
+  min-height: 0;
 }
 
 .snap-slider-main {
   position: relative;
   width: 100%;
-  height: 0;
   flex: 1;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 250px;
+  min-height: 0;
 }
 
 .snap-image-wrapper {
@@ -2685,6 +2685,7 @@ body.scroll-locked {
   margin: 20px -28px 0;
   padding: 0 28px;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .snap-thumbnails-nav {
