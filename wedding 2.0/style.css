@@ -1055,7 +1055,7 @@ html.dark .di-menu-btn:active {
   align-items: center;
   justify-content: center;
   min-height: 0;
-  padding: 27vh 0 27vh;
+  padding: 15vh 0 10vh;
 }
 
 .s2-inner {
@@ -1127,6 +1127,7 @@ html.dark .di-menu-btn:active {
 #section-3 {
   background: var(--color-bg);
   position: relative;
+  padding-top: 10px;
 }
 
 /* 마스터 스티키 컨테이너: 모든 내부 요소가 일정한 간격을 유지하며 함께 움직이도록 함 */
@@ -2609,7 +2610,9 @@ body.scroll-locked {
 }
 
 @keyframes snap-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .snap-nav-btn {
@@ -2813,5 +2816,60 @@ body.scroll-locked {
   .snap-thumbnails-strip {
     margin: 16px -20px 0;
     padding: 0 20px;
+  }
+}
+
+/* ============================================================
+   Section 2.5 — Quick Action Buttons
+   ============================================================ */
+
+#section-2-5 {
+  background: var(--color-bg);
+  padding: 16px 16px;
+}
+
+.s25-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.s25-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: 'Freesentation', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  padding: 12px 8px;
+  text-align: center;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.s25-btn:hover {
+  color: var(--color-brand);
+  transform: scale(1.05);
+}
+
+.s25-btn:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 599px) {
+  #section-2-5 {
+    padding: 12px 20px;
+  }
+
+  .s25-btn {
+    font-size: 16px;
+    padding: 10px 6px;
   }
 }
