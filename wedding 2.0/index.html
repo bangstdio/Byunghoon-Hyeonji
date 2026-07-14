@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
-  <title>Byunghoon &amp; Hyeonji</title>
+  <title>병훈과 현지 | 26.11.28.(토) 12시</title>
 
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,6 +36,24 @@
   <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" defer></script>
 
+  <!-- Loading Screen Emergency Styles (표시 지연 방지) -->
+  <style>
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background: #f5f4ed;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -47,7 +65,7 @@
       <p class="ls-invite">초대합니다</p>
       <h1 class="ls-title">병훈과 현지의 결혼식</h1>
       <div class="ls-info">
-        <p>2026년 11월 29일 일요일 12시</p>
+        <p>2026년 11월 28일 토요일 12시</p>
         <p>현대차·기아 양재사옥 2층 그랜드 홀</p>
       </div>
       <div class="ls-progress-wrap">
@@ -61,11 +79,11 @@
   <!-- SECTION 0: Dynamic Island Navigation -->
   <nav id="dynamic-island" aria-label="페이지 네비게이션">
     <div class="di-logo-wrap">
-      <span class="di-logo-desktop">BH &hearts; HJ<span class="di-event">&ensp;|&ensp;2026.11.29.(일) 12시, 현대차·기아
+      <span class="di-logo-desktop">BH &hearts; HJ<span class="di-event">&ensp;|&ensp;2026.11.28.(토) 12시, 현대차·기아
           양재사옥 2층 그랜드 홀</span></span>
       <span class="di-logo-mobile">
         <span class="di-logo-text">BH&hearts;HJ</span>
-        <span class="di-event-mobile">11/29(일) 12시, 현대차·기아 양재사옥</span>
+        <span class="di-event-mobile">11/28(토) 12시, 현대차·기아 양재사옥</span>
       </span>
     </div>
     <div class="di-nav">
@@ -273,7 +291,7 @@
     <section id="section-4">
       <div class="s4-inner">
         <p class="s4-label">함께해주세요</p>
-        <h2 class="s4-date">2026년 11월 29일(일) 12시</h2>
+        <h2 class="s4-date">2026년 11월 28일(토) 12시</h2>
         <p class="s4-venue" id="s4-venue" style="cursor: pointer;" onclick="openCardModal(0)" title="오시는 길 지도 보기">현대차·기아
           양재사옥 2층 그랜드 홀</p>
         <div class="s4-divider"></div>

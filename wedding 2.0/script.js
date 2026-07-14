@@ -21,7 +21,7 @@ function debounce(fn, ms) {
 /* ============================================================
    Constants
    ============================================================ */
-const WEDDING_DATE = '2026-11-29T12:00:00+09:00';
+const WEDDING_DATE = '2026-11-28T12:00:00+09:00';
 let lenis;
 let islandWasVisible = false;
 let islandShown = false;
@@ -57,21 +57,21 @@ const S5_CARD_DATA = [
             <div class="account-item">
               <div class="account-info">
                 <span class="account-relation">아버지</span> <span class="account-name">김현수</span>
-                <div class="account-number">국민 000000-00-000000</div>
+                <div class="account-number">우리 1002-150-319010</div>
               </div>
               <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('국민', '00000000000000')">복사</button>
-                <a href="supertoss://transfer?bank=국민&accountNo=00000000000000" class="btn-toss">토스</a>
+                <button class="btn-copy" onclick="copyAccount('우리', '10021503190 10')">복사</button>
+                <a href="supertoss://transfer?bank=우리&accountNo=10021503190 10" class="btn-toss">토스</a>
               </div>
             </div>
             <div class="account-item">
               <div class="account-info">
                 <span class="account-relation">어머니</span> <span class="account-name">정영애</span>
-                <div class="account-number">농협 000000-00-000000</div>
+                <div class="account-number">농협 235084-51-134681</div>
               </div>
               <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('농협', '00000000000000')">복사</button>
-                <a href="supertoss://transfer?bank=농협&accountNo=00000000000000" class="btn-toss">토스</a>
+                <button class="btn-copy" onclick="copyAccount('농협', '23508451134681')">복사</button>
+                <a href="supertoss://transfer?bank=농협&accountNo=23508451134681" class="btn-toss">토스</a>
               </div>
             </div>
             <div class="account-item">
@@ -460,25 +460,41 @@ document.addEventListener('DOMContentLoaded', () => {
   // 로딩 중이면 즉시 멈춤 — fadeOut()에서 start()
   if (document.getElementById('loading-screen')) lenis.stop();
 
-  // URL 바 show/hide(height-only resize) 중 ScrollTrigger.update를 억제
-  // — ignoreMobileResize가 refresh()를 막아도 update()는 잘못된 scrollY로 실행돼 순간이동 유발
-  let _urlBarResizing = false;
-  let _urlBarResizeTimer = null;
+  // URL 바 show/hide(height-only resize) 감지 및 스크롤 위치 보정
+  // — 뷰포트 높이 변화 시 명시적으로 스크롤 위치 조정해 점프 방지
+  let _lastViewportHeight = window.innerHeight;
   let _prevResizeW = window.innerWidth;
+  let _urlBarResizeTimer = null;
+
   window.addEventListener('resize', () => {
     const curW = window.innerWidth;
-    if (curW === _prevResizeW) {
-      _urlBarResizing = true;
+    const newHeight = window.innerHeight;
+    const heightDiff = _lastViewportHeight - newHeight;
+
+    if (curW !== _prevResizeW) {
+      // 너비 변화: 화면 크기 조정, ScrollTrigger 재계산
+      _prevResizeW = curW;
       clearTimeout(_urlBarResizeTimer);
       _urlBarResizeTimer = setTimeout(() => {
-        _urlBarResizing = false;
         ScrollTrigger.update();
-      }, 200);
+      }, 150);
+    } else if (heightDiff !== 0) {
+      // 높이만 변화: URL 바 show/hide
+      // URL 바가 나타나면 (높이 감소) → 스크롤 위치 올려줌
+      if (heightDiff > 0) {
+        window.scrollBy(0, heightDiff);
+      }
+      // 스크롤 보정 후 ScrollTrigger 재계산
+      clearTimeout(_urlBarResizeTimer);
+      _urlBarResizeTimer = setTimeout(() => {
+        ScrollTrigger.update();
+      }, 100);
     }
-    _prevResizeW = curW;
+
+    _lastViewportHeight = newHeight;
   }, { passive: true });
 
-  lenis.on('scroll', () => { if (!_urlBarResizing) ScrollTrigger.update(); });
+  lenis.on('scroll', () => { ScrollTrigger.update(); });
   gsap.ticker.add((time) => {
     lenis.raf(time * 1000);
   });
@@ -1147,7 +1163,7 @@ function initSection5() {
 function downloadICS() {
   const lines = [
     'BEGIN:VCALENDAR', 'VERSION:2.0', 'BEGIN:VEVENT',
-    'SUMMARY:김병훈 ♥ 백현지 결혼식', 'DTSTART:20261129T030000Z', 'DTEND:20261129T040000Z',
+    'SUMMARY:김병훈 ♥ 백현지 결혼식', 'DTSTART:20261128T030000Z', 'DTEND:20261128T040000Z',
     'LOCATION:현대차·기아 양재사옥 2층 그랜드 홀(서울 서초구 헌릉로12)', 'END:VEVENT', 'END:VCALENDAR'
   ];
   const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar' });
