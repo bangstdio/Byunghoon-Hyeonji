@@ -60,8 +60,8 @@ const S5_CARD_DATA = [
                 <div class="account-number">우리 1002-150-319010</div>
               </div>
               <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('우리', '10021503190 10')">복사</button>
-                <a href="supertoss://transfer?bank=우리&accountNo=10021503190 10" class="btn-toss">토스</a>
+                <button class="btn-copy" onclick="copyAccount('우리', '1002150319010')">복사</button>
+                <a href="supertoss://send?bank=%EC%9A%B0%EB%A6%AC&accountNo=1002150319010&amount=0" class="btn-toss">토스</a>
               </div>
             </div>
             <div class="account-item">
@@ -71,7 +71,7 @@ const S5_CARD_DATA = [
               </div>
               <div class="account-actions">
                 <button class="btn-copy" onclick="copyAccount('농협', '23508451134681')">복사</button>
-                <a href="supertoss://transfer?bank=농협&accountNo=23508451134681" class="btn-toss">토스</a>
+                <a href="supertoss://send?bank=%EB%86%8D%ED%98%91&accountNo=23508451134681&amount=0" class="btn-toss">토스</a>
               </div>
             </div>
             <div class="account-item">
@@ -98,7 +98,7 @@ const S5_CARD_DATA = [
               </div>
               <div class="account-actions">
                 <button class="btn-copy" onclick="copyAccount('국민', '61120295125198')">복사</button>
-                <a href="supertoss://transfer?bank=국민&accountNo=61120295125198" class="btn-toss">토스</a>
+                <a href="supertoss://send?bank=%EA%B5%AD%EB%AF%BC&accountNo=61120295125198&amount=0" class="btn-toss">토스</a>
               </div>
             </div>
             <div class="account-item">
@@ -107,8 +107,8 @@ const S5_CARD_DATA = [
                 <div class="account-number">카카오뱅크 3333-04-9824396</div>
               </div>
               <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('카카오뱅크', '33330498243 96')">복사</button>
-                <a href="supertoss://transfer?bank=카카오뱅크&accountNo=33330498243 96" class="btn-toss">토스</a>
+                <button class="btn-copy" onclick="copyAccount('카카오뱅크', '3333049824396')">복사</button>
+                <a href="supertoss://send?bank=%EC%B9%B4%EC%B9%B4%EC%98%A4%EB%B1%85%ED%81%AC&accountNo=3333049824396&amount=0" class="btn-toss">토스</a>
               </div>
             </div>
             <div class="account-item">
@@ -117,8 +117,8 @@ const S5_CARD_DATA = [
                 <div class="account-number">카카오뱅크 3333-06-7829886</div>
               </div>
               <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('카카오뱅크', '33330678298 86')">복사</button>
-                <a href="supertoss://transfer?bank=카카오뱅크&accountNo=33330678298 86" class="btn-toss">토스</a>
+                <button class="btn-copy" onclick="copyAccount('카카오뱅크', '3333067829886')">복사</button>
+                <a href="supertoss://send?bank=%EC%B9%B4%EC%B9%B4%EC%98%A4%EB%B1%85%ED%81%AC&accountNo=3333067829886&amount=0" class="btn-toss">토스</a>
               </div>
             </div>
           </div>
