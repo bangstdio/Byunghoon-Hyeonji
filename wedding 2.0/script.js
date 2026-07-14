@@ -1,4 +1,27 @@
 /* ============================================================
+   Kakao WebView Redirect (카카오톡 브라우저에서 외부 브라우저로 이동)
+   ============================================================ */
+(function redirectFromKakaoWebView() {
+  const ua = navigator.userAgent;
+  const isKakaoWebView = /KAKAOTALK|KAKAO/i.test(ua);
+
+  if (!isKakaoWebView) return;
+
+  // 카카오톡 브라우저 감지 → 외부 브라우저로 이동
+  const isIOS = /iPhone|iPad|iPod/.test(ua);
+  const currentUrl = window.location.href;
+
+  if (isIOS) {
+    // iOS: Safari로 열기
+    window.location.href = currentUrl;
+  } else {
+    // Android: Intent URL로 브라우저 선택 팝업
+    const urlWithoutScheme = currentUrl.replace(/^https?:\/\//, '');
+    window.location.href = `intent://${urlWithoutScheme}#Intent;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;end;`;
+  }
+})();
+
+/* ============================================================
    Viewport Height Fix (카카오톡 URL 바 show/hide로 인한 높이 변동 방지)
    — CSS는 100lvh 직접 사용. JS용 lvh 픽셀값만 --vh에 저장한다.
    ============================================================ */
@@ -1157,12 +1180,31 @@ function initSection5() {
 }
 
 function downloadICS() {
+  const now = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  const uid = `wedding-${Date.now()}@byunghoon-hyeonji.kr`;
+
   const lines = [
-    'BEGIN:VCALENDAR', 'VERSION:2.0', 'BEGIN:VEVENT',
-    'SUMMARY:김병훈 ♥ 백현지 결혼식', 'DTSTART:20261128T030000Z', 'DTEND:20261128T040000Z',
-    'LOCATION:현대차·기아 양재사옥 2층 그랜드 홀(서울 서초구 헌릉로12)', 'END:VEVENT', 'END:VCALENDAR'
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Wedding Invitation//Kim Byunghoon & Baek Hyeonji//KO',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `UID:${uid}`,
+    `DTSTAMP:${now}`,
+    'DTSTART:20261128T120000+0900',
+    'DTEND:20261128T130000+0900',
+    'SUMMARY:김병훈 ♥ 백현지 결혼식',
+    'LOCATION:현대차·기아 양재사옥 2층 그랜드 홀\\n서울시 서초구 헌릉로 12',
+    'DESCRIPTION:병훈과 현지의 결혼식에 초대합니다.',
+    'STATUS:CONFIRMED',
+    'SEQUENCE:0',
+    'END:VEVENT',
+    'END:VCALENDAR'
   ];
-  const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar' });
+
+  const icsContent = lines.join('\r\n');
+  const blob = new Blob([icsContent], { type: 'application/octet-stream' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
