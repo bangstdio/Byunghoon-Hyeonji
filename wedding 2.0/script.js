@@ -471,11 +471,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const newHeight = window.innerHeight;
     const heightDiff = _lastViewportHeight - newHeight;
 
-    // DEBUG: 높이 변화 로그 (개발용)
-    if (heightDiff !== 0) {
-      console.log('[Viewport] prev:', _lastViewportHeight, '→ new:', newHeight, 'diff:', heightDiff, 'scrollY:', window.scrollY);
-    }
-
     if (curW !== _prevResizeW) {
       // 너비 변화: 화면 크기 조정, ScrollTrigger 재계산
       _prevResizeW = curW;
@@ -485,18 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 150);
     } else if (heightDiff !== 0) {
       // 높이만 변화: URL 바 show/hide
-      // URL 바가 나타나면 (높이 감소) → Lenis와 동기화하며 스크롤 위치 보정
-      if (heightDiff > 0) {
-        console.log('[Scroll Correction] Lenis scrollTo +', heightDiff);
-        if (lenis) {
-          // Lenis API 사용: 내부 상태와 동기화
-          lenis.scrollTo(window.scrollY + heightDiff, { duration: 0 });
-        } else {
-          // Lenis 미로드 시 폴백
-          window.scrollBy(0, heightDiff);
-        }
-      }
-      // 스크롤 보정 후 ScrollTrigger 재계산
+      // 스크롤 보정으로 인한 과도한 이동 방지 → ScrollTrigger만 업데이트
       clearTimeout(_urlBarResizeTimer);
       _urlBarResizeTimer = setTimeout(() => {
         ScrollTrigger.update();
