@@ -94,31 +94,31 @@ const S5_CARD_DATA = [
             <div class="account-item">
               <div class="account-info">
                 <span class="account-relation">아버지</span> <span class="account-name">백문기</span>
-                <div class="account-number">국민 000000-00-000000</div>
+                <div class="account-number">국민 611202-95-125198</div>
               </div>
               <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('국민', '00000000000000')">복사</button>
-                <a href="supertoss://transfer?bank=국민&accountNo=00000000000000" class="btn-toss">토스</a>
+                <button class="btn-copy" onclick="copyAccount('국민', '61120295125198')">복사</button>
+                <a href="supertoss://transfer?bank=국민&accountNo=61120295125198" class="btn-toss">토스</a>
               </div>
             </div>
             <div class="account-item">
               <div class="account-info">
                 <span class="account-relation">어머니</span> <span class="account-name">김복순</span>
-                <div class="account-number">국민 000000-00-000000</div>
+                <div class="account-number">카카오뱅크 3333-04-9824396</div>
               </div>
               <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('국민', '00000000000000')">복사</button>
-                <a href="supertoss://transfer?bank=국민&accountNo=00000000000000" class="btn-toss">토스</a>
+                <button class="btn-copy" onclick="copyAccount('카카오뱅크', '33330498243 96')">복사</button>
+                <a href="supertoss://transfer?bank=카카오뱅크&accountNo=33330498243 96" class="btn-toss">토스</a>
               </div>
             </div>
             <div class="account-item">
               <div class="account-info">
                 <span class="account-relation">신부</span> <span class="account-name">백현지</span>
-                <div class="account-number">국민 000000-00-000000</div>
+                <div class="account-number">카카오뱅크 3333-06-7829886</div>
               </div>
               <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('국민', '00000000000000')">복사</button>
-                <a href="supertoss://transfer?bank=국민&accountNo=00000000000000" class="btn-toss">토스</a>
+                <button class="btn-copy" onclick="copyAccount('카카오뱅크', '33330678298 86')">복사</button>
+                <a href="supertoss://transfer?bank=카카오뱅크&accountNo=33330678298 86" class="btn-toss">토스</a>
               </div>
             </div>
           </div>
