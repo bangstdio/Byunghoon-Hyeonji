@@ -2854,6 +2854,7 @@ body.scroll-locked {
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.2;
+  text-decoration: underline;
 }
 
 .s25-btn:hover {
