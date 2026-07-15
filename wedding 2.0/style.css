@@ -219,7 +219,9 @@ body {
 .di-nav {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 2px;
+  flex-wrap: wrap;
 }
 
 .di-btn {

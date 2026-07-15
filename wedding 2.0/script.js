@@ -37,8 +37,10 @@ const S5_CARD_DATA = [
         <img src="photos/s5/info/venue.jpg" alt="현대차 양재사옥 전경" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none'">
       </a>
       <p style="font-weight:700; font-size:20px; margin-bottom:4px;">현대차·기아 양재사옥 2층 그랜드 홀</p>
-      <p style="font-weight:500; font-size:18px; margin-bottom:4px;">서울시 서초구 헌릉로 12</p>
-      <p style="font-weight:400; font-size:18px; margin-bottom:24px;">현대차·기아 양재사옥의 주차 타워를 무료로 이용하실 수 있습니다.</p>
+      <p style="font-weight:500; font-size:18px; margin-bottom:10px;">서울시 서초구 헌릉로 12</p>
+      <p style="font-weight:400; font-size:14px; margin-bottom:8px;">지하철: 신분당선 양재시민의숲역 도보 10분</p>
+      <p style="font-weight:400; font-size:14px; margin-bottom:8px;">버스: 하나로마트·코트라 정류장(440, 452, 4432, 9200, 9202, 서초09, 서초20, 6600)</p>
+      <p style="font-weight:400; font-size:14px; margin-bottom:24px;">주차: 약 450대 주차 가능</p>
       <div style="display:flex; gap:8px; margin-bottom:16px;">
         <a href="https://naver.me/5z5iEAfa" target="_blank" style="flex:1; padding:10px 4px; text-align:center; background:#03C75A; color:#fff; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">네이버 지도</a>
         <a href="https://tmap.life/ae83f03a" target="_blank" style="flex:1; padding:10px 4px; text-align:center; background:#2B86FF; color:#fff; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">TMAP</a>
@@ -126,6 +128,8 @@ const S5_CARD_DATA = [
       </div>
     `
   },
+  { title: '둘의 사진 더보기', html: `<div id="snap-slider-root"></div>` },
+  { title: '결혼식 사진 업로드', html: `<p>오늘의 아름다운 순간들을 공유해주세요.</p>` },
   {
     title: '우리 가족 소개', html: `
     <div class="family-container">
@@ -147,10 +151,7 @@ const S5_CARD_DATA = [
       </div>
 
     </div>
-  ` },
-  { title: '둘의 사진 더보기', html: `<div id="snap-slider-root"></div>` },
-  { title: '결혼식 사진 업로드', html: `<p>오늘의 아름다운 순간들을 공유해주세요.</p>` },
-  { title: '결혼식 플레이리스트', html: `<p>오늘의 예식을 위해 정성껏 선곡했습니다.</p>` }
+  ` }
 ];
 
 /* ============================================================
@@ -171,7 +172,7 @@ function openCardModal(index) {
   document.body.classList.add('scroll-locked');
   if (lenis) lenis.stop();
 
-  if (index === 3) {
+  if (index === 2) {
     initSnapSlider();
   }
 }
@@ -592,12 +593,8 @@ function initDynamicIsland() {
   }
 
   // 데스크탑 버튼
-  document.getElementById('btn-story').addEventListener('click', () => {
-    gsap.to(window, { scrollTo: '#section-3', duration: 1, ease: 'power2.inOut' });
-  });
   document.getElementById('btn-location').addEventListener('click', () => openCardModal(0));
   document.getElementById('btn-account').addEventListener('click', () => openCardModal(1));
-  document.getElementById('btn-calendar').addEventListener('click', downloadICS);
 
   // 햄버거 메뉴 (모바일)
   const menuBtn = document.getElementById('btn-menu');
@@ -632,13 +629,9 @@ function initDynamicIsland() {
       if (!menuPanel.hidden && !menuPanel.contains(e.target)) closeMenu();
     });
 
-    document.getElementById('mb-story').addEventListener('click', () => {
-      closeMenu();
-      gsap.to(window, { scrollTo: '#section-3', duration: 1, ease: 'power2.inOut' });
-    });
     document.getElementById('mb-location').addEventListener('click', () => { closeMenu(); openCardModal(0); });
     document.getElementById('mb-account').addEventListener('click', () => { closeMenu(); openCardModal(1); });
-    document.getElementById('mb-calendar').addEventListener('click', () => { closeMenu(); downloadICS(); });
+    document.getElementById('mb-gallery').addEventListener('click', () => { closeMenu(); openCardModal(2); });
 
     // 스크롤 시 메뉴 닫기
     lenis.on('scroll', ({ velocity }) => {
@@ -976,7 +969,7 @@ function initSection2() {
   ScrollTrigger.create({
     trigger: '.s2-inner',
     start: 'top 93%',
-    end: 'top -25%',
+    end: 'top -10%',
     scrub: 0.2,
     onUpdate: (self) => {
       const activeCount = Math.round(self.progress * words.length);
@@ -1150,7 +1143,16 @@ function initSection4() {
 
 function initSection5() {
   document.querySelectorAll('.s5-card').forEach(card => {
-    card.addEventListener('click', () => openCardModal(Number(card.dataset.card)));
+    card.addEventListener('click', () => {
+      const cardIndex = Number(card.dataset.card);
+      if (cardIndex === 3) {
+        if (confirm('사진 업로드 페이지로 이동합니다')) {
+          window.open('https://app.tmmt.co.kr/upload/cmrlz4o0r0004jr0407r03ubz', '_blank');
+        }
+      } else {
+        openCardModal(cardIndex);
+      }
+    });
   });
   document.getElementById('s5-dim').addEventListener('click', closeCardModal);
   document.getElementById('s5-modal-close').addEventListener('click', closeCardModal);
