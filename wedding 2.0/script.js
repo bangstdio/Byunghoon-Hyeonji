@@ -1043,11 +1043,11 @@ function initSection3() {
     );
   });
 
-  // 다음 사진 이동 중 이전 사진 축소 (마지막 사진은 정착 후 t=67에 시작)
+  // 다음 사진 이동 중 이전 사진 축소 (마지막 사진은 정착 후 짧은 시간 뒤에 시작)
   photos.forEach((photo, i) => {
     const scaleStart = i < photos.length - 1
       ? PHOTO_POS[i + 1] + enterOffset
-      : 67;
+      : PHOTO_POS[i] + enterDur + 1.5;
     mainTl.fromTo(photo,
       { scale: 1 },
       { scale: 0.9, duration: enterDur, ease: "power2.out" },
