@@ -33,7 +33,7 @@ const S5_CARD_DATA = [
   {
     title: '오시는 길',
     html: `
-      <a href="https://naver.me/5z5iEAfa" target="_blank" style="display:flex; align-items:center; justify-content:center; width:100%; background-color:#ffffff; border-radius:16px; margin-bottom:16px; overflow:visible; position:relative; text-decoration:none;">
+      <a href="https://naver.me/5z5iEAfa" target="_blank" style="display:flex; align-items:center; justify-content:center; width:100%; background-color:#ffffff; border-radius:16px; margin-bottom:16px; overflow:hidden; position:relative; text-decoration:none;">
         <img src="photos/s5/info/venue.jpg" alt="현대차 양재사옥 전경" style="width:100%; height:auto; object-fit:contain; display:block;" onerror="this.style.display='none'">
       </a>
       <p style="font-weight:700; font-size:20px; margin-bottom:4px;">현대차·기아 본사 2층 그랜드홀</p>
