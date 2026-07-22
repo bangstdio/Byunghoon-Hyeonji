@@ -36,7 +36,7 @@ const S5_CARD_DATA = [
       <a href="https://naver.me/5z5iEAfa" target="_blank" style="display:block; width:100%; height:250px; background-color:#eaeaea; border-radius:8px; margin-bottom:16px; overflow:hidden; position:relative; text-decoration:none;">
         <img src="photos/s5/info/venue.jpg" alt="현대차 양재사옥 전경" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.style.display='none'">
       </a>
-      <p style="font-weight:700; font-size:20px; margin-bottom:4px;">현대차·기아 양재사옥 2층 그랜드 홀</p>
+      <p style="font-weight:700; font-size:20px; margin-bottom:4px;">현대차·기아 본사 2층 그랜드홀</p>
       <p style="font-weight:500; font-size:18px; margin-bottom:10px;">서울시 서초구 헌릉로 12</p>
       <p style="font-weight:400; font-size:14px; margin-bottom:8px;">지하철: 신분당선 양재시민의숲역 도보 10분</p>
       <p style="font-weight:400; font-size:14px; margin-bottom:8px;">버스: 하나로마트·코트라 정류장(440, 452, 4432, 9200, 9202, 서초09, 서초20, 6600)</p>

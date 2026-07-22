@@ -291,15 +291,16 @@ body {
     font-family: 'Freesentation', sans-serif;
     font-size: 15px;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    letter-spacing: 0;
+    display: none;
   }
 
   .di-event-mobile {
     font-family: 'Freesentation', sans-serif;
-    font-size: 15px;
+    font-size: 16px;
     /* 다시 13px로 확대 */
-    font-weight: 500;
-    letter-spacing: -0.3px;
+    font-weight: 600;
+    letter-spacing: 0;
     color: #3d3d3a;
     display: flex;
     align-items: center;
@@ -307,10 +308,7 @@ body {
   }
 
   .di-event-mobile::before {
-    content: '|';
-    margin-right: 3px;
-    opacity: 1;
-    font-size: 11px;
+    content: '';
   }
 
   .di-nav {
@@ -342,14 +340,15 @@ body {
     font-family: 'Freesentation', sans-serif;
     font-size: 15px;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    letter-spacing: 0;
+    display: none;
   }
 
   .di-event-mobile {
     font-family: 'Freesentation', sans-serif;
     font-size: 15px;
     font-weight: 500;
-    letter-spacing: -0.3px;
+    letter-spacing: 0;
     color: #3d3d3a;
     display: flex;
     align-items: center;
@@ -357,10 +356,7 @@ body {
   }
 
   .di-event-mobile::before {
-    content: '|';
-    margin-right: 3px;
-    opacity: 1;
-    font-size: 11px;
+    content: '';
   }
 }
 
@@ -1226,10 +1222,6 @@ html.dark .di-menu-btn:active {
   z-index: 15;
 }
 
-.s3-photo[data-index="6"] {
-  z-index: 16;
-}
-
 @media (max-width: 599px) {
   .s3-photo {
     width: 72vw;
@@ -1262,7 +1254,7 @@ html.dark .di-menu-btn:active {
 }
 
 .s3-text-slot:last-child {
-  min-height: 5vh;
+  min-height: 81.25vh;
 }
 
 .s3-bottom-spacer {
@@ -1558,7 +1550,7 @@ body.scroll-locked {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 0px;
   width: 100%;
 }
 
@@ -1600,6 +1592,7 @@ body.scroll-locked {
   font-size: 20px;
   font-weight: 500;
   color: #615d59;
+  display: none;
 }
 
 .s4-dday {
