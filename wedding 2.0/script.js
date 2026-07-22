@@ -1088,10 +1088,10 @@ function initSection3() {
     }
   });
 
-  // 마지막 사진 최종 위치 도달 후 s3-bottom-spacer 전체가 여유 스크롤로 활용되도록
-  // 마지막 축소 애니메이션 종료 후 추가 스크롤 제공
+  // 마지막 사진 축소 완료 후 즉시 섹션4로 전환
+  // 최소한의 여유 스크롤만 제공
   const lastScaleEnd = PHOTO_POS[photos.length - 1] + enterDur + 6 + enterDur;
-  mainTl.to({ _: 0 }, { _: 1, duration: 5 }, lastScaleEnd);
+  mainTl.to({ _: 0 }, { _: 1, duration: 0.5 }, lastScaleEnd);
 }
 
 function initSection4() {
