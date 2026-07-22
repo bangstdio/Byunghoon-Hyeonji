@@ -1043,11 +1043,11 @@ function initSection3() {
     );
   });
 
-  // 다음 사진 이동 중 이전 사진 축소 (마지막 사진은 정착 후 짧은 시간 뒤에 시작)
+  // 다음 사진 이동 중 이전 사진 축소 (모든 사진 동일한 리듬: 멈춤 6 + 축소 4)
   photos.forEach((photo, i) => {
     const scaleStart = i < photos.length - 1
       ? PHOTO_POS[i + 1] + enterOffset
-      : PHOTO_POS[i] + enterDur + 1.5;
+      : PHOTO_POS[i] + enterDur + 6;
     mainTl.fromTo(photo,
       { scale: 1 },
       { scale: 0.9, duration: enterDur, ease: "power2.out" },
@@ -1090,7 +1090,7 @@ function initSection3() {
 
   // 마지막 사진 최종 위치 도달 후 s3-bottom-spacer 전체가 여유 스크롤로 활용되도록
   // 마지막 축소 애니메이션 종료 후 추가 스크롤 제공
-  const lastScaleEnd = PHOTO_POS[photos.length - 1] + enterDur + 1.5 + enterDur;
+  const lastScaleEnd = PHOTO_POS[photos.length - 1] + enterDur + 6 + enterDur;
   mainTl.to({ _: 0 }, { _: 1, duration: 5 }, lastScaleEnd);
 }
 
