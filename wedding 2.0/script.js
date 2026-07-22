@@ -986,7 +986,7 @@ function initSection3() {
 
   const photoOffsets = [
     { x: 0, y: 0, r: 0.0 }, { x: 8, y: 23, r: -2.3 }, { x: -3, y: 44, r: 3.7 },
-    { x: 12, y: 63, r: -1.1 }, { x: -9, y: 81, r: 2.9 }, { x: 5, y: 97, r: -4.2 }, { x: 4, y: 112, r: 1.6 }
+    { x: 12, y: 63, r: -1.1 }, { x: -9, y: 81, r: 2.9 }, { x: 5, y: 97, r: -4.2 }
   ];
 
   // let으로 선언: 화면 회전 시 onRefreshInit에서 재계산
@@ -996,7 +996,7 @@ function initSection3() {
   let initialPhotoY = stickyEl ? stickyEl.clientHeight : window.innerHeight;
   const isMobile = window.matchMedia('(max-width: 1023px)').matches;
 
-  const PHOTO_POS = [0, 6, 16, 26, 36, 46, 56];
+  const PHOTO_POS = [0, 6, 16, 26, 36, 46];
   const ANIM_DUR = 4.0;
   const MOB_EXIT = 0.6;
   const enterDur = isMobile ? ANIM_DUR - MOB_EXIT : ANIM_DUR;
@@ -1007,7 +1007,7 @@ function initSection3() {
 
   // 카드들을 data-slot 순서대로 가져오기
   const allCards = [];
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 6; i++) {
     allCards[i] = document.querySelector(`.s3-text-card[data-slot="${i}"]`);
   }
 
@@ -1073,7 +1073,7 @@ function initSection3() {
     );
   };
 
-  // 7개 카드 순차적 등장/퇴장 시퀀스
+  // 6개 카드 순차적 등장/퇴장 시퀀스
   allCards.forEach((card, i) => {
     if (i === 0) {
       // 첫 번째 카드는 바로 퇴장만
@@ -1082,7 +1082,7 @@ function initSection3() {
       // 이전 사진이 들어올 때(PHOTO_POS[i]) 입장
       enterCard(card, PHOTO_POS[i]);
       // 다음 사진이 들어올 때(PHOTO_POS[i+1]) 퇴장 (마지막 카드 제외)
-      if (i < 6) {
+      if (i < allCards.length - 1) {
         exitCard(card, PHOTO_POS[i + 1]);
       }
     }
