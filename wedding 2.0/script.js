@@ -1088,10 +1088,10 @@ function initSection3() {
     }
   });
 
-  // 마지막 사진 축소 완료 후 즉시 섹션4로 전환
-  // 최소한의 여유 스크롤만 제공
-  const lastScaleEnd = PHOTO_POS[photos.length - 1] + enterDur + 6 + enterDur;
-  mainTl.to({ _: 0 }, { _: 1, duration: 0.5 }, lastScaleEnd);
+  // 마지막 사진 축소 중간(50% 지점)부터 섹션4로 전환 시작
+  const lastScaleStart = PHOTO_POS[photos.length - 1] + enterDur + 6;
+  const lastScaleMidpoint = lastScaleStart + enterDur / 2;
+  mainTl.to({ _: 0 }, { _: 1, duration: 0.5 }, lastScaleMidpoint);
 }
 
 function initSection4() {
