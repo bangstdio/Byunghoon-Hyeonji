@@ -1254,7 +1254,7 @@ html.dark .di-menu-btn:active {
 }
 
 .s3-text-slot:last-child {
-  min-height: 81.25vh;
+  min-height: 5vh;
 }
 
 .s3-bottom-spacer {
