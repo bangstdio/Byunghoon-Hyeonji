@@ -1089,8 +1089,9 @@ function initSection3() {
   });
 
   // 마지막 사진 최종 위치 도달 후 s3-bottom-spacer 전체가 여유 스크롤로 활용되도록
-  // 타임라인을 t=72까지 연장 → 마지막 애니메이션(t=60) 완료 시점이 83% progress로 앞당겨짐
-  mainTl.to({ _: 0 }, { _: 1, duration: 12 }, 60);
+  // 마지막 축소 애니메이션 종료 후 추가 스크롤 제공
+  const lastScaleEnd = PHOTO_POS[photos.length - 1] + enterDur + 1.5 + enterDur;
+  mainTl.to({ _: 0 }, { _: 1, duration: 5 }, lastScaleEnd);
 }
 
 function initSection4() {
