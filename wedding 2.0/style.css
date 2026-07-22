@@ -1258,8 +1258,8 @@ html.dark .di-menu-btn:active {
 }
 
 .s3-bottom-spacer {
-  height: 100dvh;
-  height: 100lvh;
+  height: calc(100dvh / 3);
+  height: calc(100lvh / 3);
 }
 
 /* 텍스트 있는 슬롯 — 좌측 배치 */
