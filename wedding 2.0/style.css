@@ -2560,7 +2560,7 @@ body.scroll-locked {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 300px;
+  min-height: 500px;
 }
 
 .snap-image-wrapper {
@@ -2571,7 +2571,7 @@ body.scroll-locked {
   justify-content: center;
   position: relative;
   padding: 0 12px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .snap-img {
