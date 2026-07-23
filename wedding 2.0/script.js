@@ -178,7 +178,7 @@ function openCardModal(index) {
     initSnapSlider();
   } else {
     modal.style.height = 'auto';
-    modal.style.maxHeight = 'none';
+    modal.style.maxHeight = '85vh';
   }
 
   requestAnimationFrame(() => {
