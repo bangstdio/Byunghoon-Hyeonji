@@ -1128,6 +1128,19 @@ html.dark .di-menu-btn:active {
   padding-top: 10px;
 }
 
+.s3-scroll-indicator {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  font-size: 32px;
+  color: var(--color-text-primary);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
 /* 마스터 스티키 컨테이너: 모든 내부 요소가 일정한 간격을 유지하며 함께 움직이도록 함 */
 .s3-master-sticky {
   position: sticky;
@@ -1773,7 +1786,7 @@ body.scroll-locked {
   width: 100%;
   max-width: 550px;
   /* PC에서도 너무 넓지 않게 조절 */
-  height: 90vh;
+  height: 85vh;
   overflow: hidden;
   padding: 20px 28px max(48px, calc(24px + env(safe-area-inset-bottom)));
   opacity: 1;
@@ -2560,7 +2573,7 @@ body.scroll-locked {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 500px;
+  min-height: 0;
 }
 
 .snap-image-wrapper {
@@ -2571,7 +2584,7 @@ body.scroll-locked {
   justify-content: center;
   position: relative;
   padding: 0 12px;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .snap-img {
@@ -2611,23 +2624,7 @@ body.scroll-locked {
 }
 
 .snap-nav-btn {
-  position: absolute;
-  top: 50%;
-  width: auto;
-  height: auto;
-  border: none;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 48px;
-  font-weight: 300;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  padding: 8px 16px;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform 0.2s ease;
+  display: none;
 }
 
 .snap-nav-btn:active {
@@ -2635,12 +2632,12 @@ body.scroll-locked {
 }
 
 .snap-nav-btn.prev {
-  left: -70px;
+  left: 12px;
   transform: translateY(-50%);
 }
 
 .snap-nav-btn.next {
-  right: -70px;
+  right: 12px;
   transform: translateY(-50%);
 }
 
@@ -2786,7 +2783,7 @@ body.scroll-locked {
 /* 모바일 뷰 최적화 */
 @media (max-width: 599px) {
   .snap-slider-main {
-    min-height: 200px;
+    min-height: 400px;
     border-radius: 16px;
   }
 
@@ -2796,11 +2793,11 @@ body.scroll-locked {
   }
 
   .snap-nav-btn.prev {
-    left: -60px;
+    left: 8px;
   }
 
   .snap-nav-btn.next {
-    right: -60px;
+    right: 8px;
   }
 
   .snap-thumbnail {

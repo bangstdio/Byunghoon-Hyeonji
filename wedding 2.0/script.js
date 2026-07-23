@@ -1092,6 +1092,55 @@ function initSection3() {
   const lastScaleStart = PHOTO_POS[photos.length - 1] + enterDur + 6;
   const lastScaleMidpoint = lastScaleStart + enterDur / 2;
   mainTl.to({ _: 0 }, { _: 1, duration: 0.5 }, lastScaleMidpoint);
+
+  // 화살표 애니메이션: 첫 번째 텍스트 카드가 들어오는 중간에 페이드인
+  const scrollIndicator = document.querySelector('.s3-scroll-indicator');
+  if (scrollIndicator) {
+    const arrowShowStart = enterDur / 2;  // 첫 번째 카드 입장 중간 (시간 2)
+    const arrowHideEnd = PHOTO_POS[photos.length - 1];   // 마지막 사진 등장 전
+    let arrowBobTl = null;
+
+    // 페이드인 (0.4초) — 완료 후 흔들림 시작 콜백
+    mainTl.to(scrollIndicator,
+      {
+        opacity: 1,
+        duration: 0.4,
+        ease: "power2.inOut",
+        onComplete: () => {
+          // 독립적인 무한 흔들림 타임라인 시작 (스크롤과 무관)
+          if (!arrowBobTl || !arrowBobTl.isActive()) {
+            arrowBobTl = gsap.timeline({ repeat: -1 });
+            const bobDuration = 1.8;
+            const bobDistance = 5;
+            arrowBobTl.to(scrollIndicator, {
+              y: bobDistance,
+              duration: bobDuration / 2,
+              ease: "sine.inOut"
+            });
+            arrowBobTl.to(scrollIndicator, {
+              y: -bobDistance,
+              duration: bobDuration / 2,
+              ease: "sine.inOut"
+            });
+          }
+        }
+      },
+      arrowShowStart
+    );
+
+    // 페이드아웃 (1초) — 시작 시 흔들림 중지
+    mainTl.to(scrollIndicator,
+      {
+        opacity: 0,
+        duration: 1,
+        ease: "power2.inOut",
+        onStart: () => {
+          if (arrowBobTl) arrowBobTl.kill();
+        }
+      },
+      arrowHideEnd - 1
+    );
+  }
 }
 
 function initSection4() {
