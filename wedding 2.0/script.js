@@ -165,21 +165,11 @@ function openCardModal(index) {
   const dim = document.getElementById('s5-dim');
   if (!modal || !body || !dim) return;
 
-  // 현재 스크롤 위치 저장
-  const scrollY = window.scrollY;
-  document.documentElement.setAttribute('data-scroll-y', scrollY);
-
   body.innerHTML = `<h3>${data.title}</h3>${data.html}`;
   modal.scrollTop = 0;
   dim.classList.add('active');
   modal.classList.add('active');
   document.body.classList.add('scroll-locked');
-
-  // position: fixed로 body 고정, 시각적 위치 유지
-  document.body.style.position = 'fixed';
-  document.body.style.top = `-${scrollY}px`;
-  document.body.style.width = '100%';
-
   if (lenis) lenis.stop();
 
   if (index === 2) {
@@ -202,29 +192,10 @@ function closeCardModal() {
   const modal = document.getElementById('s5-modal');
   const dim = document.getElementById('s5-dim');
   if (!modal || !dim) return;
-
-  // 저장된 스크롤 위치 복원
-  const scrollY = parseInt(document.documentElement.getAttribute('data-scroll-y')) || 0;
-
   dim.classList.remove('active');
   modal.classList.remove('active');
   document.body.classList.remove('scroll-locked');
-
-  // position fixed 해제 전에 스크롤 복원
-  if (lenis) {
-    lenis.scrollTo(scrollY, { immediate: true });
-  }
-  window.scrollTo(0, scrollY);
-
-  // position fixed 해제
-  requestAnimationFrame(() => {
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
-    if (lenis) {
-      lenis.start();
-    }
-  });
+  if (lenis) lenis.start();
 }
 
 function copyAccount(bank, accountNumber) {
