@@ -1106,53 +1106,71 @@ function initSection3() {
   const lastScaleMidpoint = lastScaleStart + enterDur / 2;
   mainTl.to({ _: 0 }, { _: 1, duration: 0.5 }, lastScaleMidpoint);
 
-  // 화살표 애니메이션: 첫 번째 텍스트 카드가 들어오는 중간에 페이드인
+  // 화살표 애니메이션: 스크롤 방향/속도와 무관하게 항상 실제 1초로 페이드 인/아웃
   const scrollIndicator = document.querySelector('.s3-scroll-indicator');
   if (scrollIndicator) {
     const arrowShowStart = enterDur / 2;  // 첫 번째 카드 입장 중간 (시간 2)
     const arrowHideEnd = PHOTO_POS[photos.length - 1];   // 마지막 사진 등장 전
+    const totalDuration = mainTl.duration();
+    const showProgress = arrowShowStart / totalDuration;
+    const hideProgress = arrowHideEnd / totalDuration;
+
+    let arrowVisible = false;
     let arrowBobTl = null;
+    let arrowFadeTween = null;
 
-    // 페이드인 (0.4초) — 완료 후 흔들림 시작 콜백
-    mainTl.to(scrollIndicator,
-      {
-        opacity: 1,
-        duration: 0.4,
-        ease: "power2.inOut",
-        onComplete: () => {
-          // 독립적인 무한 흔들림 타임라인 시작 (스크롤과 무관)
-          if (!arrowBobTl || !arrowBobTl.isActive()) {
-            arrowBobTl = gsap.timeline({ repeat: -1 });
-            const bobDuration = 1.8;
-            const bobDistance = 5;
-            arrowBobTl.to(scrollIndicator, {
-              y: bobDistance,
-              duration: bobDuration / 2,
-              ease: "sine.inOut"
-            });
-            arrowBobTl.to(scrollIndicator, {
-              y: -bobDistance,
-              duration: bobDuration / 2,
-              ease: "sine.inOut"
-            });
-          }
+    const startBob = () => {
+      if (arrowBobTl) return;
+      const bobDistance = 5;
+      arrowBobTl = gsap.fromTo(scrollIndicator,
+        { y: -bobDistance },
+        {
+          y: bobDistance,
+          duration: 1.2,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true
         }
-      },
-      arrowShowStart
-    );
+      );
+    };
+    const stopBob = () => {
+      if (arrowBobTl) { arrowBobTl.kill(); arrowBobTl = null; }
+    };
 
-    // 페이드아웃 (1초) — 시작 시 흔들림 중지
-    mainTl.to(scrollIndicator,
-      {
-        opacity: 0,
+    const showArrow = () => {
+      if (arrowVisible) return;
+      arrowVisible = true;
+      if (arrowFadeTween) arrowFadeTween.kill();
+      arrowFadeTween = gsap.to(scrollIndicator, {
+        opacity: 1,
         duration: 1,
         ease: "power2.inOut",
-        onStart: () => {
-          if (arrowBobTl) arrowBobTl.kill();
-        }
+        onComplete: startBob
+      });
+    };
+    const hideArrow = () => {
+      if (!arrowVisible) return;
+      arrowVisible = false;
+      stopBob();
+      if (arrowFadeTween) arrowFadeTween.kill();
+      arrowFadeTween = gsap.to(scrollIndicator, {
+        opacity: 0,
+        duration: 1,
+        ease: "power2.inOut"
+      });
+    };
+
+    ScrollTrigger.create({
+      trigger: '#section-3',
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: (self) => {
+        const inRange = self.progress > showProgress && self.progress < hideProgress;
+        if (inRange) showArrow(); else hideArrow();
       },
-      arrowHideEnd - 1
-    );
+      onLeaveBack: hideArrow,
+      onLeave: hideArrow
+    });
   }
 }
 
