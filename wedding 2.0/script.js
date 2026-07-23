@@ -166,14 +166,20 @@ function openCardModal(index) {
   if (!modal || !body || !dim) return;
 
   // 현재 스크롤 위치 저장
-  const savedScrollY = window.scrollY;
-  document.documentElement.style.setProperty('--saved-scroll-y', `${savedScrollY}px`);
+  const scrollY = window.scrollY;
+  document.documentElement.setAttribute('data-scroll-y', scrollY);
 
   body.innerHTML = `<h3>${data.title}</h3>${data.html}`;
   modal.scrollTop = 0;
   dim.classList.add('active');
   modal.classList.add('active');
   document.body.classList.add('scroll-locked');
+
+  // position: fixed로 body 고정, 시각적 위치 유지
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${scrollY}px`;
+  document.body.style.width = '100%';
+
   if (lenis) lenis.stop();
 
   if (index === 2) {
@@ -196,17 +202,24 @@ function closeCardModal() {
   const modal = document.getElementById('s5-modal');
   const dim = document.getElementById('s5-dim');
   if (!modal || !dim) return;
+
+  // 저장된 스크롤 위치 복원
+  const scrollY = parseInt(document.documentElement.getAttribute('data-scroll-y')) || 0;
+
   dim.classList.remove('active');
   modal.classList.remove('active');
   document.body.classList.remove('scroll-locked');
 
-  // 저장된 스크롤 위치 복원
-  const savedScrollY = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--saved-scroll-y')) || 0;
-  window.scrollTo(0, savedScrollY);
+  // position fixed 해제
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
 
+  // 스크롤 위치 복원
+  window.scrollTo(0, scrollY);
   if (lenis) {
     lenis.start();
-    lenis.scrollTo(savedScrollY, { immediate: true });
+    lenis.scrollTo(scrollY, { immediate: true });
   }
 }
 
