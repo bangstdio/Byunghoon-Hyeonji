@@ -1517,7 +1517,10 @@ html.dark .di-menu-btn:active {
    ============================================================ */
 
 body.scroll-locked {
-  overflow: hidden;
+  overflow: hidden !important;
+  height: 100vh;
+  position: fixed;
+  width: 100%;
 }
 
 /* ============================================================
