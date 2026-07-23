@@ -165,6 +165,10 @@ function openCardModal(index) {
   const dim = document.getElementById('s5-dim');
   if (!modal || !body || !dim) return;
 
+  // 현재 스크롤 위치 저장
+  const savedScrollY = window.scrollY;
+  document.documentElement.style.setProperty('--saved-scroll-y', `${savedScrollY}px`);
+
   body.innerHTML = `<h3>${data.title}</h3>${data.html}`;
   modal.scrollTop = 0;
   dim.classList.add('active');
@@ -173,9 +177,11 @@ function openCardModal(index) {
   if (lenis) lenis.stop();
 
   if (index === 2) {
-    modal.style.maxHeight = '85vh';
+    modal.style.height = '85vh';
+    modal.style.maxHeight = 'none';
     initSnapSlider();
   } else {
+    modal.style.height = 'auto';
     modal.style.maxHeight = 'none';
   }
 
@@ -193,7 +199,15 @@ function closeCardModal() {
   dim.classList.remove('active');
   modal.classList.remove('active');
   document.body.classList.remove('scroll-locked');
-  if (lenis) lenis.start();
+
+  // 저장된 스크롤 위치 복원
+  const savedScrollY = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--saved-scroll-y')) || 0;
+  window.scrollTo(0, savedScrollY);
+
+  if (lenis) {
+    lenis.start();
+    lenis.scrollTo(savedScrollY, { immediate: true });
+  }
 }
 
 function copyAccount(bank, accountNumber) {
