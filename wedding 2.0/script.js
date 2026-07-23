@@ -173,7 +173,10 @@ function openCardModal(index) {
   if (lenis) lenis.stop();
 
   if (index === 2) {
+    modal.style.maxHeight = '85vh';
     initSnapSlider();
+  } else {
+    modal.style.maxHeight = 'none';
   }
 
   requestAnimationFrame(() => {
