@@ -210,17 +210,21 @@ function closeCardModal() {
   modal.classList.remove('active');
   document.body.classList.remove('scroll-locked');
 
-  // position fixed 해제
-  document.body.style.position = '';
-  document.body.style.top = '';
-  document.body.style.width = '';
-
-  // 스크롤 위치 복원
-  window.scrollTo(0, scrollY);
+  // position fixed 해제 전에 스크롤 복원
   if (lenis) {
-    lenis.start();
     lenis.scrollTo(scrollY, { immediate: true });
   }
+  window.scrollTo(0, scrollY);
+
+  // position fixed 해제
+  requestAnimationFrame(() => {
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    if (lenis) {
+      lenis.start();
+    }
+  });
 }
 
 function copyAccount(bank, accountNumber) {
