@@ -173,12 +173,12 @@ function openCardModal(index) {
   if (lenis) lenis.stop();
 
   if (index === 2) {
-    modal.style.height = '85vh';
+    modal.style.height = '85lvh';
     modal.style.maxHeight = 'none';
     initSnapSlider();
   } else {
     modal.style.height = 'auto';
-    modal.style.maxHeight = '85vh';
+    modal.style.maxHeight = '85lvh';
   }
 
   requestAnimationFrame(() => {
