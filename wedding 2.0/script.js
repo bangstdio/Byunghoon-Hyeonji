@@ -175,6 +175,12 @@ function openCardModal(index) {
   if (index === 2) {
     initSnapSlider();
   }
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      console.log(`[${data.title}] contentHeight: ${body.scrollHeight}px, modalHeight: ${modal.scrollHeight}px`);
+    }, 100);
+  });
 }
 
 function closeCardModal() {
