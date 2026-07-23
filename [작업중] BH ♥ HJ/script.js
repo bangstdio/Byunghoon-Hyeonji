@@ -33,11 +33,15 @@ const S5_CARD_DATA = [
   {
     title: '오시는 길',
     html: `
+      <a href="https://naver.me/5z5iEAfa" target="_blank" style="display:flex; align-items:center; justify-content:center; width:100%; background-color:#ffffff; border-radius:16px; margin-bottom:16px; overflow:hidden; position:relative; text-decoration:none;">
+        <img src="photos/s5/info/venue.jpg" alt="현대차 양재사옥 전경" style="width:100%; height:auto; object-fit:contain; display:block;" onerror="this.style.display='none'">
+      </a>
       <p style="font-weight:700; font-size:20px; margin-bottom:4px;">현대차·기아 본사 2층 그랜드홀</p>
-      <p style="font-weight:500; font-size:14px; margin-bottom:12px;">서울시 서초구 헌릉로 12</p>
-      <p style="font-weight:400; font-size:13px; margin-bottom:4px;">신분당선 양재시민의숲역 도보 10분</p>
-      <p style="font-weight:400; font-size:13px; margin-bottom:16px;">주차 약 450대</p>
-      <div style="display:flex; gap:8px;">
+      <p style="font-weight:500; font-size:18px; margin-bottom:10px;">서울시 서초구 헌릉로 12</p>
+      <p style="font-weight:400; font-size:14px; margin-bottom:8px;">지하철: 신분당선 양재시민의숲역 도보 10분</p>
+      <p style="font-weight:400; font-size:14px; margin-bottom:8px;">버스: 하나로마트·코트라 정류장(440, 452, 4432, 9200, 9202, 서초09, 서초20, 6600)</p>
+      <p style="font-weight:400; font-size:14px; margin-bottom:24px;">주차: 약 450대 주차 가능</p>
+      <div style="display:flex; gap:8px; margin-bottom:16px;">
         <a href="https://naver.me/5z5iEAfa" target="_blank" style="flex:1; padding:10px 4px; text-align:center; background:#03C75A; color:#fff; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">네이버 지도</a>
         <a href="https://tmap.life/ae83f03a" target="_blank" style="flex:1; padding:10px 4px; text-align:center; background:#2B86FF; color:#fff; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">TMAP</a>
         <a href="https://kko.to/K7ON9DcgDA" target="_blank" style="flex:1; padding:10px 4px; text-align:center; background:#FEE500; color:#000; border-radius:8px; text-decoration:none; font-weight:bold; font-size:13px;">카카오맵</a>
@@ -346,7 +350,6 @@ function initLoadingScreen() {
   // ── 폰트 최우선 로드 → 완료 시 텍스트 페이드인 ───────────
   const fontPromises = [
     document.fonts.load('bold 1em GowunBatang'),
-    document.fonts.load('700 1em Freesentation'),
     document.fonts.load('500 1em Freesentation'),
     document.fonts.load('400 1em Freesentation'),
   ];
@@ -360,8 +363,7 @@ function initLoadingScreen() {
   // 폰트를 진행바에도 반영
   trackItem(2, fontPromises[0]);
   trackItem(2, fontPromises[1]);
-  trackItem(2, fontPromises[2]);
-  trackItem(1, fontPromises[3]);
+  trackItem(1, fontPromises[2]);
 
   // ── S1 메인 이미지 ────────────────────────────────────────
   const mainImg = document.querySelector('.s1-main');
@@ -1086,59 +1088,10 @@ function initSection3() {
     }
   });
 
-  // 마지막 사진 축소 중간(50% 지점)부터 섹션4로 전환 시작
-  const lastScaleStart = PHOTO_POS[photos.length - 1] + enterDur + 6;
-  const lastScaleMidpoint = lastScaleStart + enterDur / 2;
-  mainTl.to({ _: 0 }, { _: 1, duration: 0.5 }, lastScaleMidpoint);
-
-  // 화살표 애니메이션: 첫 번째 텍스트 카드가 들어오는 중간에 페이드인
-  const scrollIndicator = document.querySelector('.s3-scroll-indicator');
-  if (scrollIndicator) {
-    const arrowShowStart = enterDur / 2;  // 첫 번째 카드 입장 중간 (시간 2)
-    const arrowHideEnd = PHOTO_POS[photos.length - 1];   // 마지막 사진 등장 전
-    let arrowBobTl = null;
-
-    // 페이드인 (0.4초) — 완료 후 흔들림 시작 콜백
-    mainTl.to(scrollIndicator,
-      {
-        opacity: 1,
-        duration: 0.4,
-        ease: "power2.inOut",
-        onComplete: () => {
-          // 독립적인 무한 흔들림 타임라인 시작 (스크롤과 무관)
-          if (!arrowBobTl || !arrowBobTl.isActive()) {
-            arrowBobTl = gsap.timeline({ repeat: -1 });
-            const bobDuration = 1.8;
-            const bobDistance = 5;
-            arrowBobTl.to(scrollIndicator, {
-              y: bobDistance,
-              duration: bobDuration / 2,
-              ease: "sine.inOut"
-            });
-            arrowBobTl.to(scrollIndicator, {
-              y: -bobDistance,
-              duration: bobDuration / 2,
-              ease: "sine.inOut"
-            });
-          }
-        }
-      },
-      arrowShowStart
-    );
-
-    // 페이드아웃 (1초) — 시작 시 흔들림 중지
-    mainTl.to(scrollIndicator,
-      {
-        opacity: 0,
-        duration: 1,
-        ease: "power2.inOut",
-        onStart: () => {
-          if (arrowBobTl) arrowBobTl.kill();
-        }
-      },
-      arrowHideEnd - 1
-    );
-  }
+  // 마지막 사진 축소 완료 후 즉시 섹션4로 전환
+  // 최소한의 여유 스크롤만 제공
+  const lastScaleEnd = PHOTO_POS[photos.length - 1] + enterDur + 6 + enterDur;
+  mainTl.to({ _: 0 }, { _: 1, duration: 0.5 }, lastScaleEnd);
 }
 
 function initSection4() {

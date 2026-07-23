@@ -1,0 +1,20 @@
+{
+  "name": "병훈과 현지의 결혼식",
+  "short_name": "BH♥HJ",
+  "display": "standalone",
+  "start_url": "./",
+  "background_color": "#f5f4ed",
+  "theme_color": "#f5f4ed",
+  "icons": [
+    {
+      "src": "fav_new.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "fav_new.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}
