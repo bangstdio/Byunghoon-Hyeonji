@@ -1819,6 +1819,16 @@ body.scroll-locked {
   pointer-events: all;
 }
 
+/* 갤러리 팝업: 사진이 가로/세로 상관없이 최대한 크게 보이도록 좌우 여백 제거 */
+.s5-modal.s5-gallery-flush {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.s5-gallery-flush .s5-modal-body h3 {
+  padding: 0 28px;
+}
+
 /* 닫기 버튼 */
 .s5-modal-close {
   position: absolute;

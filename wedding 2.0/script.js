@@ -179,6 +179,8 @@ function openCardModal(index) {
   document.body.classList.add('scroll-locked');
   if (lenis) lenis.stop();
 
+  modal.classList.toggle('s5-gallery-flush', index === 2);
+
   if (index === 2) {
     modal.style.height = '85dvh';
     modal.style.maxHeight = 'none';
