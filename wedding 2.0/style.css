@@ -1804,7 +1804,7 @@ body.scroll-locked {
   /* PC에서도 너무 넓지 않게 조절 */
   max-height: 85dvh;
   overflow-y: auto;
-  padding: 20px 28px max(48px, calc(24px + env(safe-area-inset-bottom)));
+  padding: 20px 28px 0;
   opacity: 1;
   /* translate로 제어하므로 opacity는 1 유지 */
   pointer-events: none;
@@ -1867,6 +1867,7 @@ body.scroll-locked {
   overflow-x: hidden;
   flex: 1;
   min-height: 0;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
 }
 
 .s5-modal-body p {
