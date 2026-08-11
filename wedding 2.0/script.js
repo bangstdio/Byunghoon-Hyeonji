@@ -52,6 +52,33 @@ const S5_CARD_DATA = [
     title: '마음 전하실 곳',
     html: `
       <div class="account-container">
+        <!-- 신랑·신부 -->
+        <div class="account-group">
+          <div class="account-group-title">신랑·신부</div>
+          <div class="account-list">
+            <div class="account-item">
+              <div class="account-info">
+                <span class="account-relation">신랑</span> <span class="account-name">김병훈</span>
+                <div class="account-number">기업 973-013515-01-017</div>
+              </div>
+              <div class="account-actions">
+                <button class="btn-copy" onclick="copyAccount('기업', '97301351501017')">복사</button>
+                <a href="supertoss://send?bank=%EA%B8%B0%EC%97%85&accountNo=97301351501017&amount=0" class="btn-toss">토스</a>
+              </div>
+            </div>
+            <div class="account-item">
+              <div class="account-info">
+                <span class="account-relation">신부</span> <span class="account-name">백현지</span>
+                <div class="account-number">카카오뱅크 3333-06-7829886</div>
+              </div>
+              <div class="account-actions">
+                <button class="btn-copy" onclick="copyAccount('카카오뱅크', '3333067829886')">복사</button>
+                <a href="supertoss://send?bank=%EC%B9%B4%EC%B9%B4%EC%98%A4%EB%B1%85%ED%81%AC&accountNo=3333067829886&amount=0" class="btn-toss">토스</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- 신랑 측 -->
         <div class="account-group">
           <div class="account-group-title">신랑 측</div>
@@ -74,16 +101,6 @@ const S5_CARD_DATA = [
               <div class="account-actions">
                 <button class="btn-copy" onclick="copyAccount('농협', '23508451134681')">복사</button>
                 <a href="supertoss://send?bank=%EB%86%8D%ED%98%91&accountNo=23508451134681&amount=0" class="btn-toss">토스</a>
-              </div>
-            </div>
-            <div class="account-item">
-              <div class="account-info">
-                <span class="account-relation">신랑</span> <span class="account-name">김병훈</span>
-                <div class="account-number">기업 973-013515-01-017</div>
-              </div>
-              <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('기업', '97301351501017')">복사</button>
-                <a href="supertoss://send?bank=%EA%B8%B0%EC%97%85&accountNo=97301351501017&amount=0" class="btn-toss">토스</a>
               </div>
             </div>
           </div>
@@ -111,16 +128,6 @@ const S5_CARD_DATA = [
               <div class="account-actions">
                 <button class="btn-copy" onclick="copyAccount('카카오뱅크', '3333049824396')">복사</button>
                 <a href="supertoss://send?bank=%EC%B9%B4%EC%B9%B4%EC%98%A4%EB%B1%85%ED%81%AC&accountNo=3333049824396&amount=0" class="btn-toss">토스</a>
-              </div>
-            </div>
-            <div class="account-item">
-              <div class="account-info">
-                <span class="account-relation">신부</span> <span class="account-name">백현지</span>
-                <div class="account-number">카카오뱅크 3333-06-7829886</div>
-              </div>
-              <div class="account-actions">
-                <button class="btn-copy" onclick="copyAccount('카카오뱅크', '3333067829886')">복사</button>
-                <a href="supertoss://send?bank=%EC%B9%B4%EC%B9%B4%EC%98%A4%EB%B1%85%ED%81%AC&accountNo=3333067829886&amount=0" class="btn-toss">토스</a>
               </div>
             </div>
           </div>
