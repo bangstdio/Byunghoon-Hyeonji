@@ -180,12 +180,15 @@ function openCardModal(index) {
   if (lenis) lenis.stop();
 
   if (index === 2) {
-    modal.style.height = '85lvh';
+    modal.style.height = '85dvh';
     modal.style.maxHeight = 'none';
     initSnapSlider();
+  } else if (index === 1) {
+    modal.style.height = 'auto';
+    modal.style.maxHeight = '90dvh';
   } else {
     modal.style.height = 'auto';
-    modal.style.maxHeight = '85lvh';
+    modal.style.maxHeight = '85dvh';
   }
 
   requestAnimationFrame(() => {

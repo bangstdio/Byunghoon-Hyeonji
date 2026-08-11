@@ -1803,7 +1803,6 @@ body.scroll-locked {
   max-width: 550px;
   /* PC에서도 너무 넓지 않게 조절 */
   max-height: 85dvh;
-  max-height: 85lvh;
   overflow-y: auto;
   padding: 20px 28px max(48px, calc(24px + env(safe-area-inset-bottom)));
   opacity: 1;
