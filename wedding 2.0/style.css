@@ -1520,15 +1520,11 @@ body.scroll-locked {
   overflow: hidden !important;
 }
 
-/* 모달/라이트박스 열림 — 배경 스크롤 완전 차단.
-   iOS Safari는 body의 overflow:hidden만으로는 터치 스크롤이 막히지 않아
-   position:fixed가 필요하다. 스크롤 위치는 JS(top 인라인)로 보존한다. */
-body.modal-open {
-  position: fixed;
-  width: 100%;
-  overflow: hidden !important;
-  overscroll-behavior: none;
-}
+/* 모달/라이트박스 열림 — 배경 스크롤은 JS의 touchmove 차단으로 막는다.
+   body에 overflow:hidden이나 position:fixed를 주면 문서가 스크롤 불가가 되고,
+   그러면 iOS Safari가 접혀 있던 URL 바를 다시 펼친다. 그 순간 dvh가 줄어
+   85dvh로 잡은 모달이 짧아지면서 사진이 작게 표시된다.
+   따라서 열려 있는 동안에도 문서의 스크롤 가능 상태는 그대로 둔다. */
 
 /* ============================================================
    SECTION 4 — 카운트다운
@@ -1814,6 +1810,8 @@ body.modal-open {
   /* PC에서도 너무 넓지 않게 조절 */
   max-height: 85dvh;
   overflow-y: auto;
+  /* 내부 스크롤이 끝에 닿아도 배경으로 전파되지 않게 */
+  overscroll-behavior: contain;
   padding: 20px 28px 0;
   opacity: 1;
   /* translate로 제어하므로 opacity는 1 유지 */
@@ -1885,6 +1883,7 @@ body.modal-open {
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
+  overscroll-behavior: contain;
   flex: 1;
   min-height: 0;
   padding-bottom: max(16px, env(safe-area-inset-bottom));

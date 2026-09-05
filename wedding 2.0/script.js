@@ -166,27 +166,31 @@ const S5_CARD_DATA = [
    ============================================================ */
 
 // 모달/라이트박스가 열려 있는 동안 배경 스크롤 차단.
-// Lenis는 smoothTouch:false라 모바일 터치 스크롤을 가로채지 않으므로
-// lenis.stop()만으로는 부족하다. body를 fixed로 고정하고 위치를 복원한다.
-let _lockedScrollY = 0;
+// Lenis는 smoothTouch:false라 모바일 터치를 가로채지 않으므로 lenis.stop()만으로는
+// 부족하다. 그렇다고 body에 overflow:hidden/position:fixed를 주면 문서가 스크롤
+// 불가가 되어 iOS Safari가 URL 바를 펼치고, dvh가 줄면서 모달이 짧아진다.
+// → 레이아웃은 그대로 두고 touchmove만 preventDefault로 막는다.
+let _scrollLocked = false;
+
+function _blockBackgroundTouch(e) {
+  // 모달 내부 제스처(세로 스크롤·썸네일 횡스크롤)는 그대로 살린다
+  const t = e.target;
+  if (t && t.closest && t.closest('.s5-modal, .s1-lightbox')) return;
+  if (e.cancelable) e.preventDefault();
+}
 
 function lockBackgroundScroll() {
-  if (document.body.classList.contains('modal-open')) return;
-  _lockedScrollY = window.scrollY || window.pageYOffset || 0;
-  document.body.style.top = `-${_lockedScrollY}px`;
-  document.body.classList.add('modal-open');
+  if (_scrollLocked) return;
+  _scrollLocked = true;
+  document.addEventListener('touchmove', _blockBackgroundTouch, { passive: false });
   if (lenis) lenis.stop();
 }
 
 function unlockBackgroundScroll() {
-  if (!document.body.classList.contains('modal-open')) return;
-  document.body.classList.remove('modal-open');
-  document.body.style.top = '';
-  window.scrollTo(0, _lockedScrollY);
-  if (lenis) {
-    lenis.scrollTo(_lockedScrollY, { immediate: true });
-    lenis.start();
-  }
+  if (!_scrollLocked) return;
+  _scrollLocked = false;
+  document.removeEventListener('touchmove', _blockBackgroundTouch, { passive: false });
+  if (lenis) lenis.start();
 }
 
 function openCardModal(index) {
