@@ -173,9 +173,19 @@ const S5_CARD_DATA = [
 let _scrollLocked = false;
 
 function _blockBackgroundTouch(e) {
-  // 모달 내부 제스처(세로 스크롤·썸네일 횡스크롤)는 그대로 살린다
-  const t = e.target;
-  if (t && t.closest && t.closest('.s5-modal, .s1-lightbox')) return;
+  // 모달 안이라도 "실제로 넘칠 내용이 있는" 영역에서만 제스처를 통과시킨다.
+  // 사진 스와이프 영역처럼 오버플로가 0인 곳까지 허용하면, 스와이프의 세로
+  // 성분이 페이지로 전달돼 배경이 스크롤된다. 그러면 URL 바가 움직이며 dvh가
+  // 줄어 85dvh 모달이 짧아지고 사진이 작게 뜬다(넘길수록 누적).
+  // 스와이프 감지는 touchstart/touchend로 하므로 touchmove를 막아도 무해하다.
+  const root = e.target && e.target.closest
+    ? e.target.closest('.s5-modal, .s1-lightbox')
+    : null;
+  if (root) {
+    for (let el = e.target; el && el !== root.parentElement; el = el.parentElement) {
+      if (el.scrollHeight > el.clientHeight + 1 || el.scrollWidth > el.clientWidth + 1) return;
+    }
+  }
   if (e.cancelable) e.preventDefault();
 }
 
