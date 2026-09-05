@@ -144,7 +144,7 @@ const S5_CARD_DATA = [
       <div class="family-group">
         <div class="family-group-title">신랑 측 가족</div>
         <div class="family-photo-wrap family-photo-wrap--groom">
-          <img src="photos/s5/info/groom2.jpg" alt="신랑 측 가족사진">
+          <img src="photos/s5/info/groom.jpg" alt="신랑 측 가족사진">
         </div>
         <div class="family-photo-caption">(오른쪽부터) 신랑 김병훈, 아버지 김현수, 어머니 정영애, 형수 양지유, 조카 김설, 형 김아롬누리</div>
       </div>
@@ -493,7 +493,7 @@ function initLoadingScreen() {
 initLoadingScreen();
 
 // S5 모달 이미지 미리 디코딩 — 카드 클릭 시 즉시 표시되도록
-['photos/s5/info/venue.jpg', 'photos/s5/info/groom2.jpg', 'photos/s5/info/bride.jpg']
+['photos/s5/info/venue.jpg', 'photos/s5/info/groom.jpg', 'photos/s5/info/bride.jpg']
   .forEach(src => { const i = new Image(); i.src = src; });
 
 document.addEventListener('DOMContentLoaded', () => {
