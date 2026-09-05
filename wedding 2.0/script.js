@@ -144,9 +144,9 @@ const S5_CARD_DATA = [
       <div class="family-group">
         <div class="family-group-title">신랑 측 가족</div>
         <div class="family-photo-wrap family-photo-wrap--groom">
-          <img src="photos/s5/info/groom.jpg" alt="신랑 측 가족사진">
+          <img src="photos/s5/info/groom2.jpg" alt="신랑 측 가족사진">
         </div>
-        <div class="family-photo-caption">(오른쪽부터) 신랑 김병훈, 아버지 김현수, 어머니 정영애, 형수 양지유, 형 김아롬누리</div>
+        <div class="family-photo-caption">(오른쪽부터) 신랑 김병훈, 아버지 김현수, 어머니 정영애, 형수 양지유, 조카 김설, 형 김아롬누리</div>
       </div>
 
       <div class="family-group">
@@ -164,6 +164,31 @@ const S5_CARD_DATA = [
 /* ============================================================
    Global Functions
    ============================================================ */
+
+// 모달/라이트박스가 열려 있는 동안 배경 스크롤 차단.
+// Lenis는 smoothTouch:false라 모바일 터치 스크롤을 가로채지 않으므로
+// lenis.stop()만으로는 부족하다. body를 fixed로 고정하고 위치를 복원한다.
+let _lockedScrollY = 0;
+
+function lockBackgroundScroll() {
+  if (document.body.classList.contains('modal-open')) return;
+  _lockedScrollY = window.scrollY || window.pageYOffset || 0;
+  document.body.style.top = `-${_lockedScrollY}px`;
+  document.body.classList.add('modal-open');
+  if (lenis) lenis.stop();
+}
+
+function unlockBackgroundScroll() {
+  if (!document.body.classList.contains('modal-open')) return;
+  document.body.classList.remove('modal-open');
+  document.body.style.top = '';
+  window.scrollTo(0, _lockedScrollY);
+  if (lenis) {
+    lenis.scrollTo(_lockedScrollY, { immediate: true });
+    lenis.start();
+  }
+}
+
 function openCardModal(index) {
   const data = S5_CARD_DATA[index];
   if (!data) return;
@@ -176,8 +201,7 @@ function openCardModal(index) {
   modal.scrollTop = 0;
   dim.classList.add('active');
   modal.classList.add('active');
-  document.body.classList.add('scroll-locked');
-  if (lenis) lenis.stop();
+  lockBackgroundScroll();
 
   modal.classList.toggle('s5-gallery-flush', index === 2);
 
@@ -206,8 +230,7 @@ function closeCardModal() {
   if (!modal || !dim) return;
   dim.classList.remove('active');
   modal.classList.remove('active');
-  document.body.classList.remove('scroll-locked');
-  if (lenis) lenis.start();
+  unlockBackgroundScroll();
 }
 
 function copyAccount(bank, accountNumber) {
@@ -282,8 +305,7 @@ function openCollageLightbox(src, fullscreen = false, thumbEl = null) {
   }
   dim.classList.add('active');
   lb.classList.add('active');
-  if (lenis) lenis.stop();
-  document.body.classList.add('scroll-locked');
+  lockBackgroundScroll();
 }
 
 function closeCollageLightbox() {
@@ -293,8 +315,7 @@ function closeCollageLightbox() {
   const loading = document.getElementById('s1-lb-loading');
   lb.classList.remove('active', 's1-lb-fullscreen');
   dim.classList.remove('active', 's1-lb-fullscreen');
-  document.body.classList.remove('scroll-locked');
-  if (lenis) lenis.start();
+  unlockBackgroundScroll();
   // 트랜지션 후 상태 초기화
   setTimeout(() => {
     img.onload = null;
@@ -472,7 +493,7 @@ function initLoadingScreen() {
 initLoadingScreen();
 
 // S5 모달 이미지 미리 디코딩 — 카드 클릭 시 즉시 표시되도록
-['photos/s5/info/venue.jpg', 'photos/s5/info/groom.jpg', 'photos/s5/info/bride.jpg']
+['photos/s5/info/venue.jpg', 'photos/s5/info/groom2.jpg', 'photos/s5/info/bride.jpg']
   .forEach(src => { const i = new Image(); i.src = src; });
 
 document.addEventListener('DOMContentLoaded', () => {

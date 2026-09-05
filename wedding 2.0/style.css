@@ -1520,6 +1520,16 @@ body.scroll-locked {
   overflow: hidden !important;
 }
 
+/* 모달/라이트박스 열림 — 배경 스크롤 완전 차단.
+   iOS Safari는 body의 overflow:hidden만으로는 터치 스크롤이 막히지 않아
+   position:fixed가 필요하다. 스크롤 위치는 JS(top 인라인)로 보존한다. */
+body.modal-open {
+  position: fixed;
+  width: 100%;
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+
 /* ============================================================
    SECTION 4 — 카운트다운
    ============================================================ */
