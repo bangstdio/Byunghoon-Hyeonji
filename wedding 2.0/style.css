@@ -2612,13 +2612,17 @@ body.scroll-locked {
   min-height: 0;
 }
 
+/* 사진 박스는 부모(.snap-slider-main)에서 크기를 그대로 받아야 한다.
+   height:100%로 두면 부모 높이가 flex로 정해지는 구간에서 WebKit이 퍼센트를
+   확정하지 못하고, 그러면 .snap-img의 max-height:100%가 "직전 사진의 높이"를
+   기준으로 잡혀 넘길수록 사진이 조금씩 작아진다.
+   position:absolute + inset:0이면 높이가 콘텐츠와 무관하게 확정된다. */
 .snap-image-wrapper {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   padding: 0 12px;
   overflow: hidden;
 }
@@ -2818,8 +2822,9 @@ body.scroll-locked {
 
 /* 모바일 뷰 최적화 */
 @media (max-width: 599px) {
+  /* min-height를 주면 짧은 뷰포트에서 슬라이더 영역이 모달 밖으로 넘쳐
+     스크롤 가능한 조상이 생기고, 배경 스크롤 차단이 그 지점에서 뚫린다. */
   .snap-slider-main {
-    min-height: 400px;
     border-radius: 16px;
   }
 

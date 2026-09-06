@@ -172,18 +172,34 @@ const S5_CARD_DATA = [
 // → 레이아웃은 그대로 두고 touchmove만 preventDefault로 막는다.
 let _scrollLocked = false;
 
+let _touchStartX = 0;
+let _touchStartY = 0;
+
+function _recordTouchStart(e) {
+  if (!e.touches[0]) return;
+  _touchStartX = e.touches[0].clientX;
+  _touchStartY = e.touches[0].clientY;
+}
+
 function _blockBackgroundTouch(e) {
   // 모달 안이라도 "실제로 넘칠 내용이 있는" 영역에서만 제스처를 통과시킨다.
   // 사진 스와이프 영역처럼 오버플로가 0인 곳까지 허용하면, 스와이프의 세로
   // 성분이 페이지로 전달돼 배경이 스크롤된다. 그러면 URL 바가 움직이며 dvh가
   // 줄어 85dvh 모달이 짧아지고 사진이 작게 뜬다(넘길수록 누적).
   // 스와이프 감지는 touchstart/touchend로 하므로 touchmove를 막아도 무해하다.
+  // 판정은 제스처의 주축과 같은 방향으로만 한다. 썸네일 스트립은 가로로만
+  // 넘치므로, 그 위에서의 세로 드래그까지 통과시키면 배경이 스크롤된다.
   const root = e.target && e.target.closest
     ? e.target.closest('.s5-modal, .s1-lightbox')
     : null;
-  if (root) {
+  if (root && e.touches[0]) {
+    const vertical = Math.abs(e.touches[0].clientY - _touchStartY)
+      >= Math.abs(e.touches[0].clientX - _touchStartX);
     for (let el = e.target; el && el !== root.parentElement; el = el.parentElement) {
-      if (el.scrollHeight > el.clientHeight + 1 || el.scrollWidth > el.clientWidth + 1) return;
+      const overflows = vertical
+        ? el.scrollHeight > el.clientHeight + 1
+        : el.scrollWidth > el.clientWidth + 1;
+      if (overflows) return;
     }
   }
   if (e.cancelable) e.preventDefault();
@@ -192,6 +208,7 @@ function _blockBackgroundTouch(e) {
 function lockBackgroundScroll() {
   if (_scrollLocked) return;
   _scrollLocked = true;
+  document.addEventListener('touchstart', _recordTouchStart, { passive: true });
   document.addEventListener('touchmove', _blockBackgroundTouch, { passive: false });
   if (lenis) lenis.stop();
 }
@@ -199,6 +216,7 @@ function lockBackgroundScroll() {
 function unlockBackgroundScroll() {
   if (!_scrollLocked) return;
   _scrollLocked = false;
+  document.removeEventListener('touchstart', _recordTouchStart, { passive: true });
   document.removeEventListener('touchmove', _blockBackgroundTouch, { passive: false });
   if (lenis) lenis.start();
 }
